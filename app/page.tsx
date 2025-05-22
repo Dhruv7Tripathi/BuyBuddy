@@ -1,7 +1,5 @@
-// import Image from "next/image";
 import Navbar from "@/components/navbar";
-import { HeroParallax, Header, ProductCard } from "@/components/ui/hero-parallax";
-// import { title } from "process";
+import { HeroParallax } from "@/components/ui/hero-parallax";
 import PeopleAlsoAsk from "@/components/FAQs";
 import Footer from "@/components/footer";
 import HeroSection from "@/components/heroSection";
@@ -51,25 +49,12 @@ export default function Home() {
       title: "Product 9",
       link: "/product/9",
       thumbnail: "/c2.webp",
-    },
-
-
-
-
+    }
   ];
   return (
     <div>
       <Navbar />
-      {/* <Sidebar /> */}
-      {/* <Header /> */}
-
-      {/* <div className='flex justify-center items-center h-screen'>
-        <h1 className='text-4xl font-bold'>Welcome to KaiShop</h1> */}
-      {/* <Header /> */}
-      {/* <ProductCard products={products} /> */}
       <HeroParallax products={products} />
-      {/* <ProductCard products={products},translate={} /> */}
-      {/* </div> */}
       <HeroSection />
       <PeopleAlsoAsk />
       <Footer />
