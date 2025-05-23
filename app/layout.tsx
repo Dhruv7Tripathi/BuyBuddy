@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ModeToggle } from "@/components/ui/ModeToggle";
-import Footer from "@/components/footer";
-import Navbar from "@/components/navbar";
-
+import Provider from "@/components/provider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -31,26 +28,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system" // System preference will be the default
-          enableSystem
-          disableTransitionOnChange
-        >
-          {/* <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100"> */}
-          {/* Global container ensures dark mode for all children */}
-          {/* <header className="p-4 shadow-md bg-white-200 dark:bg-gray-800">
-              <div className="container mx-auto flex justify-between items-center">
-                <h1 className="text-xl font-bold">BuyBuddy</h1>
-                <ModeToggle />
-              </div>
-            </header> */}
-          <main>{children}</main>
-          {/* <Navbar /> */}
-          {/* <Footer /> */}
+        <Provider>
 
-          {/* </div> */}
-        </ThemeProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <main>{children}</main>
+          </ThemeProvider>
+        </Provider>
       </body>
     </html>
   );
