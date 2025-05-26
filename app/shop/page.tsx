@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ShoppingCart, Star, Plus } from "lucide-react"
+import { ShoppingCart, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -15,9 +15,6 @@ interface Product {
   price: number
   originalPrice?: number
   image: string
-  rating: number
-  reviews: number
-  category: string
   inStock: boolean
 }
 
@@ -28,86 +25,62 @@ interface CartItem extends Product {
 const products: Product[] = [
   {
     id: 1,
-    name: "Wireless Bluetooth Headphones",
+    name: "Tshirt",
     price: 79.99,
     originalPrice: 99.99,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.5,
-    reviews: 128,
-    category: "Electronics",
+    image: "/shop/t1.avif",
     inStock: true,
   },
   {
     id: 2,
-    name: "Smart Fitness Watch",
+    name: "tshirt",
     price: 199.99,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.8,
-    reviews: 89,
-    category: "Wearables",
+    image: "/shop/t1.avif",
     inStock: true,
   },
   {
     id: 3,
-    name: "Premium Coffee Maker",
+    name: "tshirt",
     price: 149.99,
     originalPrice: 179.99,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.3,
-    reviews: 67,
-    category: "Kitchen",
+    image: "/shop/t1.avif",
     inStock: true,
   },
   {
     id: 4,
-    name: "Ergonomic Office Chair",
+    name: "tshirt",
     price: 299.99,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.6,
-    reviews: 156,
-    category: "Furniture",
+    image: "/shop/t1.avif",
     inStock: true,
   },
   {
     id: 5,
-    name: "4K Webcam",
+    name: "tshirt",
     price: 89.99,
     originalPrice: 119.99,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.4,
-    reviews: 92,
-    category: "Electronics",
-    inStock: false,
+    image: "/shop/t1.avif",
+    inStock: true,
   },
   {
     id: 6,
-    name: "Wireless Charging Pad",
+    name: "tshirt",
     price: 29.99,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.2,
-    reviews: 203,
-    category: "Electronics",
+    image: "/shop/t1.avif",
     inStock: true,
   },
   {
     id: 7,
-    name: "Gaming Mechanical Keyboard",
+    name: "tshirt",
     price: 129.99,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.7,
-    reviews: 145,
-    category: "Gaming",
+    image: "/shop/t1.avif",
     inStock: true,
   },
   {
     id: 8,
-    name: "Portable Bluetooth Speaker",
+    name: "tshirt",
     price: 59.99,
     originalPrice: 79.99,
-    image: "/placeholder.svg?height=300&width=300",
-    rating: 4.5,
-    reviews: 178,
-    category: "Audio",
+    image: "/shop/t1.avif",
     inStock: true,
   },
 ]
@@ -149,19 +122,7 @@ export default function ShoppingPage() {
 
   const cartItemsCount = cart.reduce((total, item) => total + item.quantity, 0)
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        className={`w-4 h-4 ${i < Math.floor(rating)
-            ? "fill-yellow-400 text-yellow-400"
-            : i < rating
-              ? "fill-yellow-400/50 text-yellow-400"
-              : "fill-gray-200 text-gray-200"
-          }`}
-      />
-    ))
-  }
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -170,7 +131,7 @@ export default function ShoppingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">ShopHub</h1>
+              <h1 className="text-2xl font-bold text-gray-900">KaiShop</h1>
             </div>
             <Link href="/cart">
               <Button variant="outline" className="relative">
@@ -187,14 +148,12 @@ export default function ShoppingPage() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Featured Products</h2>
-          <p className="text-gray-600">Discover our best-selling items and latest arrivals</p>
+          <p className="text-gray-600">Discover our best-selling items </p>
         </div>
 
-        {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {products.map((product) => (
             <Card key={product.id} className="group hover:shadow-lg transition-shadow duration-300">
@@ -207,32 +166,22 @@ export default function ShoppingPage() {
                     height={300}
                     className="w-full h-48 object-cover rounded-lg"
                   />
-                  {product.originalPrice && <Badge className="absolute top-2 left-2 bg-red-500">Sale</Badge>}
-                  {!product.inStock && (
-                    <Badge variant="secondary" className="absolute top-2 right-2">
-                      Out of Stock
-                    </Badge>
-                  )}
+
                 </div>
 
                 <div className="space-y-2">
-                  <Badge variant="outline" className="text-xs">
-                    {product.category}
-                  </Badge>
 
-                  <h3 className="font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
+
+                  <h3 className="font-semibold text-white line-clamp-2 group-hover:text-white transition-colors">
                     {product.name}
                   </h3>
 
-                  <div className="flex items-center space-x-1">
-                    {renderStars(product.rating)}
-                    <span className="text-sm text-gray-500 ml-2">({product.reviews})</span>
-                  </div>
+
 
                   <div className="flex items-center space-x-2">
-                    <span className="text-lg font-bold text-gray-900">${product.price}</span>
+                    <span className="text-lg font-bold text-white">${product.price}</span>
                     {product.originalPrice && (
-                      <span className="text-sm text-gray-500 line-through">${product.originalPrice}</span>
+                      <span className="text-sm text-white line-through">${product.originalPrice}</span>
                     )}
                   </div>
                 </div>
