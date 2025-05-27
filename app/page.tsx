@@ -1,8 +1,8 @@
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/(landingPage)/navbar";
 import { HeroParallax } from "@/components/ui/hero-parallax";
-import PeopleAlsoAsk from "@/components/FAQs";
-import Footer from "@/components/footer";
-import HeroSection from "@/components/heroSection";
+import PeopleAlsoAsk from "@/components/(landingPage)/FAQs";
+import Footer from "@/components/(landingPage)/footer";
+import HeroSection from "@/components/(landingPage)/heroSection";
 export default function Home() {
   const products = [
     {
