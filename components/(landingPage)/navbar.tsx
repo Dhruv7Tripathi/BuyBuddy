@@ -51,10 +51,9 @@ import Link from "next/link";
 import { Menu } from "lucide-react";
 
 import { useSession } from "next-auth/react";
-import UserAccountNav from "./auth/UserAccountNav";
-import SignInButton from "./auth/SignInButton";
-// import { Themetoggle } from "./ui/themetoggle";
-import { Button } from "./ui/button";
+import UserAccountNav from "../auth/UserAccountNav";
+import SignInButton from "../auth/SignInButton";
+import { Button } from "../ui/button";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -78,7 +77,6 @@ export default function Navbar() {
       </div>
 
       <div className="flex items-center space-x-4">
-        {/* <Themetoggle /> */}
         <div className="flex items-center">
           {session?.user ? (
             <UserAccountNav user={session.user} />

@@ -12,7 +12,7 @@ import {
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/(landingPage)/navbar";
 
 type PricingCardProps = {
   title: string;

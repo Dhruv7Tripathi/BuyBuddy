@@ -6,7 +6,12 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center md:items-start">
           <div className="mb-6 md:mb-0 flex items-center">
-            <Image src="/landingpage/l3.png" alt="logo" className="h-10 w-10 mr-3 rounded-full border border-gray-200" />
+            <Image
+              src="/landingpage/l3.png"
+              alt="logo"
+              className=" mr-3 rounded-full border border-gray-200"
+              height={10}
+              width={10} />
             <div>
               <h3 className="text-2xl font-semibold text-blue-600 dark:text-blue-400">Buy Buddy</h3>
               <p className="text-black-900 text-sm">A product by Buddy</p>
