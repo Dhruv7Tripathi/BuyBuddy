@@ -9,7 +9,6 @@ import {
 } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "./moving-border";
 export const HeroParallax = ({
   products,
 }: {

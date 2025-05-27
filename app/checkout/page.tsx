@@ -13,38 +13,35 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 import Script from "next/script";
 import { LoaderCircle } from "lucide-react";
+import axios from "axios";
+
+interface RazorpayResponse {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
+}
 
 function CheckoutContent() {
   const router = useRouter();
   const params = useSearchParams();
   const amount = params.get("amount");
   const plan = params.get("plan");
+
   const [loading1, setLoading1] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
   const [orderId, setOrderId] = React.useState<string | null>(null);
 
   const createOrder = React.useCallback(async () => {
     try {
-      const response = await fetch("/api/order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          amount: parseFloat(amount!) * 100,
-          currency: "INR",
-          plan,
-        }),
+      const response = await axios.post("/api/order", {
+        amount: parseFloat(amount!) * 100,
+        currency: "INR",
+        plan,
       });
 
-      if (!response.ok) {
-        const err = await response.text();
-        console.error("Order creation failed:", err);
-        throw new Error("Failed to create Razorpay order");
-      }
-
-      const data = await response.json();
-      setOrderId(data.orderId);
+      setOrderId(response.data.orderId);
     } catch (error) {
-      console.error("There was a problem creating the order:", error);
+      console.error("Order creation failed:", error);
     } finally {
       setLoading1(false);
     }
@@ -69,13 +66,13 @@ function CheckoutContent() {
 
     try {
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // ✅ Use NEXT_PUBLIC_ prefix
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
         amount: parseFloat(amount!) * 100,
         currency: "INR",
-        name: "Your Business Name",
+        name: "YSaas Starter",
         description: `Subscription - ${plan} Plan`,
         order_id: orderId,
-        handler: async function (response: any) {
+        handler: async (response: RazorpayResponse) => {
           const verifyData = {
             orderCreationId: orderId,
             razorpayPaymentId: response.razorpay_payment_id,
@@ -84,19 +81,18 @@ function CheckoutContent() {
             plan,
           };
 
-          const result = await fetch("/api/verify", {
-            method: "POST",
-            body: JSON.stringify(verifyData),
-            headers: { "Content-Type": "application/json" },
-          });
+          try {
+            const res = await axios.post("/api/verify", verifyData);
 
-          const res = await result.json();
-
-          if (res.success) {
-            alert("Payment successful! Your subscription has been updated.");
-            router.push("/dashboard");
-          } else {
-            alert("Payment verification failed. Please contact support.");
+            if (res.data.success) {
+              alert("Payment successful! Your subscription has been updated.");
+              router.push("/dashboard");
+            } else {
+              alert("Payment verification failed. Please contact support.");
+            }
+          } catch (err) {
+            console.error("Verification error:", err);
+            alert("Something went wrong during verification.");
           }
         },
         prefill: {
@@ -111,10 +107,15 @@ function CheckoutContent() {
         },
       };
 
-      const paymentObject = new (window as any).Razorpay(options);
-      paymentObject.on("payment.failed", function (response: any) {
-        alert("Payment failed. " + response.error.description);
+      // const paymentObject = new window.Razorpay(options);
+      // paymentObject.on("payment.failed", (response: { error: { description: string } }) => {
+      //   alert("Payment failed. " + response.error.description);
+      // });
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.on("payment.failed", (response) => {
+        alert("Payment failed: " + response.error.description);
       });
+
 
       paymentObject.open();
     } catch (error) {

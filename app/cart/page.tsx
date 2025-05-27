@@ -15,7 +15,6 @@ interface CartItem {
   price: number
   image: string
   quantity: number
-  category: string
 }
 
 export default function CartPage() {
@@ -65,8 +64,7 @@ export default function CartPage() {
 
   const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0)
   const shipping = subtotal > 100 ? 0 : 9.99
-  const tax = subtotal * 0.08
-  const total = subtotal + shipping + tax
+  const total = subtotal + shipping
 
   if (isLoading) {
     return (
@@ -81,12 +79,11 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <Link href="/">
+              <Link href="/shop">
                 <Button variant="ghost" size="sm" className="mr-4">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Shop
@@ -109,13 +106,12 @@ export default function CartPage() {
             <ShoppingBag className="w-24 h-24 text-gray-300 mx-auto mb-6" />
             <h2 className="text-2xl font-semibold text-gray-900 mb-2">Your cart is empty</h2>
             <p className="text-gray-600 mb-8">Add some products to get started!</p>
-            <Link href="/">
+            <Link href="/shop">
               <Button>Continue Shopping</Button>
             </Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Cart Items */}
             <div className="lg:col-span-2">
               <Card>
                 <CardHeader>
@@ -134,9 +130,8 @@ export default function CartPage() {
                         />
 
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-medium text-gray-900 truncate">{item.name}</h3>
-                          <p className="text-sm text-gray-500">{item.category}</p>
-                          <p className="text-lg font-semibold text-gray-900">${item.price.toFixed(2)}</p>
+                          <h3 className="font-medium text-white truncate">{item.name}</h3>
+                          <p className="text-lg font-semibold text-white">${item.price.toFixed(2)}</p>
                         </div>
 
                         <div className="flex items-center space-x-2">
@@ -181,7 +176,6 @@ export default function CartPage() {
               </Card>
             </div>
 
-            {/* Order Summary */}
             <div className="lg:col-span-1">
               <Card className="sticky top-4">
                 <CardHeader>
@@ -190,21 +184,18 @@ export default function CartPage() {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Subtotal</span>
+                      <span className="text-white">Subtotal</span>
                       <span className="font-medium">${subtotal.toFixed(2)}</span>
                     </div>
 
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Shipping</span>
+                      <span className="text-white">Shipping</span>
                       <span className="font-medium">
                         {shipping === 0 ? <span className="text-green-600">Free</span> : `$${shipping.toFixed(2)}`}
                       </span>
                     </div>
 
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Tax</span>
-                      <span className="font-medium">${tax.toFixed(2)}</span>
-                    </div>
+
 
                     {subtotal < 100 && (
                       <p className="text-sm text-blue-600">
