@@ -33,32 +33,30 @@ const Footer: React.FC = () => {
               <h4 className="font-medium text-black-900 mb-3">Home</h4>
               <ul className="space-y-2">
                 <li>
-                  <Link href="/pricing" className="text-black-900 hover:text-black-900">T-shirts</Link>
+                  <Link href="/pricing" className="text-black-900 ">T-shirts</Link>
                 </li>
                 <li>
-                  <Link href="/components" className="text-black-900 hover:text-gray-900">shirts</Link>
+                  <Link href="/components" className="text-black-900">shirts</Link>
                 </li>
                 <li>
-                  <Link href="/templates" className="text-black-900 hover:text-gray-900">Jeans</Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium text-black-900 mb-3">Company</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/about" className="text-black-900 hover:text-gray-900">About</Link>
+                  <Link href="/templates" className="text-black-900 ">Jeans</Link>
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="font-medium text-black-900 mb-3">Social</h4>
               <ul className="space-y-2">
                 <li>
-                  <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-black-900 hover:text-gray-900">Twitter</a>
+                  <Link href="/about" className="text-black-900 ">About</Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul className="space-y-2">
+                <li>
+                  <a href="https://twitter.com/dhruvtripathi77" target="_blank" rel="noopener noreferrer" className="text-black-900 ">Twitter</a>
                 </li>
                 <li>
-                  <a href="https://discord.com" target="_blank" rel="noopener noreferrer" className="text-black-900 hover:text-gray-900">Linkdin</a>
+                  <a href="https://www.linkedin.com/in/dhruv-tripathi-9848792aa/" target="_blank" rel="noopener noreferrer" className="text-black-900 ">Linkdin</a>
                 </li>
               </ul>
             </div>

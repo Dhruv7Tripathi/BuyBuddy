@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Donezo- Everything you need</title>
+        <title>BuyBuddy- Everything you need</title>
         <meta name="description" content="Create content like never before" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -27,7 +27,7 @@ export default function Home() {
       <div className="flex h-screen w-full">
         <div className="relative flex-1 hidden lg:block">
           <div className="absolute top-8 left-8 z-10">
-            <span className="text-white text-2xl font-bold">Donezo</span>
+            <span className="text-white text-2xl font-bold">buybuddy</span>
           </div>
           <div className="absolute inset-0 flex items-center z-10 px-16">
             <div>
@@ -50,10 +50,11 @@ export default function Home() {
             className="object-cover"
             priority
           />
+
         </div>
         <div className="flex-1 flex items-center justify-center p-8 bg-gray-500">
           <div className="w-full max-w-md">
-            <h2 className="text-3xl font-bold text-center mb-6 text-black">Welcome to Donezo</h2>
+            <h2 className="text-3xl font-bold text-center mb-6 text-black">Welcome to BuyBuddy</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
 
