@@ -210,10 +210,12 @@ export default function CartPage() {
                     <span>Total</span>
                     <span>${total.toFixed(2)}</span>
                   </div>
-
-                  <Button className="w-full" size="lg">
-                    Proceed to Checkout
-                  </Button>
+                  {/* <Separator /> down there i have used total */}
+                  <Link href={`/checkout/?amount=${total}`}>
+                    <Button className="w-full" size="lg">
+                      Proceed to Checkout
+                    </Button>
+                  </Link>
 
                   <Link href="/">
                     <Button variant="outline" className="w-full">
