@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/(landingPage)/sidebar";
 import TopSellingProducts from "./topSellingProduct";
+import SelectedBrands from "./selectedBrands";
+import Collections from "./collections";
 const heroImages = [
   {
     src: "/ps5.webp",
@@ -66,7 +68,7 @@ export default function HomePage() {
           </main>
         </div>
 
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="mr-6 mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             {
               title: "Smart Watches",
@@ -102,7 +104,7 @@ export default function HomePage() {
           ))}
         </div>
         <TopSellingProducts />
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="ml-4 mr-4 mt-8 grid grid-cols-2 md:grid-cols-2 gap-6">
           {[
             {
               title: "Smart Watches",
@@ -133,6 +135,8 @@ export default function HomePage() {
           ))}
         </div>
       </div>
+      <Collections />
+      <SelectedBrands />
     </div>
   );
 }

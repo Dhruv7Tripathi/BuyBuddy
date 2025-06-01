@@ -12,7 +12,7 @@ export default function Navbar() {
       <header className="bg-white border-b">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
+            <div className="flex ml-6 items-center">
               <h1 className="text-2xl text-black font-bold">
                 Buy<span className="text-blue-600">Buddy</span>
               </h1>
@@ -25,7 +25,7 @@ export default function Navbar() {
               </div>
             </div>
 
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-6 mr-12">
               <div className="flex items-center space-x-2 text-gray-600">
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center">
@@ -42,13 +42,10 @@ export default function Navbar() {
                   </div>
                 </div>
               </div>
-              <div className="relative">
+              <div className="relative ">
                 <Link href="/cart">
                   <ShoppingCart className="h-5 w-5 text-gray-600" />
                 </Link>
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  1
-                </span>
               </div>
             </div>
           </div>
@@ -59,7 +56,7 @@ export default function Navbar() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-12">
             <div className="flex items-center space-x-8">
-              <div className="flex items-center space-x-2 text-gray-700">
+              <div className="ml-6 flex items-center space-x-2 text-gray-700">
                 <Menu className="h-4 w-4" />
                 <span>All Categories</span>
               </div>

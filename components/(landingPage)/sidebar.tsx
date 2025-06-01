@@ -2,16 +2,15 @@
 import { useState } from "react";
 import {
   Laptop,
-  Tablet,
   Smartphone,
   Camera,
   Tv,
   Gamepad2,
   Watch,
   Cpu,
-  Printer,
   Music
 } from "lucide-react";
+
 import Link from "next/link";
 
 const categories = [
@@ -19,11 +18,6 @@ const categories = [
     label: "Computers & Laptops",
     icon: <Laptop className="w-5 h-5 mr-2" />,
     submenu: ["MacBook", "Dell", "HP", "Lenovo", "Accessories"],
-  },
-  {
-    label: "Tablets",
-    icon: <Tablet className="w-5 h-5 mr-2" />,
-    submenu: ["iPad", "Samsung Tab", "Accessories"],
   },
   {
     label: "Smartphones",
@@ -54,11 +48,6 @@ const categories = [
     label: "Computer Components",
     icon: <Cpu className="w-5 h-5 mr-2" />,
     submenu: ["RAM", "GPU", "SSD", "Motherboard"],
-  },
-  {
-    label: "Printers & Ink",
-    icon: <Printer className="w-5 h-5 mr-2" />,
-    submenu: ["HP", "Canon", "Ink & Toner"],
   },
   {
     label: "Audios & Headphones",
