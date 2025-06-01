@@ -35,18 +35,16 @@ export default function HomePage() {
 
   const currentImage = heroImages[currentIndex]
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50  min-h-screen">
       <Navbar />
 
-      <div className="container mx-auto px-4 py-6">
+      <div className=" container mx-auto px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* <aside className="lg:w-80 bg-white rounded-lg p-4 shadow-sm"> */}
           <aside className="lg:w-80 bg-white rounded-lg p-4 shadow-sm">
-
             <Sidebar />
           </aside>
           <main className="flex-1">
-            <div className="bg-gradient-to-r from-gray-600 to-gray-800 rounded-lg overflow-hidden relative h-96 shadow-md">
+            <div className="mx-4 lg:mx-8 bg-gradient-to-r from-gray-600 to-gray-800 rounded-lg overflow-hidden relative h-96 shadow-md">
               <div className="absolute inset-0 flex flex-col lg:flex-row items-center justify-between px-8 py-6">
                 <div className="text-white max-w-md">
                   <h2 className="text-4xl font-bold mb-6">{currentImage.title}</h2>
@@ -104,6 +102,36 @@ export default function HomePage() {
           ))}
         </div>
         <TopSellingProducts />
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            {
+              title: "Smart Watches",
+              bg: "bg-black",
+              img: "/boat.webp",
+            },
+            {
+              title: "Laptops",
+              bg: "bg-gradient-to-r from-orange-400 to-pink-500",
+              img: "/laptop.jpg",
+            },
+          ].map((product, index) => (
+            <div
+              key={index}
+              className={`${product.bg} rounded-lg p-6 text-white relative overflow-hidden h-32`}
+            >
+              <h3 className="text-xl font-semibold">{product.title}</h3>
+              <div className="absolute right-4 top-4">
+                <Image
+                  src={product.img}
+                  alt={product.title}
+                  width={100}
+                  height={100}
+                  className="object-contain"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
