@@ -56,10 +56,11 @@ export default function Collections() {
               <p className="text-sm text-blue-600 font-medium flex items-center gap-1">
                 {collection.link} <FaArrowRight className="text-xs" />
               </p>
-              <div className="relative w-16 h-16">
+              <div className="w-16 h-16 relative">
                 <Image
                   src={collection.image}
                   alt={collection.title}
+
                   layout="fill"
                   objectFit="contain"
                 />

@@ -3,14 +3,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 export default function Footer() {
   return (
-    <footer className="bg-[#2f3132] text-white px-6 py-10">
+    <footer className="bg-[#2f3132] text-white px-4 py-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
-          <img
+          <Image
             src="/footer.avif"
             alt="Footer Art"
-            className="w-60 h-auto mb-4 rounded-md"
+            width={240}
+            height={120}
+            className="mb-4 rounded-md"
+            priority
           />
+
           <p className="text-sm">
             Dhruv Clothing Store brings you the latest fashion trends with quality and style.
           </p>
@@ -33,12 +37,13 @@ export default function Footer() {
           <p className="text-sm mb-4">Email: @dhruvclothing.com</p>
           <div className="flex space-x-4 text-xl">
 
-            <FaFacebookF />
             <FaInstagram />
             <Link href="https://twitter.com/dhruvtripathi77" >
               <FaTwitter />
             </Link>
-            <FaGithub />
+            <Link href="https://github.com/dhruv7tripathi">
+              <FaGithub />
+            </Link>
           </div>
         </div>
       </div>

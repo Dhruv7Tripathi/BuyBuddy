@@ -1,5 +1,5 @@
 "use client"
-import { Menu, Search, ShoppingCart } from "lucide-react";
+import { Menu, Search, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import UserAccountNav from "../auth/UserAccountNav";
@@ -29,10 +29,11 @@ export default function Navbar() {
               <div className="flex items-center space-x-2 text-gray-600">
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center">
+                    <User className="h-5 w-5 text-gray-600" />
                     {session?.user ? (
                       <UserAccountNav user={session.user} />
                     ) : (
-                      <SignInButton text="Sign In" />
+                      <SignInButton text="Account" />
                     )}
                   </div>
                   <div className="md:hidden">

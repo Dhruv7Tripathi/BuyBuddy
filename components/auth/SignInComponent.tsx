@@ -40,7 +40,7 @@ export default function Home() {
           </div>
           <div className="absolute inset-0 bg-black bg-opacity-60 z-[1]"></div>
           <Image
-            src="/city-background.jpg"
+            src="/auth/city-background.jpg"
             alt="City skyline"
             fill
             className="object-cover"
@@ -58,7 +58,7 @@ export default function Home() {
                   signIn("google", { callbackUrl: "/" });
                 }}
               >
-                <Image src="/google.png" alt="Google" width={20} height={20} />
+                <Image src="/auth/google.png" alt="Google" width={20} height={20} />
                 Log in with Google
               </Button>
             </form>
