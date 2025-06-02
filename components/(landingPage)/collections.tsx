@@ -1,74 +1,118 @@
-import Image from "next/image";
-import { FaArrowRight } from "react-icons/fa";
+import Image from "next/image"
+import { ChevronRight } from "lucide-react"
 
-const collections = [
-  {
-    title: "Tablet",
-    items: ["iPad", "Microsoft Surface", "Samsung Galaxy", "Amazon Fire", "E-Readers"],
-    image: "/collections/tablet.avif",
-    link: "All Tablet",
-  },
-  {
-    title: "Smartphones",
-    items: ["iPhone", "Samsung Galaxy", "Google"],
-    image: "/collections/smartphones.png",
-    link: "All Smartphones",
-  },
-  {
-    title: "Smartwatches",
-    items: [
-      "Apple Watch",
-      "Samsung Galaxy",
-      "Android Smartwatches",
-      "Fitness Smartwatches",
-      "Smartwatches Accessories",
-    ],
-    image: "/collections/smartwatches.avif",
-    link: "All Smartwatches",
-  },
-  {
-    title: "Accessories",
-    items: ["Chargers", "Power Banks", "Cables", "PC Fans", "Mobile Covers"],
-    image: "/collections/cable.jpg",
-    link: "All Accessories",
-  },
-];
-
-export default function Collections() {
+export default function CollectionsPage() {
   return (
-    <section className="bg-gray-50 ml-6 mr-6 py-12 px-4">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-8">Collections</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {collections.map((collection) => (
-          <div
-            key={collection.title}
-            className="bg-white rounded-2xl p-6 shadow-sm flex flex-col justify-between transition hover:shadow-md"
-          >
-            <div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">{collection.title}</h3>
-              <ul className="text-sm text-gray-600 space-y-1">
-                {collection.items.map((item, idx) => (
-                  <li key={idx}>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="flex justify-between items-center mt-6">
-              <p className="text-sm text-blue-600 font-medium flex items-center gap-1">
-                {collection.link} <FaArrowRight className="text-xs" />
-              </p>
-              <div className="w-16 h-16 relative">
-                <Image
-                  src={collection.image}
-                  alt={collection.title}
+    <div className=" bg-gray-50 ml-6 mr-4 p-4 md:p-6 lg:p-8">
 
-                  layout="fill"
-                  objectFit="contain"
-                />
+
+
+      <div className="space-y-6">
+        <h1 className="text-3xl font-bold text-gray-900">Collections</h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-semibold text-gray-900">Tablet</h3>
+                <div className="w-16 h-16 relative">
+                  <Image src="/collections/tablet.avif" alt="Tablet" fill className="object-contain" />
+                </div>
               </div>
+
+              <div className="space-y-2">
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">iPad</p>
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">Microsoft Surface</p>
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">Samsung Galaxy</p>
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">Amazon Fire</p>
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">E-Readers</p>
+              </div>
+
+              <button className="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
+                <span>All Tablet</span>
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </button>
             </div>
           </div>
-        ))}
+
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-semibold text-gray-900">Smartphones</h3>
+                <div className="w-16 h-16 relative">
+                  <Image src="/collections/smartphones.png" alt="Smartphone" fill className="object-contain" />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">iPhone</p>
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">Samsung Galaxy</p>
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">Google</p>
+              </div>
+
+              <button className="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
+                <span>All Smartphones</span>
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-semibold text-gray-900">Smartwatches</h3>
+                <div className="w-16 h-16 relative">
+                  <Image src="/watch.webp" alt="Smartwatch" fill className="object-contain" />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">Apple Watch</p>
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">Samsung Galaxy</p>
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">Android Smartwatches</p>
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">Fitness Smartwatches</p>
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">Smartwatches Accessories</p>
+              </div>
+
+              <button className="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
+                <span>All Smartwatches</span>
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-semibold text-gray-900">Accessories</h3>
+                <div className="w-16 h-16 relative">
+                  <Image
+                    src="/collections/cable.jpg"
+                    alt="Accessories"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">Chargers</p>
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">Power Banks</p>
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">Cables</p>
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">PC Fans</p>
+                <p className="text-gray-700 hover:text-gray-900 cursor-pointer">Mobile Covers</p>
+              </div>
+
+              <button className="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
+                <span>All Accessories</span>
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
-  );
+    </div>
+
+  )
 }

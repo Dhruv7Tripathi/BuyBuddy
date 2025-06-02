@@ -18,12 +18,18 @@ export default function Navbar() {
               </h1>
             </div>
 
-            <div className="flex-1 max-w-2xl mx-8">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <input type="text" placeholder="Search" className="pl-10 w-full border rounded-md py-2" />
+            <div className="flex-1 bg-white max-w-2xl mx-8">
+              <div className="relative border border-gray-400 rounded-md shadow-sm">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black h-4 w-4" />
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="pl-10 w-full bg-white border-none rounded-md py-2 text-sm focus:outline-none"
+                />
               </div>
             </div>
+
+
 
             <div className="flex items-center space-x-6 mr-12">
               <div className="flex items-center space-x-2 text-gray-600">

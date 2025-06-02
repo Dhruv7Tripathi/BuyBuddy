@@ -7,6 +7,7 @@ import Sidebar from "@/components/(landingPage)/sidebar";
 import TopSellingProducts from "./topSellingProduct";
 import SelectedBrands from "./selectedBrands";
 import Collections from "./collections";
+import Footer from "./footer";
 const heroImages = [
   {
     src: "/ps5.webp",
@@ -68,75 +69,105 @@ export default function HomePage() {
           </main>
         </div>
 
-        <div className="mr-6 mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              title: "Smart Watches",
-              bg: "bg-black",
-              img: "/boat.webp",
-            },
-            {
-              title: "Laptops",
-              bg: "bg-gradient-to-r from-orange-400 to-pink-500",
-              img: "/laptop.jpg",
-            },
-            {
-              title: "DJI Products",
-              bg: "bg-black",
-              img: "/robo.jpg",
-            },
-          ].map((product, index) => (
-            <div
-              key={index}
-              className={`${product.bg} rounded-lg p-6 text-white relative overflow-hidden h-32`}
-            >
-              <h3 className="text-xl font-semibold">{product.title}</h3>
-              <div className="absolute right-4 top-4">
-                <Image
-                  src={product.img}
-                  alt={product.title}
-                  width={80}
-                  height={80}
-                  className="object-contain"
-                />
-              </div>
+        <div className="grid pt-10 ml-6 mr-4 grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 to-gray-700 p-8 text-white">
+            <div className="relative z-10 space-y-4">
+              <h2 className="text-2xl font-bold">Smart Watches</h2>
+              <p className="text-xl font-bold">Save Up to 99€</p>
+              <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
+                Show Deals
+              </Button>
             </div>
-          ))}
+            <div className="absolute right-0 top-0 h-full w-full">
+              <Image
+                src="/watch.webp"
+                alt="Camera lens"
+                fill
+                className="object-cover object-center"
+              />
+            </div>
+          </div>
+
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 p-8 text-white">
+            <div className="relative z-10 space-y-4">
+              <h2 className="text-2xl font-bold">Laptops</h2>
+              <p className="text-xl font-bold">Save Up to 99€</p>
+              <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
+                Show Deals
+              </Button>
+            </div>
+            <div className="absolute right-0 top-0 h-full w-full">
+              <Image
+                src="/laptop.jpg"
+                alt="laptop"
+                fill
+                className="object-cover object-center"
+              />
+            </div>
+          </div>
+
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 p-8 text-white">
+            <div className="relative z-10 space-y-4">
+              <h2 className="text-2xl font-bold">Buds</h2>
+              <p className="text-xl font-bold">Save Up to 99€</p>
+              <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
+                Show Deals
+              </Button>
+            </div>
+            <div className="absolute right-0 top-0 h-full w-full">
+              <Image
+                src="/ps5II.webp"
+                alt="buds"
+                fill
+                className="object-cover object-center"
+              />
+            </div>
+          </div>
         </div>
+
         <TopSellingProducts />
-        <div className="ml-4 mr-4 mt-8 grid grid-cols-2 md:grid-cols-2 gap-6">
-          {[
-            {
-              title: "Smart Watches",
-              bg: "bg-black",
-              img: "/boat.webp",
-            },
-            {
-              title: "Laptops",
-              bg: "bg-gradient-to-r from-orange-400 to-pink-500",
-              img: "/laptop.jpg",
-            },
-          ].map((product, index) => (
-            <div
-              key={index}
-              className={`${product.bg} rounded-lg p-6 text-white relative overflow-hidden h-32`}
-            >
-              <h3 className="text-xl font-semibold">{product.title}</h3>
-              <div className="absolute right-4 top-4">
-                <Image
-                  src={product.img}
-                  alt={product.title}
-                  width={100}
-                  height={100}
-                  className="object-contain"
-                />
-              </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 to-gray-700 p-8 text-white">
+            <div className="relative z-10 space-y-4">
+              <h2 className="text-2xl font-bold">Smart Watches</h2>
+              <p className="text-3xl font-bold">Save Up to 99€</p>
+              <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
+                Show Deals
+              </Button>
             </div>
-          ))}
+            <div className="absolute right-0 top-0 h-full w-1/2">
+              <Image
+                src="/watch.webp"
+                alt="Camera lens"
+                fill
+                className="object-cover object-center"
+              />
+            </div>
+          </div>
+
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 p-8 text-white">
+            <div className="relative z-10 space-y-4">
+              <h2 className="text-2xl font-bold">Laptops</h2>
+              <p className="text-3xl font-bold">Save Up to 99€</p>
+              <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
+                Show Deals
+              </Button>
+            </div>
+            <div className="absolute right-0 top-0 h-full w-1/2">
+              <Image
+                src="/laptop.jpg"
+                alt="Drone"
+                fill
+                className="object-cover object-center"
+              />
+            </div>
+          </div>
         </div>
       </div>
       <Collections />
       <SelectedBrands />
+      <Footer />
     </div>
   );
 }
