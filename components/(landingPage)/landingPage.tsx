@@ -27,7 +27,7 @@ const heroImages = [
 ]
 export default function HomePage() {
   const [currentIndex, setCurrentIndex] = useState(0)
-
+  // const [cart, setCart] = useState();
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % heroImages.length)
