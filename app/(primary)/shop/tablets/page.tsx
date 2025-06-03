@@ -3,14 +3,15 @@ import Image from 'next/image'
 import { tablet } from "@/content/shop"
 import { ProductFilters } from "@/components/sideFilter"
 import { Separator } from "@/components/ui/separator"
-
+import Link from 'next/link'
 export default function Tablet() {
-
   return (
     <div>
       <section className="py-6 bg-gray-300 text-center">
         <h2 className="text-2xl font-semibold text-gray-800 mb-2">Tablet</h2>
-        <a className='text-gray-600' href='/'>Home</a>
+        <Link href={"/"}>
+          <a className='text-gray-600' >Home</a>
+        </Link>
         <span className="mx-2 text-gray-600">/</span>
         <a className="text-black hover:underline">tablet</a>
         <p className="text-gray-600 mt-2">Explore our collection of tablets</p>

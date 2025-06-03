@@ -51,7 +51,7 @@ export default function Footer() {
       <hr className="my-6 border-gray-700" />
 
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-xs text-white">
-        <p>© 2024 dhruv Clothing Store. All rights reserved.</p>
+        <p>© 2024 dhruv digital store. All rights reserved.</p>
         <div className="flex space-x-6 mt-4 md:mt-0">
           <a href="#">Terms & Conditions</a>
           <a href="#">Privacy Policy</a>

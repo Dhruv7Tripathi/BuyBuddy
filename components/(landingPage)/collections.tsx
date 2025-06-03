@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { ChevronRight } from "lucide-react"
-
+import Link from "next/link"
 export default function CollectionsPage() {
   return (
     <div className=" bg-gray-50 ml-6 mr-4 p-4 md:p-6 lg:p-8">
@@ -30,7 +30,9 @@ export default function CollectionsPage() {
               </div>
 
               <button className="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
-                <span>All Tablet</span>
+                <Link href={"/shop/tablets"}>
+                  <span>All Tablet</span>
+                </Link>
                 <ChevronRight className="w-4 h-4 ml-1" />
               </button>
             </div>
@@ -76,7 +78,9 @@ export default function CollectionsPage() {
               </div>
 
               <button className="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
-                <span>All Smartwatches</span>
+                <Link href={"/shop/watches"}>
+                  <span>All Smartwatches</span>
+                </Link>
                 <ChevronRight className="w-4 h-4 ml-1" />
               </button>
             </div>
@@ -105,7 +109,9 @@ export default function CollectionsPage() {
               </div>
 
               <button className="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
-                <span>All Accessories</span>
+                <Link href={"/shop/accessories"}>
+                  <span>All Accessories</span>
+                </Link>
                 <ChevronRight className="w-4 h-4 ml-1" />
               </button>
             </div>

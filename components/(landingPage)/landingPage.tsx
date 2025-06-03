@@ -8,6 +8,7 @@ import TopSellingProducts from "./topSellingProduct";
 import SelectedBrands from "./selectedBrands";
 import Collections from "./collections";
 import Footer from "./footer";
+import Link from "next/link";
 const heroImages = [
   {
     src: "/ps5.webp",
@@ -72,11 +73,13 @@ export default function HomePage() {
         <div className="grid pt-10 ml-6 mr-4 grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 to-gray-700 p-8 text-white">
             <div className="relative z-10 space-y-4">
-              <h2 className="text-2xl font-bold">Smart Watches</h2>
+              <h2 className="text-2xl font-bold">Watches</h2>
               <p className="text-xl font-bold">Save Up to 99€</p>
-              <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
-                Show Deals
-              </Button>
+              <Link href="/shop/watches">
+                <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
+                  Show Deals
+                </Button>
+              </Link>
             </div>
             <div className="absolute right-0 top-0 h-full w-full">
               <Image
@@ -92,9 +95,12 @@ export default function HomePage() {
             <div className="relative z-10 space-y-4">
               <h2 className="text-2xl font-bold">Laptops</h2>
               <p className="text-xl font-bold">Save Up to 99€</p>
-              <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
-                Show Deals
-              </Button>
+              <Link href="/shop/laptops">
+
+                <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
+                  Show Deals
+                </Button>
+              </Link>
             </div>
             <div className="absolute right-0 top-0 h-full w-full">
               <Image
@@ -108,11 +114,14 @@ export default function HomePage() {
 
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 p-8 text-white">
             <div className="relative z-10 space-y-4">
-              <h2 className="text-2xl font-bold">Buds</h2>
+              <h2 className="text-2xl font-bold">Accessories</h2>
               <p className="text-xl font-bold">Save Up to 99€</p>
-              <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
-                Show Deals
-              </Button>
+              <Link href="/shop/accessories">
+
+                <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
+                  Show Deals
+                </Button>
+              </Link>
             </div>
             <div className="absolute right-0 top-0 h-full w-full">
               <Image
@@ -130,11 +139,13 @@ export default function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 to-gray-700 p-8 text-white">
             <div className="relative z-10 space-y-4">
-              <h2 className="text-2xl font-bold">Smart Watches</h2>
+              <h2 className="text-2xl font-bold">Watches</h2>
               <p className="text-3xl font-bold">Save Up to 99€</p>
-              <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
-                Show Deals
-              </Button>
+              <Link href={"/shop/watches"}>
+                <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
+                  Show Deals
+                </Button>
+              </Link>
             </div>
             <div className="absolute right-0 top-0 h-full w-1/2">
               <Image
@@ -150,9 +161,11 @@ export default function HomePage() {
             <div className="relative z-10 space-y-4">
               <h2 className="text-2xl font-bold">Laptops</h2>
               <p className="text-3xl font-bold">Save Up to 99€</p>
-              <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
-                Show Deals
-              </Button>
+              <Link href={"/shop/laptops"}>
+                <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
+                  Show Deals
+                </Button>
+              </Link>
             </div>
             <div className="absolute right-0 top-0 h-full w-1/2">
               <Image
