@@ -2,42 +2,61 @@ import React from 'react'
 import Image from 'next/image'
 import { watches } from "@/content/shop"
 import { ProductFilters } from "@/components/sideFilter"
+import { Separator } from "@/components/ui/separator"
+
 export default function Watches() {
+
   return (
     <div>
-      <section className="py-10 bg-gray-300 text-center">
+      <section className="py-6 bg-gray-300 text-center">
         <h2 className="text-2xl font-semibold text-gray-800 mb-2">Watches</h2>
+        <a className='text-gray-600' href='/'>Home</a>
+        <span className="mx-2 text-gray-600">/</span>
+        <a className="text-black hover:underline">Watches</a>
+        <p className="text-gray-600 mt-2">Explore our collection of smart watches</p>
       </section>
+
       <section className="bg-gray-50 py-10 px-4">
-        <div className="grid grid-cols-1 ml-60 mr-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
-          {/* <ProductFilters /> */}
-          {watches.map((watches, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition"
-            >
-              <div className="w-full h-48 flex justify-center items-center">
-                <Image
-                  src={watches.image}
-                  alt={watches.title}
-                  width={200}
-                  height={200}
-                  className="object-contain h-full"
-                />
-              </div>
-              <div className="mt-4 space-y-1">
-                <h3 className="text-md font-semibold text-gray-900">{watches.title}</h3>
-                {watches.description.map((line, i) => (
-                  <p key={i} className="text-sm text-gray-500">
-                    {line}
-                  </p>
-                ))}
-              </div>
-              <div className="mt-4 flex justify-between items-end">
-                <p className="text-lg font-semibold text-gray-800">{watches.price}</p>
-              </div>
+        <div className="flex gap-6">
+          <div className="w-80 flex-shrink-0">
+            <ProductFilters />
+          </div>
+
+          <Separator orientation="vertical" className="h-auto border-gray-600" />
+
+          <div className="flex-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+              {watches.map((watch, index) => (
+                <div
+                  key={index}
+                  className="bg-white rounded-xl shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition"
+                >
+                  <div className="w-full h-48 flex justify-center items-center">
+                    <Image
+                      src={watch.image}
+                      alt={watch.title}
+                      width={200}
+                      height={200}
+                      className="object-contain h-full"
+                    />
+                  </div>
+
+                  <div className="mt-4 space-y-1">
+                    <h3 className="text-md font-semibold text-gray-900">{watch.title}</h3>
+                    {watch.description.map((line, i) => (
+                      <p key={i} className="text-sm text-gray-500">
+                        {line}
+                      </p>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 flex justify-between items-end">
+                    <p className="text-lg font-semibold text-gray-800">{watch.price}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </section>
     </div>

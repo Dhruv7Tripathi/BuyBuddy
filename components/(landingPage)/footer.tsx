@@ -16,18 +16,18 @@ export default function Footer() {
           />
 
           <p className="text-sm">
-            Dhruv Clothing Store brings you the latest fashion trends with quality and style.
+            Dhruv tech Store brings you the latest digital devices trends with quality.
           </p>
         </div>
 
         <div>
           <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2 text-sm">
-            <li>Clothing Style</li>
-            <li>Fashion Design</li>
-            <li>Design</li>
-            <li>Branding</li>
-            <li>Marketing</li>
+            <li>Tech</li>
+            <li>Laptops</li>
+            <li>watches</li>
+            <li>Mobiles</li>
+            <li>Accessories</li>
           </ul>
         </div>
 
