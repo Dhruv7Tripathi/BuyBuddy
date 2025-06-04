@@ -5,7 +5,6 @@ import { ProductFilters } from "@/components/sideFilter"
 import { Separator } from "@/components/ui/separator"
 import Link from 'next/link'
 export default function Accessories() {
-
   return (
     <div>
       <section className="py-6 bg-gray-300 text-center">

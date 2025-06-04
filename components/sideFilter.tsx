@@ -49,9 +49,7 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
 
   const [sliderValue, setSliderValue] = useState<[number, number]>([filters.price.min, filters.price.max])
 
-  // Handle availability checkbox changes
   const handleAvailabilityChange = (key: keyof typeof filters.availability) => {
-    // If "All" is selected, uncheck others
     if (key === "all" && !filters.availability.all) {
       setFilters({
         ...filters,
@@ -64,7 +62,6 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
       return
     }
 
-    // If a specific option is selected, uncheck "All"
     const newAvailability = {
       ...filters.availability,
       [key]: !filters.availability[key],
@@ -77,7 +74,6 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
     })
   }
 
-  // Handle brand checkbox changes
   const handleBrandChange = (key: keyof typeof filters.brands) => {
     setFilters({
       ...filters,
@@ -88,12 +84,10 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
     })
   }
 
-  // Handle slider change
   const handleSliderChange = (value: number[]) => {
     setSliderValue([value[0], value[1]])
   }
 
-  // Handle min price input change
   const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number.parseInt(e.target.value) || 0
     setFilters({
@@ -106,7 +100,6 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
     setSliderValue([value, sliderValue[1]])
   }
 
-  // Handle max price input change
   const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number.parseInt(e.target.value) || 0
     setFilters({
@@ -119,7 +112,6 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
     setSliderValue([sliderValue[0], value])
   }
 
-  // Apply changes
   const applyChanges = () => {
     const updatedFilters = {
       ...filters,
@@ -134,7 +126,6 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
     }
   }
 
-  // Update price inputs when slider changes
   useEffect(() => {
     setFilters((prev) => ({
       ...prev,
@@ -147,7 +138,6 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
 
   return (
     <div className="w-full max-w-xs bg-white rounded-lg border border-gray-100 p-6 space-y-6">
-      {/* Availability Section */}
       <div className="space-y-4">
         <h3 className="text-lg font-medium text-gray-900">Availability</h3>
         <div className="space-y-2 text-black">
@@ -156,7 +146,7 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
               id="availability-all"
               checked={filters.availability.all}
               onCheckedChange={() => handleAvailabilityChange("all")}
-              className="data-[state=checked]:bg-blue-500 border-gray-600 data-[state=checked]:border-blue-500"
+              className="data-[state=checked]:bg-gray-600 border-gray-600 data-[state=checked]:border-gray-600"
             />
             <label
               htmlFor="availability-all"
@@ -170,7 +160,7 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
               id="availability-instock"
               checked={filters.availability.inStock}
               onCheckedChange={() => handleAvailabilityChange("inStock")}
-              className="data-[state=checked]:bg-blue-500 border-gray-600 data-[state=checked]:border-blue-500"
+              className="data-[state=checked]:bg-gray-600 border-gray-600 data-[state=checked]:border-gray-600"
             />
             <label
               htmlFor="availability-instock"
@@ -184,7 +174,7 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
               id="availability-outofstock"
               checked={filters.availability.outOfStock}
               onCheckedChange={() => handleAvailabilityChange("outOfStock")}
-              className="data-[state=checked]:bg-blue-500 border-gray-600 data-[state=checked]:border-blue-500"
+              className="data-[state=checked]:bg-gray-600 border-gray-600 data-[state=checked]:border-gray-600"
             />
             <label
               htmlFor="availability-outofstock"
@@ -198,7 +188,6 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
 
       <div className="h-px bg-gray-200" />
 
-      {/* Price Range Section */}
       <div className="space-y-4">
         <h3 className="text-lg font-medium text-gray-900">Price</h3>
         <div className="px-2">
@@ -242,7 +231,6 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
 
       <div className="h-px bg-gray-200" />
 
-      {/* Brands Section */}
       <div className="space-y-4">
         <h3 className="text-lg font-medium text-gray-900">Brands</h3>
         <div className="space-y-2 text-black \">
@@ -251,7 +239,7 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
               id="brand-apple"
               checked={filters.brands.apple}
               onCheckedChange={() => handleBrandChange("apple")}
-              className="data-[state=checked]:bg-blue-500 border-gray-600 data-[state=checked]:border-blue-500"
+              className="data-[state=checked]:bg-gray-600 border-gray-600 data-[state=checked]:border-gray-600"
             />
             <label
               htmlFor="brand-apple"
@@ -265,7 +253,7 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
               id="brand-lenovo"
               checked={filters.brands.lenovo}
               onCheckedChange={() => handleBrandChange("lenovo")}
-              className="data-[state=checked]:bg-blue-500 border-gray-600 data-[state=checked]:border-blue-500"
+              className="data-[state=checked]:bg-gray-600 border-gray-600 data-[state=checked]:border-gray-600"
             />
             <label
               htmlFor="brand-lenovo"
@@ -279,7 +267,7 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
               id="brand-samsung"
               checked={filters.brands.samsung}
               onCheckedChange={() => handleBrandChange("samsung")}
-              className="data-[state=checked]:bg-blue-500 border-gray-600 data-[state=checked]:border-blue-500"
+              className="data-[state=checked]:bg-gray-600 border-gray-600 data-[state=checked]:border-gray-600"
             />
             <label
               htmlFor="brand-samsung"
@@ -293,8 +281,7 @@ export function ProductFilters({ onFilterChange }: ProductFiltersProps) {
 
       <div className="h-px bg-gray-200" />
 
-      {/* Apply Button */}
-      <Button onClick={applyChanges} className="w-full bg-blue-400 hover:bg-blue-500 text-white">
+      <Button onClick={applyChanges} className="w-full bg-gray-600 hover:bg-gray-800 text-white">
         Apply Changes
       </Button>
     </div>

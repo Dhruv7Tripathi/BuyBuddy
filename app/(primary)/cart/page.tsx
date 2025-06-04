@@ -11,7 +11,7 @@ import { useToast } from "@/hooks/use-toast"
 
 interface CartItem {
   id: number
-  name: string
+  title: string
   price: number
   image: string
   quantity: number
@@ -123,14 +123,14 @@ export default function CartPage() {
                       <div className="flex items-center space-x-4">
                         <Image
                           src={item.image || "/placeholder.svg"}
-                          alt={item.name}
+                          alt={item.title}
                           width={80}
                           height={80}
                           className="rounded-lg object-cover"
                         />
 
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-medium text-white truncate">{item.name}</h3>
+                          <h3 className="font-medium text-white truncate">{item.title}</h3>
                           <p className="text-lg font-semibold text-white">${item.price.toFixed(2)}</p>
                         </div>
 
