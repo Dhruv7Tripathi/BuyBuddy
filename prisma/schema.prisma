@@ -18,6 +18,18 @@ model User {
   provider  Provider
 }
 
+// model Product{
+//   id          String   @id @default(cuid())
+//   title      String
+//   description String?
+//   price       Float
+//   image       String[]
+//   // specs       ProductSpecs[]
+// }
+// type ProductSpecs {
+//  specGroupID String
+//   specValues  String[]
+// }
 enum Provider {
   Google
   EMAIL

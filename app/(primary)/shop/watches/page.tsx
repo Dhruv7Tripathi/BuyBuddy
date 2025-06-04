@@ -131,16 +131,6 @@ export default function Watches() {
       price: 4000,
       inStock: true
     },
-    // {
-    //   title: "IWC Pilot's Watch",
-    //   image: "/watches/iwc_pilots_watch.webp",
-    //   description: [
-    //     "Aviator's watch",
-    //     "Automatic movement",
-    //     "Large legible dial"
-    //   ],
-    //   price: "$6,500"
-    // },
     {
       id: 7,
       title: "Seiko Prospex Diver",
