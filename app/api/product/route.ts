@@ -63,3 +63,17 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Error creating product." }, { status: 500 });
   }
 }
+export async function GET() {
+  try {
+    const products = await prisma.product.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return NextResponse.json(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return NextResponse.json({ message: "Error fetching products." }, { status: 500 });
+  }
+}
