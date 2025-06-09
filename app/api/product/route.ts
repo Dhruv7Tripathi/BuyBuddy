@@ -4,13 +4,14 @@ import prisma from "@/lib/db";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { title, description, price, imageUrl } = body;
+    const { title, description, price, imageUrl, category } = body;
 
     if (
       typeof title !== "string" ||
       typeof description !== "string" ||
       typeof imageUrl !== "string" ||
-      typeof price !== "number"
+      typeof price !== "number" ||
+      typeof category !== "string"
     ) {
       return NextResponse.json({ message: "Missing or invalid fields." }, { status: 400 });
     }
@@ -21,6 +22,7 @@ export async function POST(req: Request) {
         description,
         price,
         imageUrl,
+        category
       },
     });
     return NextResponse.json(newProduct, { status: 201 });

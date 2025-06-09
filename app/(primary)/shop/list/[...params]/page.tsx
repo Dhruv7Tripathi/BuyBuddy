@@ -1,4 +1,5 @@
-"use client"
+'use client'
+
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { ProductFilters } from "@/components/sideFilter"
@@ -8,8 +9,10 @@ import { useToast } from "@/hooks/use-toast"
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import axios from 'axios'
+import { notFound } from 'next/navigation'
+import { use } from 'react'
 
-interface Watch {
+interface Product {
   id: string
   title: string
   imageUrl: string
@@ -18,12 +21,19 @@ interface Watch {
   inStock?: boolean
 }
 
-interface CartItem extends Watch {
+interface CartItem extends Product {
   quantity: number
 }
 
-export default function Watches() {
-  const [products, setProducts] = useState<Watch[]>([])
+interface Props {
+  params: Promise<{ params: string[] }>
+}
+
+export default function ListPage({ params }: Props) {
+  const { params: dynamicParams } = use(params)
+  const category = dynamicParams?.[0]
+
+  const [products, setProducts] = useState<Product[]>([])
   const [cart, setCart] = useState<CartItem[]>([])
   const { toast } = useToast()
 
@@ -31,15 +41,21 @@ export default function Watches() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("/api/product")
-        setProducts(response.data)
+        const filtered = response.data.filter((p: Product) =>
+          p.title.toLowerCase().includes(category?.toLowerCase())
+        )
+        setProducts(filtered)
       } catch (error) {
         console.error("Failed to fetch products:", error)
       }
     }
-    fetchProducts()
-  }, [])
 
-  const addToCart = (product: Watch) => {
+    if (category) {
+      fetchProducts()
+    }
+  }, [category])
+
+  const addToCart = (product: Product) => {
     if (!product.inStock) {
       toast({
         title: "Out of Stock",
@@ -70,14 +86,18 @@ export default function Watches() {
     })
   }
 
+  if (!category) return notFound()
+
   return (
     <div>
       <section className="py-6 bg-gray-300 text-center">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">Watches</h2>
-        <Link href={"/"} className="text-gray-600">Home</Link>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-2 capitalize">
+          {category}
+        </h2>
+        <Link href="/" className="text-gray-600">Home</Link>
         <span className="mx-2 text-gray-600">/</span>
-        <span className="text-black">Watches</span>
-        <p className="text-gray-600 mt-2">Explore our collection of smart watches</p>
+        <span className="text-black capitalize">{category}</span>
+        <p className="text-gray-600 mt-2">Explore our collection of {category}</p>
       </section>
 
       <section className="bg-gray-50 py-10 px-4">
@@ -88,40 +108,40 @@ export default function Watches() {
           <Separator orientation="vertical" className="h-auto border-gray-600" />
           <div className="flex-1">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-              {products.map((watch) => (
+              {products.map((product) => (
                 <div
-                  key={watch.id}
+                  key={product.id}
                   className="bg-white rounded-xl shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition"
                 >
                   <div className="w-full h-48 flex justify-center items-center">
                     <Image
-                      src={watch.imageUrl}
-                      alt={watch.title}
+                      src={product.imageUrl}
+                      alt={product.title}
                       width={200}
                       height={200}
                       className="object-contain h-full"
                     />
                   </div>
                   <div className="mt-4 space-y-1">
-                    <h3 className="text-md font-semibold text-gray-900">{watch.title}</h3>
-                    <p className="text-sm text-gray-500">{watch.description}</p>
+                    <h3 className="text-md font-semibold text-gray-900">{product.title}</h3>
+                    <p className="text-sm text-gray-500">{product.description}</p>
                   </div>
                   <div className="mt-4 flex justify-between items-end">
                     <p className="text-lg font-semibold text-gray-800">
                       {new Intl.NumberFormat("en-US", {
                         style: "currency",
                         currency: "USD",
-                      }).format(watch.price)}
+                      }).format(product.price)}
                     </p>
                   </div>
                   <Button
-                    onClick={() => addToCart(watch)}
-                    disabled={watch.inStock === false}
+                    onClick={() => addToCart(product)}
+                    disabled={product.inStock === false}
                     className="w-full"
-                    variant={watch.inStock ? "default" : "secondary"}
+                    variant={product.inStock ? "default" : "secondary"}
                   >
                     <Plus className="w-4 h-4 mr-2" />
-                    {watch.inStock ? "Add to Cart" : "Out of Stock"}
+                    {product.inStock ? "Add to Cart" : "Out of Stock"}
                   </Button>
                 </div>
               ))}

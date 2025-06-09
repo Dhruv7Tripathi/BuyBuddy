@@ -47,6 +47,7 @@ export default function AddProduct() {
   const [description, setDescription] = useState("")
   const [price, setPrice] = useState<string>("")
   const [imageUrl, setImageUrl] = useState("")
+  const [category, setCategory] = useState("")
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
@@ -73,8 +74,10 @@ export default function AddProduct() {
         description,
         price: numericPrice,
         imageUrl,
+        category
       })
-      router.push("/shop/watches")
+
+      router.push(`shop/list/${category}`)
     } catch (err) {
       console.error(err)
       setError("Failed to add the product.")
@@ -89,7 +92,6 @@ export default function AddProduct() {
         <Sidebar>
           <SidebarHeader>
             <div className="flex items-center gap-2 px-4 py-2">
-              <Package className="h-6 w-6" />
               <h1 className="text-lg font-semibold">BuyBuddy</h1>
             </div>
           </SidebarHeader>
@@ -184,6 +186,18 @@ export default function AddProduct() {
                       required
                       placeholder="https://example.com/image.jpg"
                     />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="category">Category</Label>
+                    <Input
+                      id="category"
+                      type="text"
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                      required
+                      placeholder="Enter product category"
+                    />
+
                   </div>
 
                   <Button type="submit" className="w-full" disabled={isLoading}>
