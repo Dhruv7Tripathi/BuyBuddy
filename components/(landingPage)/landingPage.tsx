@@ -75,7 +75,7 @@ export default function HomePage() {
             <div className="relative z-10 space-y-4">
               <h2 className="text-2xl font-bold">Watches</h2>
               <p className="text-xl font-bold">Save Up to 99€</p>
-              <Link href="/shop/watches">
+              <Link href="/shop/list/watches">
                 <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
                   Show Deals
                 </Button>
@@ -95,7 +95,7 @@ export default function HomePage() {
             <div className="relative z-10 space-y-4">
               <h2 className="text-2xl font-bold">Laptops</h2>
               <p className="text-xl font-bold">Save Up to 99€</p>
-              <Link href="/shop/laptops">
+              <Link href="/shop/list/laptops">
 
                 <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
                   Show Deals
@@ -116,7 +116,7 @@ export default function HomePage() {
             <div className="relative z-10 space-y-4">
               <h2 className="text-2xl font-bold">Accessories</h2>
               <p className="text-xl font-bold">Save Up to 99€</p>
-              <Link href="/shop/accessories">
+              <Link href="/shop/list/accessories">
 
                 <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
                   Show Deals
