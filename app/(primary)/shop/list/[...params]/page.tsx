@@ -19,11 +19,12 @@ interface Product {
   description: string
   price: number
   inStock?: boolean
+  category?: string
 }
 
-interface CartItem extends Product {
-  quantity: number
-}
+// interface CartItem extends Product {
+//   quantity: number
+// }
 
 interface Props {
   params: Promise<{ params: string[] }>
@@ -34,7 +35,7 @@ export default function ListPage({ params }: Props) {
   const category = dynamicParams?.[0]
 
   const [products, setProducts] = useState<Product[]>([])
-  const [cart, setCart] = useState<CartItem[]>([])
+  // const [cart, setCart] = useState<CartItem[]>([])
   const { toast } = useToast()
 
   useEffect(() => {
@@ -42,7 +43,7 @@ export default function ListPage({ params }: Props) {
       try {
         const response = await axios.get("/api/product")
         const filtered = response.data.filter((p: Product) =>
-          p.title.toLowerCase().includes(category?.toLowerCase())
+          p.category?.toLowerCase().includes(category?.toLowerCase())
         )
         setProducts(filtered)
       } catch (error) {
@@ -65,26 +66,29 @@ export default function ListPage({ params }: Props) {
       return
     }
 
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === product.id)
-      if (existingItem) {
-        const updatedCart = prevCart.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item,
-        )
-        localStorage.setItem("cart", JSON.stringify(updatedCart))
-        return updatedCart
-      } else {
-        const newCart = [...prevCart, { ...product, quantity: 1 }]
-        localStorage.setItem("cart", JSON.stringify(newCart))
-        return newCart
-      }
-    })
+    // setCart((prevCart) => {
+    //   const existingItem = prevCart.find((item) => item.id === product.id)
+    //   if (existingItem) {
+    //     const updatedCart = prevCart.map((item) =>
+    //       item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item,
+    //     )
+    //     localStorage.setItem("cart", JSON.stringify(updatedCart))
+    //     return updatedCart
+    //   } else {
+    //     const newCart = [...prevCart, { ...product, quantity: 1 }]
+    //     localStorage.setItem("cart", JSON.stringify(newCart))
+    //     return newCart
+    //   }
+    // })
+
 
     toast({
       title: "Added to Cart",
       description: `${product.title} has been added to your cart.`,
     })
   }
+  // const cartItemsCount = cart.reduce((total, item) => total + item.quantity, 0)
+
 
   if (!category) return notFound()
 
