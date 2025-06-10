@@ -5,9 +5,6 @@ import Image from 'next/image'
 import { ProductFilters } from "@/components/sideFilter"
 import { Separator } from "@/components/ui/separator"
 import Link from 'next/link'
-import { useToast } from "@/hooks/use-toast"
-import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
 import axios from 'axios'
 import { notFound } from 'next/navigation'
 import { use } from 'react'
@@ -18,14 +15,8 @@ interface Product {
   imageUrl: string
   description: string
   price: number
-  inStock?: boolean
   category?: string
 }
-
-// interface CartItem extends Product {
-//   quantity: number
-// }
-
 interface Props {
   params: Promise<{ params: string[] }>
 }
@@ -35,9 +26,6 @@ export default function ListPage({ params }: Props) {
   const category = dynamicParams?.[0]
 
   const [products, setProducts] = useState<Product[]>([])
-  // const [cart, setCart] = useState<CartItem[]>([])
-  const { toast } = useToast()
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -50,46 +38,10 @@ export default function ListPage({ params }: Props) {
         console.error("Failed to fetch products:", error)
       }
     }
-
     if (category) {
       fetchProducts()
     }
   }, [category])
-
-  const addToCart = (product: Product) => {
-    if (!product.inStock) {
-      toast({
-        title: "Out of Stock",
-        description: "This item is currently out of stock.",
-        variant: "destructive",
-      })
-      return
-    }
-
-    // setCart((prevCart) => {
-    //   const existingItem = prevCart.find((item) => item.id === product.id)
-    //   if (existingItem) {
-    //     const updatedCart = prevCart.map((item) =>
-    //       item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item,
-    //     )
-    //     localStorage.setItem("cart", JSON.stringify(updatedCart))
-    //     return updatedCart
-    //   } else {
-    //     const newCart = [...prevCart, { ...product, quantity: 1 }]
-    //     localStorage.setItem("cart", JSON.stringify(newCart))
-    //     return newCart
-    //   }
-    // })
-
-
-    toast({
-      title: "Added to Cart",
-      description: `${product.title} has been added to your cart.`,
-    })
-  }
-  // const cartItemsCount = cart.reduce((total, item) => total + item.quantity, 0)
-
-
   if (!category) return notFound()
 
   return (
@@ -139,15 +91,7 @@ export default function ListPage({ params }: Props) {
                       }).format(product.price)}
                     </p>
                   </div>
-                  <Button
-                    onClick={() => addToCart(product)}
-                    disabled={product.inStock === false}
-                    className="w-full"
-                    variant={product.inStock ? "default" : "secondary"}
-                  >
-                    <Plus className="w-4 h-4 mr-2" />
-                    {product.inStock ? "Add to Cart" : "Out of Stock"}
-                  </Button>
+
                 </Link>
               ))}
             </div>
