@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
-
+import Image from 'next/image';
 type Product = {
   id: string;
   title: string;
@@ -73,7 +73,12 @@ export default function AdminProductPage() {
               {products.map((product) => (
                 <tr key={product.id} className="border-t">
                   <td className="px-4 py-2">
-                    <img src={product.imageUrl} alt={product.title} className="w-16 h-16 object-cover rounded" />
+                    <Image
+                      src={product.imageUrl}
+                      alt={product.title}
+                      width={16}
+                      height={16}
+                      className="w-16 h-16 object-cover rounded" />
                   </td>
                   <td className="px-4 py-2">{product.title}</td>
                   <td className="px-4 py-2 capitalize">{product.category}</td>

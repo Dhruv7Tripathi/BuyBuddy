@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 
-interface Params {
-  params: { id: string };
-}
+// interface Params {
+//   params: { id: string };
+// }
 
-export async function GET(req: NextRequest, { params }: Params) {
-  const { id } = params;
+export async function GET(req: NextRequest, context: { params: { id: string } }) {
+  const { id } = context.params;
 
   if (!id) {
     return NextResponse.json({ message: "Product ID is required." }, { status: 400 });
@@ -29,8 +29,8 @@ export async function GET(req: NextRequest, { params }: Params) {
 }
 
 
-export async function DELETE(req: NextRequest, { params }: Params) {
-  const { id } = params;
+export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+  const { id } = context.params;
 
   try {
     const deletedProduct = await prisma.product.delete({

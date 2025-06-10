@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ShoppingCart, Minus, Plus } from 'lucide-react'
+import { Minus, Plus } from 'lucide-react'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { use } from 'react'
@@ -17,7 +17,6 @@ interface Product {
   description: string
   price: number
   category?: string
-  // inStock?: 
 }
 
 interface ProductPageProps {
