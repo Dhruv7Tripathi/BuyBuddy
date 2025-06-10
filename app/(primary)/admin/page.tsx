@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, type FormEvent } from "react"
+import { useState, useEffect, type FormEvent } from "react"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { Package, ShoppingCart, Users } from "lucide-react"
@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useSession } from "next-auth/react"
 
 const menuItems = [
   {
@@ -51,6 +52,14 @@ export default function AddProduct() {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const { status } = useSession()
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/signin")
+    }
+    // Removed handleSubmit call here, as it requires a FormEvent and should only be called on form submit
+  }, [status, router])
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()

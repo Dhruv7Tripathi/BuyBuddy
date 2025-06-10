@@ -14,7 +14,7 @@ BuyBuddy is a modern and responsive e-commerce website that allows users to brow
 ## Tech Stack
 
 - **Frontend:** Next.js, TypeScript, Tailwind CSS
-- **CMS:** Ghost CMS
+- **Razorpay:** Payment Gateway
 - **Database:** PostgreSQL (if needed for additional features)
 - **Hosting:** Vercel (Recommended)
 
@@ -23,7 +23,7 @@ BuyBuddy is a modern and responsive e-commerce website that allows users to brow
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/dhruv7tripathi/blogiffy.git
+   git clone https://github.com/dhruv7tripathi/buybuddy.git
    cd blogiffy
    ```
 
