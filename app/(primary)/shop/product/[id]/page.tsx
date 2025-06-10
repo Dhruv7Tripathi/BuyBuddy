@@ -1,40 +1,59 @@
 "use client"
+
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Star, ShoppingCart, Minus, Plus } from 'lucide-react'
 import axios from 'axios'
-
+import { useEffect, useState } from 'react'
+import { use } from 'react'
 interface Product {
   id: string
   title: string
   imageUrl: string
   description: string
   price: number
-  inStock?: boolean
-  rating?: number
-  reviews?: number
   category?: string
-  focalLength?: string
-  aperture?: string
 }
 
 interface ProductPageProps {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
-  try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/product/${params.id}`)
-    const product: Product = response.data
+export default function ProductPage(props: ProductPageProps) {
+  const [product, setProduct] = useState<Product | null>(null)
+  const [loading, setLoading] = useState(true)
+  const { id } = use(props.params)
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        console.log("Fetching:", `${process.env.NEXT_PUBLIC_API_URL}/api/product/${id}`)
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/product/${id}`
+        )
 
-    if (!product) return notFound()
+        setProduct(response.data)
+      } catch (error) {
+        console.error("Failed to fetch product:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
 
-    return (
+    fetchProduct()
+  }, [id])
+
+  if (loading) return <div className="p-20 text-center">Loading...</div>
+  if (!product) return notFound()
+
+  return (
+    <div className='bg-white text-black min-h-screen '>
       <div className="max-w-6xl mx-auto p-6">
-        <div className="mb-4 text-sm text-gray-500">
-          <Link href="/">Home</Link> / <Link href={`/list/${product.category}`}>{product.category}</Link> / {product.title}
+        <div className="mb-4 text-sm text-black">
+          <Link href="/">Home</Link> /{" "}
+          <Link href={`/list/${product.category}`}>{product.category}</Link> /{" "}
+          {product.title}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -57,21 +76,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   <Star key={i} className="w-4 h-4" fill="currentColor" />
                 ))}
               </div>
-              <span className="text-blue-600 text-sm">{product.reviews || 880} User Reviews</span>
             </div>
 
             <h1 className="text-2xl font-bold mb-1">{product.title}</h1>
             <p className="text-gray-500 text-sm mb-4">{product.description}</p>
 
-            <div className="mb-4 space-y-1">
-              {product.aperture && <p className="text-gray-700">f./{product.aperture}</p>}
-              {product.focalLength && <p className="text-gray-700">{product.focalLength}</p>}
-            </div>
-
-            <div className="text-2xl font-semibold text-gray-800 mb-6">
-              {new Intl.NumberFormat('de-DE', {
+            <div className="text-2xl font-semibold text-white mb-6">
+              {new Intl.NumberFormat('en-US', {
                 style: 'currency',
-                currency: 'EUR',
+                currency: 'USD',
               }).format(product.price)}
             </div>
 
@@ -90,9 +103,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
         </div>
       </div>
-    )
-  } catch (error) {
-    console.error("Failed to fetch product:", error)
-    return notFound()
-  }
+    </div>
+  )
 }

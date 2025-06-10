@@ -59,8 +59,8 @@ export default function AdminProductPage() {
         <p>No products found.</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-200 rounded">
-            <thead className="bg-gray-100">
+          <table className="min-w-full border border-black rounded">
+            <thead className="text-black bg-gray-100">
               <tr>
                 <th className="px-4 py-2 text-left">Image</th>
                 <th className="px-4 py-2 text-left">Title</th>

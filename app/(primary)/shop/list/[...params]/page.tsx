@@ -113,7 +113,8 @@ export default function ListPage({ params }: Props) {
           <div className="flex-1">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
               {products.map((product) => (
-                <div
+                <Link
+                  href={`/shop/product/${product.id}`}
                   key={product.id}
                   className="bg-white rounded-xl shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition"
                 >
@@ -147,7 +148,7 @@ export default function ListPage({ params }: Props) {
                     <Plus className="w-4 h-4 mr-2" />
                     {product.inStock ? "Add to Cart" : "Out of Stock"}
                   </Button>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

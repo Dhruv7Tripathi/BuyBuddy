@@ -27,3 +27,19 @@ export async function GET(req: NextRequest, { params }: Params) {
     return NextResponse.json({ message: "Error fetching product." }, { status: 500 });
   }
 }
+
+
+export async function DELETE(req: NextRequest, { params }: Params) {
+  const { id } = params;
+
+  try {
+    const deletedProduct = await prisma.product.delete({
+      where: { id },
+    });
+
+    return NextResponse.json(deletedProduct, { status: 200 });
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    return NextResponse.json({ message: "Error deleting product." }, { status: 500 });
+  }
+}

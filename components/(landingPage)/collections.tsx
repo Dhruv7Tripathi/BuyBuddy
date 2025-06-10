@@ -4,14 +4,9 @@ import Link from "next/link"
 export default function CollectionsPage() {
   return (
     <div className=" bg-gray-50 ml-6 mr-4 p-4 md:p-6 lg:p-8">
-
-
-
       <div className="space-y-6">
         <h1 className="text-3xl font-bold text-gray-900">Collections</h1>
-
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-
           <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -20,7 +15,6 @@ export default function CollectionsPage() {
                   <Image src="/collections/tablet.avif" alt="Tablet" fill className="object-contain" />
                 </div>
               </div>
-
               <div className="space-y-2">
                 <p className="text-gray-700 hover:text-gray-900 cursor-pointer">iPad</p>
                 <p className="text-gray-700 hover:text-gray-900 cursor-pointer">Microsoft Surface</p>
@@ -30,7 +24,7 @@ export default function CollectionsPage() {
               </div>
 
               <button className="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
-                <Link href={"/shop/tablets"}>
+                <Link href={"/shop/list/tablets"}>
                   <span>All Tablet</span>
                 </Link>
                 <ChevronRight className="w-4 h-4 ml-1" />
@@ -78,7 +72,7 @@ export default function CollectionsPage() {
               </div>
 
               <button className="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
-                <Link href={"/shop/watches"}>
+                <Link href={"/shop/list/watches"}>
                   <span>All Smartwatches</span>
                 </Link>
                 <ChevronRight className="w-4 h-4 ml-1" />
@@ -109,7 +103,7 @@ export default function CollectionsPage() {
               </div>
 
               <button className="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
-                <Link href={"/shop/accessories"}>
+                <Link href={"/shop/list/accessories"}>
                   <span>All Accessories</span>
                 </Link>
                 <ChevronRight className="w-4 h-4 ml-1" />
