@@ -5,7 +5,6 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { title, description, price, imageUrl, category } = body;
-
     if (
       typeof title !== "string" ||
       typeof description !== "string" ||
@@ -39,7 +38,7 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json(products);
+    return NextResponse.json(products || [], { status: 200 });
   } catch (error) {
     console.error("Error fetching products:", error);
     return NextResponse.json({ message: "Error fetching products." }, { status: 500 });
