@@ -63,9 +63,9 @@ export default function HomePage() {
       <Navbar />
       <div className=" container mx-auto px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-6">
-          <aside className="lg:w-80 bg-white rounded-lg p-4 shadow-sm">
-            <Sidebar />
-          </aside>
+          {/* <aside className="lg:w-80 bg-white rounded-lg p-4 shadow-sm">
+            {/* <Sidebar /> */}
+          {/* </aside> */}
           <main className="flex-1">
             <div
               className={`relative mx-4 lg:mx-8  bg-gradient-to-r from-gray-600 to-gray-800 rounded-2xl overflow-hidden h-[500px] shadow-2xl group`}
@@ -106,7 +106,6 @@ export default function HomePage() {
                     </Button>
                   </div>
                 </div>
-
                 <div className="hidden lg:block w-full h-full">
                   <Image
                     src={currentImage.src || "/placeholder.svg"}
@@ -195,7 +194,7 @@ export default function HomePage() {
           </div>
 
         </div>
-        <div className="mt-20">
+        <div className="mt-10">
           <TopSellingProducts />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -216,7 +215,7 @@ export default function HomePage() {
                   </Button>
                 </Link>
               </div>
-              <div className="absolute right-0 top-0 h-full w-1/2 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
+              <div className="absolute right-0 top-0 h-full w-1/2  transition-opacity duration-500">
                 <Image
                   src="/watch.webp"
                   alt="Premium Watch"
@@ -244,7 +243,7 @@ export default function HomePage() {
                   </Button>
                 </Link>
               </div>
-              <div className="absolute right-0 top-0 h-full w-1/2 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
+              <div className="absolute right-0 top-0 h-full w-1/2 transition-opacity duration-500">
                 <Image
                   src="/laptop.jpg"
                   alt="Gaming Laptop"
