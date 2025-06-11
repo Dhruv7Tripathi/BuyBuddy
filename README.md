@@ -24,7 +24,7 @@ BuyBuddy is a modern and responsive e-commerce website that allows users to brow
 
    ```bash
    git clone https://github.com/dhruv7tripathi/buybuddy.git
-   cd blogiffy
+   cd buybuddy
    ```
 
 2. Install dependencies:
