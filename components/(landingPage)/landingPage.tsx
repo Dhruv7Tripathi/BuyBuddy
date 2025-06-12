@@ -63,9 +63,6 @@ export default function HomePage() {
       <Navbar />
       <div className=" container mx-auto px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* <aside className="lg:w-80 bg-white rounded-lg p-4 shadow-sm">
-            {/* <Sidebar /> */}
-          {/* </aside> */}
           <main className="flex-1">
             <div
               className={`relative mx-4 lg:mx-8  bg-gradient-to-r from-gray-600 to-gray-800 rounded-2xl overflow-hidden h-[500px] shadow-2xl group`}
@@ -97,13 +94,6 @@ export default function HomePage() {
                     >
                       Shop Now
                     </Button>
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 text-lg"
-                    >
-                      Learn More
-                    </Button>
                   </div>
                 </div>
                 <div className="hidden lg:block w-full h-full">
@@ -129,7 +119,6 @@ export default function HomePage() {
             </div>
           </main>
         </div>
-
         <div className="grid pt-10 ml-6 mr-4 grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="relative group overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 to-gray-700 p-8 text-white">
             <div className="relative z-10 space-y-4">

@@ -1,15 +1,19 @@
 "use client"
-import { notFound } from 'next/navigation'
-import Image from 'next/image'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Minus, Plus } from 'lucide-react'
-import axios from 'axios'
-import { useEffect, useState } from 'react'
-import { use } from 'react'
-import { Separator } from '@/components/ui/separator'
-import CollectionsPage from '@/components/(landingPage)/collections'
+import { notFound } from "next/navigation"
+import Image from "next/image"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Minus, Plus, ShoppingCart, Heart, Star, Truck, Shield, RotateCcw } from "lucide-react"
+import axios from "axios"
+import { useEffect, useState } from "react"
+import { use } from "react"
+import { Separator } from "@/components/ui/separator"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import CollectionsPage from "@/components/(landingPage)/collections"
 import { useToast } from "@/hooks/use-toast"
+
 interface Product {
   id: string
   title: string
@@ -17,6 +21,14 @@ interface Product {
   description: string
   price: number
   category?: string
+  inStock?: boolean
+  rating?: number
+  reviewCount?: number
+  images?: string[]
+}
+
+interface CartItem extends Product {
+  quantity: number
 }
 
 interface ProductPageProps {
@@ -26,16 +38,34 @@ interface ProductPageProps {
 export default function ProductPage(props: ProductPageProps) {
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
+  const [quantity, setQuantity] = useState(1)
+  const [cart, setCart] = useState<CartItem[]>([])
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+  const [isWishlisted, setIsWishlisted] = useState(false)
   const { id } = use(props.params)
   const { toast } = useToast()
+
+  // Load cart from localStorage on component mount
+  useEffect(() => {
+    const savedCart = localStorage.getItem("cart")
+    if (savedCart) {
+      setCart(JSON.parse(savedCart))
+    }
+  }, [])
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/product/${id}`
-        )
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/product/${id}`)
+        const productData = {
+          ...response.data,
+          inStock: response.data.inStock ?? true,
+          rating: response.data.rating ?? 4.5,
+          reviewCount: response.data.reviewCount ?? 128,
+          images: response.data.images ?? [response.data.imageUrl],
+        }
 
-        setProduct(response.data)
+        setProduct(productData)
       } catch (error) {
         console.error("Failed to fetch product:", error)
       } finally {
@@ -45,97 +75,221 @@ export default function ProductPage(props: ProductPageProps) {
 
     fetchProduct()
   }, [id])
+
+  const updateQuantity = (change: number) => {
+    setQuantity((prev) => Math.max(1, prev + change))
+  }
+
   const addToCart = (product: Product) => {
-    //   if (!product.inStock) {
-    //     toast({
-    //       title: "Out of Stock",
-    //       description: "This item is currently out of stock.",
-    //       variant: "destructive",
-    //     })
-    //     return
-    //   }
+    if (!product.inStock) {
+      toast({
+        title: "Out of Stock",
+        description: "This item is currently out of stock.",
+        variant: "destructive",
+      })
+      return
+    }
 
-    // setCart((prevCart) => {
-    //   const existingItem = prevCart.find((item) => item.id === product.id)
-    //   if (existingItem) {
-    //     const updatedCart = prevCart.map((item) =>
-    //       item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item,
-    //     )
-    //     localStorage.setItem("cart", JSON.stringify(updatedCart))
-    //     return updatedCart
-    //   } else {
-    //     const newCart = [...prevCart, { ...product, quantity: 1 }]
-    //     localStorage.setItem("cart", JSON.stringify(newCart))
-    //     return newCart
-    //   }
-    // })
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item.id === product.id)
+      let updatedCart: CartItem[]
 
+      if (existingItem) {
+        updatedCart = prevCart.map((item) =>
+          item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item,
+        )
+      } else {
+        updatedCart = [...prevCart, { ...product, quantity }]
+      }
+
+      localStorage.setItem("cart", JSON.stringify(updatedCart))
+      return updatedCart
+    })
 
     toast({
       title: "Added to Cart",
-      description: `${product.title} has been added to your cart.`,
+      description: `${quantity} ${product.title}${quantity > 1 ? "s" : ""} added to your cart.`,
+    })
+
+    setQuantity(1)
+  }
+
+  const toggleWishlist = () => {
+    setIsWishlisted(!isWishlisted)
+    toast({
+      title: isWishlisted ? "Removed from Wishlist" : "Added to Wishlist",
+      description: `${product?.title} has been ${isWishlisted ? "removed from" : "added to"} your wishlist.`,
     })
   }
-  if (loading) return <div className="bg-white text-black justify-center min-h-screen text-center">Loading...</div>
-  if (!product) return notFound()
 
-  return (
-    <div className='bg-white text-black min-h-screen '>
-      <div className="max-w-6xl mx-auto p-6">
-        <div className="mb-4 text-sm text-black">
-          <Link href="/">Home</Link> /{" "}
-          <Link href={`/list/${product.category}`}>{product.category}</Link> /{" "}
-          {product.title}
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <div className="p-4">
-              <Image
-                src={product.imageUrl}
-                alt={product.title}
-                width={500}
-                height={500}
-                className="object-contain w-full h-auto"
-              />
-            </div>
-          </div>
-
-          <div className='ml-20'>
-            <h1 className="text-4xl font-bold mb-1">{product.title}</h1>
-            <Separator className="my-2" />
-            <p className="text-gray-800 pt-6 text-sm mb-4">{product.description}</p>
-
-            <div className="text-4xl pt-6 font-semibold text-black mb-6">
-              {new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-              }).format(product.price)}
-            </div>
-            <Separator className="my-2" />
-            <div className="flex pt-6 items-center gap-8">
-              <div className="flex text-3xl items-center gap-4 px-2 py-1 rounded-md">
-                <Minus className="w-4 h-4 cursor-pointer" />
-                <span>1</span>
-                <Plus className="w-4 h-4 cursor-pointer" />
+  if (loading) {
+    return (
+      <div className="bg-white text-black min-h-screen">
+        <div className="max-w-6xl mx-auto p-6">
+          <div className="animate-pulse">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-gray-200 aspect-square rounded-lg"></div>
+              <div className="space-y-4">
+                <div className="h-8 bg-gray-200 rounded w-3/4"></div>
+                <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                <div className="h-20 bg-gray-200 rounded"></div>
+                <div className="h-8 bg-gray-200 rounded w-1/4"></div>
               </div>
-
-              {/* <Button className="bg-red-500 hover:bg-red-600"> */}
-              <Button
-                onClick={() => addToCart(product)}
-                // disabled={product.inStock === false}
-                className="w-1/2 bg-black text-white hover:bg-gray-800 transition-colors"
-                variant={"default"}
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add to Cart
-              </Button>
-              {/* </Button> */}
             </div>
           </div>
         </div>
       </div>
-      <CollectionsPage />
+    )
+  }
+
+  if (!product) return notFound()
+
+  const productImages = product.images || [product.imageUrl]
+
+  return (
+    <div className="bg-white text-black min-h-screen">
+      <div className="max-w-6xl mx-auto p-6">
+        {/* Breadcrumb */}
+        <nav className="mb-6 text-sm text-gray-600">
+          <div className="flex items-center space-x-2">
+            <Link href="/" className="hover:text-black transition-colors">
+              Home
+            </Link>
+            <span>/</span>
+            <Link href={`/list/${product.category}`} className="hover:text-black transition-colors">
+              {product.category}
+            </Link>
+            <span>/</span>
+            <span className="text-black">{product.title}</span>
+          </div>
+        </nav>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="space-y-4">
+            <div className=" overflow-hidden rounded-lg ">
+              <Image
+                src={productImages[selectedImageIndex] || "/placeholder.svg"}
+                alt={product.title}
+                width={600}
+                height={600}
+                className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+
+            {productImages.length > 1 && (
+              <div className="flex space-x-2 overflow-x-auto">
+                {productImages.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImageIndex(index)}
+                    className={`flex-shrink-0 w-20 h-20 rounded-md overflow-hidden border-2 transition-colors ${selectedImageIndex === index ? "border-black" : "border-gray-200"
+                      }`}
+                  >
+                    <Image
+                      src={image || "/placeholder.svg"}
+                      alt={`${product.title} ${index + 1}`}
+                      width={80}
+                      height={80}
+                      className="object-cover w-full h-full"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-6">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                {product.category && (
+                  <Badge variant="secondary" className="text-xs">
+                    {product.category}
+                  </Badge>
+                )}
+                {product.inStock ? (
+                  <Badge className="bg-green-100 text-green-800 hover:bg-green-100">In Stock</Badge>
+                ) : (
+                  <Badge variant="destructive">Out of Stock</Badge>
+                )}
+              </div>
+
+              <h1 className="text-3xl lg:text-4xl font-bold mb-3">{product.title}</h1>
+
+              {/* Rating */}
+              <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`w-4 h-4 ${i < Math.floor(product.rating || 0) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                        }`}
+                    />
+                  ))}
+                </div>
+                <span className="text-sm text-gray-600">
+                  {product.rating} ({product.reviewCount} reviews)
+                </span>
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="text-3xl font-bold text-black">
+              {new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+              }).format(product.price)}
+            </div>
+
+            <p className="text-gray-700 leading-relaxed">{product.description}</p>
+
+            <Separator />
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <span className="font-medium">Quantity:</span>
+                <div className="flex items-center border rounded-md">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => updateQuantity(-1)}
+                    disabled={quantity <= 1}
+                    className="h-10 w-10 p-0"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </Button>
+                  <span className="px-4 py-2 min-w-[3rem] text-center font-medium">{quantity}</span>
+                  <Button variant="ghost" size="sm" onClick={() => updateQuantity(1)} className="h-10 w-10 p-0">
+                    <Plus className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <Button
+                  onClick={() => addToCart(product)}
+                  disabled={!product.inStock}
+                  className="flex-1 bg-black text-white hover:bg-gray-800 transition-colors h-12"
+                  size="lg"
+                >
+                  <ShoppingCart className="w-5 h-5 mr-2" />
+                  Add to Cart
+                </Button>
+
+                <Button variant="outline" onClick={toggleWishlist} className="h-12 px-4">
+                  <Heart className={`w-5 h-5 ${isWishlisted ? "fill-red-500 text-red-500" : ""}`} />
+                </Button>
+              </div>
+            </div>
+
+            <Separator />
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-16">
+        <CollectionsPage />
+      </div>
     </div>
   )
 }

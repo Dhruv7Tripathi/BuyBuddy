@@ -12,12 +12,11 @@ export default function Navbar() {
       <header className="bg-white border-b">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <div className="flex ml-6 items-center">
+            <div className="flex ml-12 items-center">
               <h1 className="text-2xl text-black font-bold">
                 Buy<span className="text-blue-600">Buddy</span>
               </h1>
             </div>
-
             <div className="flex-1 bg-white max-w-2xl mx-8">
               <div className="relative border border-gray-400 rounded-md shadow-sm">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black h-4 w-4" />
@@ -28,9 +27,6 @@ export default function Navbar() {
                 />
               </div>
             </div>
-
-
-
             <div className="flex items-center space-x-6 mr-12">
               <div className="flex items-center space-x-2 text-gray-600">
                 <div className="flex items-center space-x-4">
@@ -58,12 +54,11 @@ export default function Navbar() {
           </div>
         </div>
       </header>
-
       <nav className="bg-white border-b">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-12">
             <div className="flex items-center space-x-8">
-              <div className="ml-6 flex items-center space-x-2 text-gray-700">
+              <div className="ml-12 flex items-center space-x-2 text-gray-700">
                 <Menu className="h-4 w-4" />
                 <span>All Categories</span>
               </div>
