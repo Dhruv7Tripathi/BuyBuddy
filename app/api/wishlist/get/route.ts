@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authoptions";
@@ -17,6 +17,7 @@ export async function GET() {
 
     return NextResponse.json(wishlist);
   } catch (error) {
+    console.error("Error fetching wishlist:", error);
     return NextResponse.json({ message: "Error fetching wishlist" }, { status: 500 });
   }
 }

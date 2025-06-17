@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(wishlist, { status: 201 });
   } catch (error) {
+    console.error("Error adding to wishlist:", error);
     return NextResponse.json({ message: "Error adding to wishlist" }, { status: 500 });
   }
 }

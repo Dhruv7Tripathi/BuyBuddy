@@ -5,8 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Minus, Plus, ShoppingCart, Heart, Star } from "lucide-react"
 import axios from "axios"
-import { useEffect, useState } from "react"
-import { use } from "react"
+import { useEffect, useState, use } from "react"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import CollectionsPage from "@/components/(landingPage)/collections"
@@ -25,30 +24,21 @@ interface Product {
   images?: string[]
 }
 
-interface CartItem extends Product {
-  quantity: number
-}
+// interface CartItem extends Product {
+//   quantity: number
+// }
 
 interface ProductPageProps {
   params: Promise<{ id: string }>
 }
-
 export default function ProductPage(props: ProductPageProps) {
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
   const [quantity, setQuantity] = useState(1)
-  const [cart, setCart] = useState<CartItem[]>([])
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [isWishlisted, setIsWishlisted] = useState(false)
-  const { id } = use(props.params)
   const { toast } = useToast()
-
-  useEffect(() => {
-    const savedCart = localStorage.getItem("cart")
-    if (savedCart) {
-      setCart(JSON.parse(savedCart))
-    }
-  }, [])
+  const { id } = use(props.params)
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -96,22 +86,7 @@ export default function ProductPage(props: ProductPageProps) {
       return
     }
 
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === product.id)
-      let updatedCart: CartItem[]
-
-      if (existingItem) {
-        updatedCart = prevCart.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item,
-        )
-      } else {
-        updatedCart = [...prevCart, { ...product, quantity }]
-      }
-
-      localStorage.setItem("cart", JSON.stringify(updatedCart))
-      return updatedCart
-    })
-
+    // Implement cart logic here if needed
     toast({
       title: "Added to Cart",
       description: `${quantity} ${product.title}${quantity > 1 ? "s" : ""} added to your cart.`,
@@ -120,17 +95,9 @@ export default function ProductPage(props: ProductPageProps) {
     setQuantity(1)
   }
 
-  const toggleWishlist = () => {
-    setIsWishlisted(!isWishlisted)
-    toast({
-      title: isWishlisted ? "Removed from Wishlist" : "Added to Wishlist",
-      description: `${product?.title} has been ${isWishlisted ? "removed from" : "added to"} your wishlist.`,
-    })
-  }
-
   if (loading) {
     return (
-      <div className="bg-white text-black min-h-screen">
+      <div className="bg-white p-24 text-black min-h-screen">
         <div className="max-w-6xl mx-auto p-6">
           <div className="animate-pulse">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -153,7 +120,7 @@ export default function ProductPage(props: ProductPageProps) {
   const productImages = product.images || [product.imageUrl]
 
   return (
-    <div className="bg-white text-black min-h-screen">
+    <div className="bg-white pt-10 text-black min-h-screen">
       <div className="max-w-6xl mx-auto p-6">
         <nav className="mb-6 text-sm text-gray-600">
           <div className="flex items-center space-x-2">
@@ -273,7 +240,7 @@ export default function ProductPage(props: ProductPageProps) {
                 <Button
                   onClick={() => addToCart(product)}
                   disabled={!product.inStock}
-                  className="flex-1 bg-black text-white hover:bg-gray-800 transition-colors h-12"
+                  className="flex-1 bg-black text-white hover:bg-gray-800  h-12"
                   size="lg"
                 >
                   <ShoppingCart className="w-5 h-5 mr-2" />
@@ -281,11 +248,25 @@ export default function ProductPage(props: ProductPageProps) {
                 </Button>
 
                 <Button
-                  variant="outline"
-                  onClick={() => product && handleAddToWishlist(product.id)}
-                  className="h-12 px-4"
+                  variant={isWishlisted ? "secondary" : "outline"}
+                  onClick={async () => {
+                    if (product) {
+                      await handleAddToWishlist(product.id)
+                      setIsWishlisted((prev) => !prev)
+                      toast({
+                        title: !isWishlisted ? "Added to Wishlist" : "Removed from Wishlist",
+                        description: `${product.title} has been ${!isWishlisted ? "added to" : "removed from"} your wishlist.`,
+                      })
+                    }
+                  }}
+                  className={`h-12 px-4`}
+                  aria-pressed={isWishlisted}
                 >
-                  <Heart className={`w-5 h-5 ${isWishlisted ? "fill-red-500 text-red-500" : ""}`} />
+                  <Heart
+                    className={`w-5 h-5 ${isWishlisted ? "fill-red-500 text-red-500" : ""}`}
+                    stroke={isWishlisted ? "red" : "currentColor"}
+                    fill={isWishlisted ? "red" : "none"}
+                  />
                 </Button>
               </div>
             </div>

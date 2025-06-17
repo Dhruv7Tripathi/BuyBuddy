@@ -4,7 +4,7 @@ import React, { useEffect, useState, use } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import axios from 'axios'
-import { notFound, useRouter } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import { ProductFilters } from "@/components/sideFilter"
 import { Separator } from "@/components/ui/separator"
 import { Heart } from 'lucide-react'
