@@ -9,8 +9,6 @@ import { useEffect, useState } from "react"
 import { use } from "react"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import CollectionsPage from "@/components/(landingPage)/collections"
 import { useToast } from "@/hooks/use-toast"
 
@@ -45,7 +43,6 @@ export default function ProductPage(props: ProductPageProps) {
   const { id } = use(props.params)
   const { toast } = useToast()
 
-  // Load cart from localStorage on component mount
   useEffect(() => {
     const savedCart = localStorage.getItem("cart")
     if (savedCart) {
@@ -149,7 +146,6 @@ export default function ProductPage(props: ProductPageProps) {
   return (
     <div className="bg-white text-black min-h-screen">
       <div className="max-w-6xl mx-auto p-6">
-        {/* Breadcrumb */}
         <nav className="mb-6 text-sm text-gray-600">
           <div className="flex items-center space-x-2">
             <Link href="/" className="hover:text-black transition-colors">
@@ -215,7 +211,6 @@ export default function ProductPage(props: ProductPageProps) {
 
               <h1 className="text-3xl lg:text-4xl font-bold mb-3">{product.title}</h1>
 
-              {/* Rating */}
               <div className="flex items-center gap-2 mb-4">
                 <div className="flex items-center">
                   {[...Array(5)].map((_, i) => (

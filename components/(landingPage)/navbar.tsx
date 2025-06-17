@@ -1,14 +1,38 @@
-"use client"
-import { Menu, Search, ShoppingCart } from "lucide-react";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
-import UserAccountNav from "../auth/UserAccountNav";
-import SignInButton from "../auth/SignInButton";
-import { Button } from "../ui/button";
+'use client'
+
+import { Menu, Search, ShoppingCart } from 'lucide-react'
+import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+import UserAccountNav from '../auth/UserAccountNav'
+import SignInButton from '../auth/SignInButton'
+import { Button } from '../ui/button'
+import { useEffect, useState } from 'react'
+
 export default function Navbar() {
-  const { data: session } = useSession();
+  const { data: session } = useSession()
+  const [showNav, setShowNav] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      if (currentScrollY > lastScrollY) {
+        setShowNav(false)
+      } else {
+        setShowNav(true)
+      }
+      setLastScrollY(currentScrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [lastScrollY])
+
   return (
-    <div className=" bg-gray-50">
+    <div
+      className={`fixed top-0 left-0 right-0 z-50 bg-gray-50 transition-transform duration-300 ${showNav ? 'translate-y-0' : '-translate-y-full'
+        }`}
+    >
       <header className="bg-white border-b">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
@@ -31,7 +55,6 @@ export default function Navbar() {
               <div className="flex items-center space-x-2 text-gray-600">
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center">
-                    {/* <User className="h-5 w-5 text-gray-600" /> */}
                     {session?.user ? (
                       <UserAccountNav user={session.user} />
                     ) : (
@@ -45,7 +68,7 @@ export default function Navbar() {
                   </div>
                 </div>
               </div>
-              <div className="relative ">
+              <div className="relative">
                 <Link href="/cart">
                   <ShoppingCart className="h-5 w-5 text-gray-600" />
                 </Link>
@@ -54,6 +77,8 @@ export default function Navbar() {
           </div>
         </div>
       </header>
+
+      {/* Category nav */}
       <nav className="bg-white border-b">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-12">
@@ -63,20 +88,28 @@ export default function Navbar() {
                 <span>All Categories</span>
               </div>
               <div className="flex items-center space-x-6 text-sm">
-                <span className="text-gray-700 hover:text-blue-600 cursor-pointer">Computer</span>
-                <span className="text-gray-700 hover:text-blue-600 cursor-pointer">Laptop</span>
-                <span className="text-gray-700 hover:text-blue-600 cursor-pointer">Mobile</span>
-                <span className="text-gray-700 hover:text-blue-600 cursor-pointer">TV</span>
-                <span className="text-gray-700 hover:text-blue-600 cursor-pointer">Gaming</span>
-                <span className="text-gray-700 hover:text-blue-600 cursor-pointer">Camera</span>
-                <span className="text-gray-700 hover:text-blue-600 cursor-pointer">Tablet</span>
-                <span className="text-gray-700 hover:text-blue-600 cursor-pointer">Watch</span>
+                {[
+                  'Computer',
+                  'Laptop',
+                  'Mobile',
+                  'TV',
+                  'Gaming',
+                  'Camera',
+                  'Tablet',
+                  'Watch',
+                ].map((item) => (
+                  <span
+                    key={item}
+                    className="text-gray-700 hover:text-blue-600 cursor-pointer"
+                  >
+                    {item}
+                  </span>
+                ))}
               </div>
             </div>
-
           </div>
         </div>
       </nav>
     </div>
-  );
+  )
 }
