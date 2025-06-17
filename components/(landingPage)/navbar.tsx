@@ -78,7 +78,6 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Category nav */}
       <nav className="bg-white border-b">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-12">
@@ -89,12 +88,9 @@ export default function Navbar() {
               </div>
               <div className="flex items-center space-x-6 text-sm">
                 {[
-                  'Computer',
                   'Laptop',
                   'Mobile',
-                  'TV',
                   'Gaming',
-                  'Camera',
                   'Tablet',
                   'Watch',
                 ].map((item) => (
