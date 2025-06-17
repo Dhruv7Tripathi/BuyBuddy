@@ -1,6 +1,6 @@
 'use client'
 
-import { Menu, Search, ShoppingCart } from 'lucide-react'
+import { Menu, Search, ShoppingCart, Heart } from 'lucide-react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import UserAccountNav from '../auth/UserAccountNav'
@@ -67,6 +67,11 @@ export default function Navbar() {
                     </Button>
                   </div>
                 </div>
+              </div>
+              <div className="relative">
+                <Link href="/shop/wishlist">
+                  <Heart className="h-5 w-5 text-gray-600" />
+                </Link>
               </div>
               <div className="relative">
                 <Link href="/cart">

@@ -10,6 +10,7 @@ import Footer from "./footer";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Card } from "../ui/card";
+
 const heroImages = [
   {
     src: "/ps5.webp",

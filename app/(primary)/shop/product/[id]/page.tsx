@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Minus, Plus, ShoppingCart, Heart, Star, Truck, Shield, RotateCcw } from "lucide-react"
+import { Minus, Plus, ShoppingCart, Heart, Star } from "lucide-react"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { use } from "react"
@@ -72,6 +72,15 @@ export default function ProductPage(props: ProductPageProps) {
 
     fetchProduct()
   }, [id])
+
+  const handleAddToWishlist = async (productId: string) => {
+    try {
+      await axios.post("/api/wishlist/add", { productId })
+      console.log("Added to wishlist:", productId)
+    } catch (error) {
+      console.error("Failed to add to wishlist:", error)
+    }
+  }
 
   const updateQuantity = (change: number) => {
     setQuantity((prev) => Math.max(1, prev + change))
@@ -271,7 +280,11 @@ export default function ProductPage(props: ProductPageProps) {
                   Add to Cart
                 </Button>
 
-                <Button variant="outline" onClick={toggleWishlist} className="h-12 px-4">
+                <Button
+                  variant="outline"
+                  onClick={() => product && handleAddToWishlist(product.id)}
+                  className="h-12 px-4"
+                >
                   <Heart className={`w-5 h-5 ${isWishlisted ? "fill-red-500 text-red-500" : ""}`} />
                 </Button>
               </div>

@@ -1,122 +1,54 @@
 "use client"
 
-import { use } from "react"
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import Image from "next/image"
-import Link from "next/link"
-import { Heart, ShoppingCart, Trash2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { useToast } from "@/hooks/use-toast"
+import Image from "next/image";
+import Link from "next/link";
+import { Heart, ShoppingCart, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import axios from "axios"
-interface WishlistProduct {
-  id: string
-  name: string
-  price: number
-  originalPrice?: number
-  image: string
-  category: string
-  inStock: boolean
-  rating: number
-  reviewCount: number
-}
+import axios from "axios";
 
-const mockWishlistProducts: WishlistProduct[] = [
-  {
-    id: "1",
-    name: "Wireless Bluetooth Headphones",
-    price: 79.99,
-    originalPrice: 99.99,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Electronics",
-    inStock: true,
-    rating: 4.5,
-    reviewCount: 128,
-  },
-  {
-    id: "2",
-    name: "Premium Cotton T-Shirt",
-    price: 29.99,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Clothing",
-    inStock: true,
-    rating: 4.2,
-    reviewCount: 89,
-  },
-  {
-    id: "3",
-    name: "Smart Fitness Watch",
-    price: 199.99,
-    originalPrice: 249.99,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Electronics",
-    inStock: false,
-    rating: 4.7,
-    reviewCount: 256,
-  },
-  {
-    id: "4",
-    name: "Leather Crossbody Bag",
-    price: 89.99,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Accessories",
-    inStock: true,
-    rating: 4.3,
-    reviewCount: 67,
-  },
-  {
-    id: "5",
-    name: "Ceramic Coffee Mug Set",
-    price: 24.99,
-    originalPrice: 34.99,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Home",
-    inStock: true,
-    rating: 4.6,
-    reviewCount: 143,
-  },
-  {
-    id: "6",
-    name: "Wireless Phone Charger",
-    price: 39.99,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Electronics",
-    inStock: true,
-    rating: 4.1,
-    reviewCount: 92,
-  },
-]
+interface WishlistProduct {
+  id: string;
+  name: string;
+  price: number;
+  originalPrice?: number;
+  image: string;
+  category: string;
+  inStock: boolean;
+  rating: number;
+  reviewCount: number;
+}
 
 export default function WishlistPage() {
   const { status } = useSession();
   const router = useRouter();
-  const [wishlistItems, setWishlistItems] = useState<WishlistProduct[]>(mockWishlistProducts)
-  const { toast } = useToast()
+  const { toast } = useToast();
+
+  const [wishLists, setWishLists] = useState<WishlistProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [wishLists, setWishLists] = useState<WishlistProduct[]>([]);
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/signin");
-      return;
-    }
-
-    if (status === "authenticated") {
+    } else if (status === "authenticated") {
       fetchLists();
     }
-  }, [status, router]);
+  }, [status]);
 
   const fetchLists = async () => {
     try {
       setLoading(true);
       const response = await axios.get("/api/wishlist/get");
-      setWishLists(response.data.quizzes || []);
+      setWishLists(response.data?.wishlists || []);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        setError(error.response?.data?.message || "Failed to fetch quizzes");
+        setError(error.response?.data?.message || "Failed to fetch wishlist");
       } else {
         setError("An unexpected error occurred");
       }
@@ -125,14 +57,13 @@ export default function WishlistPage() {
     }
   };
 
-
   const removeFromWishlist = (productId: string) => {
-    setWishlistItems((prev) => prev.filter((item) => item.id !== productId))
+    setWishLists((prev) => prev.filter((item) => item.id !== productId));
     toast({
       title: "Removed from wishlist",
       description: "Item has been removed from your wishlist.",
-    })
-  }
+    });
+  };
 
   const addToCart = (product: WishlistProduct) => {
     if (!product.inStock) {
@@ -140,36 +71,43 @@ export default function WishlistPage() {
         title: "Out of stock",
         description: "This item is currently out of stock.",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     toast({
       title: "Added to cart",
       description: `${product.name} has been added to your cart.`,
-    })
-  }
+    });
+  };
 
   const moveToCart = (product: WishlistProduct) => {
-    addToCart(product)
-    removeFromWishlist(product.id)
+    addToCart(product);
+    removeFromWishlist(product.id);
+  };
+
+  if (loading) {
+    return <div className="text-center py-10">Loading your wishlist...</div>;
   }
 
-  if (wishlistItems.length === 0) {
+  if (wishLists.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="bg-white container mx-auto px-4 py-8">
         <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
           <Heart className="h-24 w-24 text-muted-foreground mb-6" />
-          <h1 className="text-3xl font-bold mb-4">Your wishlist is empty</h1>
-          <p className="text-muted-foreground mb-8 max-w-md">
+          <h1 className="text-3xl text-black font-bold mb-4">Your wishlist is empty</h1>
+          <p className="text-gray-600 mb-8 max-w-md">
             Save items you love by clicking the heart icon on any product. They'll appear here for easy access later.
           </p>
-          <Button asChild>
-            <Link href="/products">Continue Shopping</Link>
+          <Button asChild
+            className="w-full max-w-xs"
+            variant="outline"
+          >
+            <Link href="/">Continue Shopping</Link>
           </Button>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -178,7 +116,7 @@ export default function WishlistPage() {
         <div>
           <h1 className="text-3xl font-bold">My Wishlist</h1>
           <p className="text-muted-foreground mt-2">
-            {wishlistItems.length} {wishlistItems.length === 1 ? "item" : "items"} saved
+            {wishLists.length} {wishLists.length === 1 ? "item" : "items"} saved
           </p>
         </div>
         <Button variant="outline" asChild>
@@ -187,7 +125,7 @@ export default function WishlistPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {wishlistItems.map((product) => (
+        {wishLists.map((product) => (
           <Card key={product.id} className="group relative overflow-hidden">
             <div className="relative">
               <Image
@@ -271,5 +209,5 @@ export default function WishlistPage() {
         </Button>
       </div>
     </div>
-  )
+  );
 }
