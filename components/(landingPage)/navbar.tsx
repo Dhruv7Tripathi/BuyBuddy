@@ -13,24 +13,24 @@ export default function Navbar() {
   const [showNav, setShowNav] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY
-      if (currentScrollY > lastScrollY) {
-        setShowNav(false)
-      } else {
-        setShowNav(true)
-      }
-      setLastScrollY(currentScrollY)
-    }
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const currentScrollY = window.scrollY
+  //     if (currentScrollY > lastScrollY) {
+  //       setShowNav(false)
+  //     } else {
+  //       setShowNav(true)
+  //     }
+  //     setLastScrollY(currentScrollY)
+  //   }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollY])
+  //   window.addEventListener('scroll', handleScroll)
+  //   return () => window.removeEventListener('scroll', handleScroll)
+  // }, [lastScrollY])
 
   return (
     <div
-      className={`fixed top-0 left-0 right-0 z-50 bg-gray-50 transition-transform duration-300 ${showNav ? 'translate-y-0' : '-translate-y-full'
+      className={` z-50 bg-gray-50 transition-transform duration-300 ${showNav ? 'translate-y-0' : '-translate-y-full'
         }`}
     >
       <header className="bg-white border-b">

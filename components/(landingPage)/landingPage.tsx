@@ -61,7 +61,7 @@ export default function HomePage() {
   return (
     <div className="bg-gray-50  min-h-screen">
       <Navbar />
-      <div className=" container mx-auto px-8 py-20 mt-12">
+      <div className=" container mx-auto px-8  mt-12">
         <div className="flex flex-col lg:flex-row gap-6">
           <main className="flex-1">
             <div

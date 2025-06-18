@@ -97,7 +97,7 @@ export default function ProductPage(props: ProductPageProps) {
 
   if (loading) {
     return (
-      <div className="bg-white p-24 text-black min-h-screen">
+      <div className="bg-white  text-black min-h-screen">
         <div className="max-w-6xl mx-auto p-6">
           <div className="animate-pulse">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

@@ -26,6 +26,7 @@ interface Props {
 export default function ListPage({ params }: Props) {
   const { params: dynamicParams } = use(params)
   const category = dynamicParams?.[0]
+  // const category = params?.params?.[0] || ''
   const [products, setProducts] = useState<Product[]>([])
 
   useEffect(() => {
@@ -50,7 +51,7 @@ export default function ListPage({ params }: Props) {
 
   const handleAddToWishlist = async (productId: string) => {
     try {
-      await axios.post("/api/wishlist/add", { productId })
+      await axios.post("/api/wishlist/", { productId })
       console.log("Added to wishlist:", productId)
     } catch (error) {
       console.error("Failed to add to wishlist:", error)
@@ -58,8 +59,8 @@ export default function ListPage({ params }: Props) {
   }
 
   return (
-    <div>
-      <section className="py-6 bg-gray-300 text-center">
+    <div >
+      <section className="py-6  bg-gray-300 text-center">
         <h2 className="text-2xl font-semibold text-gray-800 mb-2 capitalize">
           {category}
         </h2>
