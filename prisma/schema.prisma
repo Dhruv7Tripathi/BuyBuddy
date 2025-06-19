@@ -8,16 +8,17 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id        String     @id @default(cuid())
+  email     String     @unique
   name      String?
   image     String?
   password  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   provider  Provider
-
-  Wishlist Wishlist[]
+  cart      Cart?      @relation(fields: [cartId], references: [id])
+  cartId    String?    @unique
+  Wishlist  Wishlist[]
 }
 
 model Product {
@@ -28,6 +29,7 @@ model Product {
   imageUrl    String
   category    String?
   Wishlist    Wishlist[]
+  cartItems   CartItem[]
   createdAt   DateTime   @default(now())
 }
 
@@ -40,6 +42,24 @@ model Wishlist {
   createdAt DateTime @default(now())
 
   @@unique([userId, productId])
+}
+
+model Cart {
+  id        String     @id @default(uuid())
+  user      User?
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  cart      Cart     @relation(fields: [cartId], references: [id])
+  cartId    String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
 }
 
 enum Provider {

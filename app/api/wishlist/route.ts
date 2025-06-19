@@ -31,14 +31,16 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authoptions";
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
-
   try {
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user?.id) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
     const body = await req.json();
+    console.log("Received body:", body);
+
     const { productId } = body;
 
     if (!productId) {
@@ -52,11 +54,18 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(wishlist, { status: 201 });
+    console.log("Created wishlist:", wishlist);
+
+    return NextResponse.json({ wishlist: JSON.parse(JSON.stringify(wishlist)) }, { status: 201 });
+
   } catch (error) {
     console.error("Error adding to wishlist:", error);
+
     return NextResponse.json(
-      { message: "Error adding to wishlist", error: error instanceof Error ? error.message : null },
+      {
+        message: "Internal Server Error",
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
       { status: 500 }
     );
   }
