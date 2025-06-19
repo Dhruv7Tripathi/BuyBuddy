@@ -5,8 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import axios from 'axios'
 import { notFound } from 'next/navigation'
-import { ProductFilters } from "@/components/sideFilter"
-import { Separator } from "@/components/ui/separator"
+// import { ProductFilters } from "@/components/sideFilter"
+// import { Separator } from "@/components/ui/separator"
 import { Heart } from 'lucide-react'
 
 interface Product {
@@ -71,11 +71,11 @@ export default function ListPage({ params }: Props) {
       </section>
 
       <section className="bg-gray-50 py-10 px-4">
-        <div className="flex gap-6">
-          <div className="w-80 flex-shrink-0">
+        <div className="flex gap-6 ml-8 mr-8">
+          {/* <div className="w-80 flex-shrink-0">
             <ProductFilters />
-          </div>
-          <Separator orientation="vertical" className="h-auto border-gray-600" />
+          </div> */}
+          {/* <Separator orientation="vertical" className="h-auto border-gray-600" /> */}
           <div className="flex-1">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
               {products.map((product) => (

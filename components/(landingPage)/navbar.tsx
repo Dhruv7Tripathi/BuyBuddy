@@ -6,12 +6,12 @@ import { useSession } from 'next-auth/react'
 import UserAccountNav from '../auth/UserAccountNav'
 import SignInButton from '../auth/SignInButton'
 import { Button } from '../ui/button'
-import { useEffect, useState } from 'react'
+// import { useEffect, useState } from 'react'
 
 export default function Navbar() {
   const { data: session } = useSession()
-  const [showNav, setShowNav] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
+  // const [showNav, setShowNav] = useState(true)
+  // const [lastScrollY, setLastScrollY] = useState(0)
 
   // useEffect(() => {
   //   const handleScroll = () => {
@@ -30,8 +30,7 @@ export default function Navbar() {
 
   return (
     <div
-      className={` z-50 bg-gray-50 transition-transform duration-300 ${showNav ? 'translate-y-0' : '-translate-y-full'
-        }`}
+      className={` z-50 bg-gray-50 transition-transform duration-300 `}
     >
       <header className="bg-white border-b">
         <div className="container mx-auto px-4">

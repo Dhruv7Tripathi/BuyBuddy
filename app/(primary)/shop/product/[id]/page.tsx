@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge"
 import CollectionsPage from "@/components/(landingPage)/collections"
 import { useToast } from "@/hooks/use-toast"
 
+
 interface Product {
   id: string
   title: string
