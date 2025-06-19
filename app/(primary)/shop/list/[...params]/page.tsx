@@ -8,7 +8,7 @@ import { notFound } from 'next/navigation'
 // import { ProductFilters } from "@/components/sideFilter"
 // import { Separator } from "@/components/ui/separator"
 import { Heart } from 'lucide-react'
-
+import Loader from '@/components/(landingPage)/loading'
 interface Product {
   id: string
   title: string
@@ -28,10 +28,11 @@ export default function ListPage({ params }: Props) {
   const category = dynamicParams?.[0]
   // const category = params?.params?.[0] || ''
   const [products, setProducts] = useState<Product[]>([])
-
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true)
         const response = await axios.get("/api/product")
         const filtered = response.data.filter((p: Product) =>
           p.category?.toLowerCase().includes(category?.toLowerCase())
@@ -39,6 +40,8 @@ export default function ListPage({ params }: Props) {
         setProducts(filtered)
       } catch (error) {
         console.error("Failed to fetch products:", error)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -47,6 +50,11 @@ export default function ListPage({ params }: Props) {
     }
   }, [category])
 
+  // useEffect(() => {
+
+  if (loading) {
+    return <Loader />
+  }
   if (!category) return notFound()
 
   const handleAddToWishlist = async (productId: string) => {
@@ -97,8 +105,8 @@ export default function ListPage({ params }: Props) {
                       <h3 className="text-md font-semibold text-gray-900">{product.title}</h3>
                       <p className="text-sm text-gray-500">{product.description}</p>
                     </div>
-                    <div className="mt-4 flex justify-between items-end">
-                      <p className="text-lg font-semibold text-gray-800">
+                    <div className="mt-4 pt-4 flex justify-between items-end">
+                      <p className="text-lg bottom-2 absolute  font-semibold text-gray-800">
                         {new Intl.NumberFormat("en-US", {
                           style: "currency",
                           currency: "USD",
@@ -109,7 +117,7 @@ export default function ListPage({ params }: Props) {
 
                   <button
                     onClick={() => handleAddToWishlist(product.id)}
-                    className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-200 transition"
+                    className="absolute bottom-2 right-2 p-1 rounded-full hover:bg-gray-200 transition"
                   >
                     <Heart className="w-6 h-6 text-gray-500 hover:text-red-500 transition" />
                   </button>
