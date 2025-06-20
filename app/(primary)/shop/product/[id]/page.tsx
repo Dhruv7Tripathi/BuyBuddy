@@ -77,8 +77,8 @@ export default function ProductPage(props: ProductPageProps) {
     setQuantity((prev) => Math.max(1, prev + change))
   }
 
-  const addToCart = (product: Product) => {
-    if (!product.inStock) {
+  const addToCart = async (product: Product) => {
+    if (!product?.inStock) {
       toast({
         title: "Out of Stock",
         description: "This item is currently out of stock.",
@@ -87,11 +87,26 @@ export default function ProductPage(props: ProductPageProps) {
       return
     }
 
-    // Implement cart logic here if needed
-    toast({
-      title: "Added to Cart",
-      description: `${quantity} ${product.title}${quantity > 1 ? "s" : ""} added to your cart.`,
-    })
+    try {
+      await axios.post("/api/cart", {
+        productId: product.id,
+        quantity, // ✅ send quantity in the body
+      })
+
+      toast({
+        title: "Added to Cart",
+        description: `${quantity} ${product.title}${quantity > 1 ? "s" : ""} added to your cart.`,
+      })
+
+      setQuantity(1)
+    } catch (error) {
+      console.error("Failed to add to cart:", error)
+      toast({
+        title: "Error",
+        description: "Failed to add item to cart. Please try again.",
+        variant: "destructive",
+      })
+    }
 
     setQuantity(1)
   }
