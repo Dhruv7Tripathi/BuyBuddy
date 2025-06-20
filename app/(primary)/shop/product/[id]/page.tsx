@@ -248,7 +248,7 @@ export default function ProductPage(props: ProductPageProps) {
                   Add to Cart
                 </Button>
 
-                <Button
+                {/* <Button
                   variant={isWishlisted ? "secondary" : "outline"}
                   onClick={async () => {
                     if (product) {
@@ -267,8 +267,8 @@ export default function ProductPage(props: ProductPageProps) {
                     className={`w-5 h-5 ${isWishlisted ? "fill-red-500 text-red-500" : ""}`}
                     stroke={isWishlisted ? "red" : "currentColor"}
                     fill={isWishlisted ? "red" : "none"}
-                  />
-                </Button>
+                  /> */}
+                {/* </Button> */}
               </div>
             </div>
 

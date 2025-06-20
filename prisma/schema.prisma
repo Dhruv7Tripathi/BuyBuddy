@@ -16,7 +16,7 @@ model User {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   provider  Provider
-  cart      Cart?      @relation(fields: [cartId], references: [id])
+  cart      Cart?
   cartId    String?    @unique
   Wishlist  Wishlist[]
 }
@@ -34,7 +34,7 @@ model Product {
 }
 
 model Wishlist {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   user      User     @relation(fields: [userId], references: [id])
   userId    String
   productId String
@@ -45,8 +45,11 @@ model Wishlist {
 }
 
 model Cart {
-  id        String     @id @default(uuid())
-  user      User?
+  id String @id @default(uuid())
+
+  userId String? @unique
+  user   User?   @relation(fields: [userId], references: [id])
+
   items     CartItem[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt

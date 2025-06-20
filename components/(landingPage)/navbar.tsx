@@ -158,11 +158,11 @@ export default function Navbar() {
               </div>
               <div className="flex items-center space-x-6 text-sm">
                 {[
-                  { name: 'Laptop', href: '/category/list/laptops' },
-                  { name: 'Gaming', href: '/category/list/gaming' },
-                  { name: 'Tablet', href: '/category/list/tablets' },
-                  { name: 'Watch', href: '/category/list/watches' },
-                  { name: 'Accessories', href: '/category/list/accessories' },
+                  { name: 'Laptop', href: '/shop/list/laptops' },
+                  { name: 'Gaming', href: '/shop/list/gaming' },
+                  { name: 'Tablet', href: '/shop/list/tablets' },
+                  { name: 'Watch', href: '/shop/list/watches' },
+                  { name: 'Accessories', href: '/shop/list/accessories' },
                 ].map((item) => (
                   <Link
                     key={item.name}
