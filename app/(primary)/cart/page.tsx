@@ -3,45 +3,66 @@
 import { useState, useEffect, useMemo, useCallback } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowLeft, Minus, Plus, Trash2, ShoppingBag, Loader2 } from "lucide-react"
+import { ArrowLeft, Minus, Plus, Trash2, ShoppingBag, Loader2, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { useToast } from "@/hooks/use-toast"
+import { Badge } from "@/components/ui/badge"
 import axios from "axios"
 
-interface CartItem {
-  id: number
+interface Product {
+  id: string
   title: string
   price: number
-  image: string
+  imageUrl: string
+  description?: string
+  inStock?: boolean
+}
+
+interface CartItem {
+  id: string
   quantity: number
+  product: Product
+}
+
+interface CartResponse {
+  items: CartItem[]
+  subtotal?: number
+  shipping?: number
+  total?: number
+  itemCount?: number
 }
 
 export default function CartPage() {
-  const [cart, setCart] = useState<CartItem[]>([])
+  const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [updatingItems, setUpdatingItems] = useState<Set<number>>(new Set())
+  const [updatingItems, setUpdatingItems] = useState<Set<string>>(new Set())
+  const [removingItems, setRemovingItems] = useState<Set<string>>(new Set())
   const { toast } = useToast()
 
   const fetchCart = useCallback(async () => {
     try {
       setIsLoading(true)
-      const response = await axios.get("/api/cart/get")
-      // Ensure response.data is always an array
-      setCart(Array.isArray(response.data) ? response.data : [])
+      const response = await axios.get<CartResponse>("/api/cart/get")
+
+      // Handle the nested structure from your API
+      const items = response.data.items || []
+      setCartItems(items)
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
+      console.error("Error fetching cart:", error)
+      if (error.response?.status === 401) {
         toast({
-          title: "Unauthorized",
-          description: "You must be logged in to view your cart.",
+          title: "Please Sign In",
+          description: "You need to be signed in to view your cart.",
           variant: "destructive",
         })
+      } else if (error.response?.status === 404) {
+        setCartItems([])
       } else {
-        console.error("Error fetching cart:", error)
         toast({
-          title: "Error",
-          description: "Failed to load your cart. Please try again later.",
+          title: "Error Loading Cart",
+          description: "Failed to load your cart. Please refresh the page.",
           variant: "destructive",
         })
       }
@@ -54,108 +75,116 @@ export default function CartPage() {
     fetchCart()
   }, [fetchCart])
 
-
   const updateQuantity = useCallback(
-    async (id: number, newQuantity: number) => {
+    async (cartItemId: string, newQuantity: number) => {
       if (newQuantity === 0) {
-        removeItem(id)
+        removeItem(cartItemId)
         return
       }
 
-      const updatedCart = cart.map((item) => (item.id === id ? { ...item, quantity: newQuantity } : item))
-      setCart(updatedCart)
-      setUpdatingItems((prev) => new Set(prev).add(id))
+      // Optimistic update
+      const originalItems = [...cartItems]
+      const updatedItems = cartItems.map((item) => (item.id === cartItemId ? { ...item, quantity: newQuantity } : item))
+      setCartItems(updatedItems)
+      setUpdatingItems((prev) => new Set(prev).add(cartItemId))
 
       try {
-        await axios.patch(`/api/cart/${id}`, { quantity: newQuantity })
+        await axios.put("/api/cart/update", {
+          cartItemId,
+          quantity: newQuantity,
+        })
+
         toast({
           title: "Updated",
-          description: "Item quantity updated successfully.",
+          description: "Quantity updated successfully.",
         })
       } catch (error) {
-        setCart(cart)
+        // Revert on error
+        setCartItems(originalItems)
         console.error("Error updating quantity:", error)
         toast({
-          title: "Error",
-          description: "Failed to update item quantity. Please try again.",
+          title: "Update Failed",
+          description: "Failed to update quantity. Please try again.",
           variant: "destructive",
         })
       } finally {
         setUpdatingItems((prev) => {
           const newSet = new Set(prev)
-          newSet.delete(id)
+          newSet.delete(cartItemId)
           return newSet
         })
       }
     },
-    [cart, toast],
+    [cartItems, toast],
   )
 
   const removeItem = useCallback(
-    async (id: number) => {
-      const updatedCart = cart.filter((item) => item.id !== id)
-      setCart(updatedCart)
-      setUpdatingItems((prev) => new Set(prev).add(id))
+    async (cartItemId: string) => {
+      const originalItems = [...cartItems]
+      const updatedItems = cartItems.filter((item) => item.id !== cartItemId)
+      setCartItems(updatedItems)
+      setRemovingItems((prev) => new Set(prev).add(cartItemId))
 
       try {
-        await axios.delete(`/api/cart/${id}`)
+        await axios.delete(`/api/cart/remove/${cartItemId}`)
         toast({
           title: "Item Removed",
-          description: "Item has been removed from your cart.",
+          description: "Item removed from your cart.",
         })
       } catch (error) {
-        setCart(cart)
+        // Revert on error
+        setCartItems(originalItems)
         console.error("Error removing item:", error)
         toast({
-          title: "Error",
+          title: "Remove Failed",
           description: "Failed to remove item. Please try again.",
           variant: "destructive",
         })
       } finally {
-        setUpdatingItems((prev) => {
+        setRemovingItems((prev) => {
           const newSet = new Set(prev)
-          newSet.delete(id)
+          newSet.delete(cartItemId)
           return newSet
         })
       }
     },
-    [cart, toast],
+    [cartItems, toast],
   )
 
   const clearCart = useCallback(async () => {
-    const originalCart = [...cart]
-    setCart([])
+    const originalItems = [...cartItems]
+    setCartItems([])
 
     try {
-      await axios.delete("/api/cart")
+      await axios.delete("/api/cart/clear")
       toast({
         title: "Cart Cleared",
-        description: "All items have been removed from your cart.",
+        description: "All items removed from your cart.",
       })
     } catch (error) {
-      // Revert optimistic update on error
-      setCart(originalCart)
+      setCartItems(originalItems)
       console.error("Error clearing cart:", error)
       toast({
-        title: "Error",
+        title: "Clear Failed",
         description: "Failed to clear cart. Please try again.",
         variant: "destructive",
       })
     }
-  }, [cart, toast])
+  }, [cartItems, toast])
 
-  const { subtotal, shipping, total } = useMemo(() => {
-    const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0)
-    const shipping = subtotal > 100 ? 0 : 9.99
+  const { subtotal, shipping, total, itemCount } = useMemo(() => {
+    const subtotal = cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0)
+    const itemCount = cartItems.reduce((count, item) => count + item.quantity, 0)
+    const shipping = subtotal > 100 ? 0 : subtotal > 0 ? 9.99 : 0
     const total = subtotal + shipping
-    return { subtotal, shipping, total }
-  }, [cart])
+    return { subtotal, shipping, total, itemCount }
+  }, [cartItems])
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="h-12 w-12 animate-spin text-blue-600 mx-auto mb-4" />
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
           <p className="text-gray-600">Loading your cart...</p>
         </div>
       </div>
@@ -164,59 +193,175 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+      {/* Mobile Header */}
+      <header className="bg-white shadow-sm border-b sticky top-0 z-10">
+        <div className="px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 sm:h-16">
             <div className="flex items-center">
-              <Link href="/shop">
-                <Button variant="ghost" size="sm" className="mr-4">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Shop
+              <Link href="/">
+                <Button variant="ghost" size="sm" className="mr-2 sm:mr-4 p-2">
+                  <ArrowLeft className="w-4 h-4 sm:mr-2" />
+                  <span className="hidden sm:inline">Back</span>
                 </Button>
               </Link>
-              <h1 className="text-2xl font-bold text-gray-900">Shopping Cart</h1>
+              <div>
+                <h1 className="text-lg sm:text-2xl font-bold text-gray-900">Cart</h1>
+                {cartItems.length > 0 && (
+                  <p className="text-xs sm:text-sm text-gray-600">
+                    {itemCount} item{itemCount !== 1 ? "s" : ""}
+                  </p>
+                )}
+              </div>
             </div>
-            {cart.length > 0 && (
-              <Button variant="outline" onClick={clearCart}>
-                Clear Cart
+            {cartItems.length > 0 && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearCart}
+                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+              >
+                <X className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Clear</span>
               </Button>
             )}
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {cart.length === 0 ? (
-          <div className="text-center py-16">
-            <ShoppingBag className="w-24 h-24 text-gray-300 mx-auto mb-6" />
-            <h2 className="text-2xl font-semibold text-gray-900 mb-2">Your cart is empty</h2>
-            <p className="text-gray-600 mb-8">Add some products to get started!</p>
-            <Link href="/shop">
-              <Button>Continue Shopping</Button>
+      <main className="px-4 sm:px-6 lg:px-8 py-4 sm:py-8 max-w-7xl mx-auto">
+        {cartItems.length === 0 ? (
+          <div className="text-center py-12 sm:py-16">
+            <ShoppingBag className="w-16 h-16 sm:w-24 sm:h-24 text-gray-300 mx-auto mb-4 sm:mb-6" />
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">Your cart is empty</h2>
+            <p className="text-gray-600 mb-6 sm:mb-8">Add some products to get started!</p>
+            <Link href="/">
+              <Button size="lg">Start Shopping</Button>
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">Cart Items ({cart.length})</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {cart.map((item, index) => {
-                    const isUpdating = updatingItems.has(item.id)
-                    return (
-                      <div key={item.id} className={isUpdating ? "opacity-50" : ""}>
-                        <div className="flex items-center space-x-4">
-                          <div className="relative">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+            {/* Cart Items - Mobile Cards */}
+            <div className="lg:col-span-2 space-y-4">
+              <div className="block lg:hidden space-y-3">
+                {cartItems.map((item) => {
+                  const isUpdating = updatingItems.has(item.id)
+                  const isRemoving = removingItems.has(item.id)
+                  const isDisabled = isUpdating || isRemoving
+
+                  return (
+                    <Card
+                      key={item.id}
+                      className={`${isDisabled ? "opacity-50" : ""} ${isRemoving ? "animate-pulse" : ""}`}
+                    >
+                      <CardContent className="p-4">
+                        <div className="flex space-x-3">
+                          <div className="relative flex-shrink-0">
                             <Image
-                              src={item.image || "/placeholder.svg"}
-                              alt={item.title}
+                              src={item.product.imageUrl || "/placeholder.svg?height=80&width=80"}
+                              alt={item.product.title}
                               width={80}
                               height={80}
                               className="rounded-lg object-cover"
                             />
-                            {isUpdating && (
+                            {item.product.inStock === false && (
+                              <Badge variant="destructive" className="absolute -top-2 -right-2 text-xs">
+                                Out of Stock
+                              </Badge>
+                            )}
+                          </div>
+
+                          <div className="flex-1 min-w-0">
+                            <div className="flex justify-between items-start mb-2">
+                              <h3 className="font-medium text-gray-900 text-sm leading-tight pr-2">
+                                {item.product.title}
+                              </h3>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeItem(item.id)}
+                                className="text-red-600 hover:text-red-700 hover:bg-red-50 p-1 h-auto"
+                                disabled={isDisabled}
+                              >
+                                {isRemoving ? (
+                                  <Loader2 className="w-4 h-4 animate-spin" />
+                                ) : (
+                                  <Trash2 className="w-4 h-4" />
+                                )}
+                              </Button>
+                            </div>
+
+                            <p className="text-lg font-semibold text-gray-900 mb-3">${item.product.price.toFixed(2)}</p>
+
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-2">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                  className="h-8 w-8 p-0"
+                                  disabled={isDisabled}
+                                >
+                                  <Minus className="w-3 h-3" />
+                                </Button>
+
+                                <span className="w-8 text-center font-medium text-sm">{item.quantity}</span>
+
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                  className="h-8 w-8 p-0"
+                                  disabled={isDisabled || item.product.inStock === false}
+                                >
+                                  <Plus className="w-3 h-3" />
+                                </Button>
+                              </div>
+
+                              <div className="text-right">
+                                <p className="font-semibold text-gray-900">
+                                  ${(item.product.price * item.quantity).toFixed(2)}
+                                </p>
+                                {isUpdating && <Loader2 className="w-3 h-3 animate-spin mx-auto mt-1" />}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )
+                })}
+              </div>
+
+              {/* Desktop Single Card */}
+              <Card className="hidden lg:block">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <span>Cart Items ({itemCount})</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {cartItems.map((item, index) => {
+                    const isUpdating = updatingItems.has(item.id)
+                    const isRemoving = removingItems.has(item.id)
+                    const isDisabled = isUpdating || isRemoving
+
+                    return (
+                      <div key={item.id} className={isDisabled ? "opacity-50" : ""}>
+                        <div className="flex items-center space-x-4">
+                          <div className="relative flex-shrink-0">
+                            <Image
+                              src={item.product.imageUrl || "/placeholder.svg?height=80&width=80"}
+                              alt={item.product.title}
+                              width={80}
+                              height={80}
+                              className="rounded-lg object-cover"
+                            />
+                            {item.product.inStock === false && (
+                              <Badge variant="destructive" className="absolute -top-2 -right-2 text-xs">
+                                Out of Stock
+                              </Badge>
+                            )}
+                            {(isUpdating || isRemoving) && (
                               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 rounded-lg">
                                 <Loader2 className="w-4 h-4 animate-spin text-white" />
                               </div>
@@ -224,8 +369,8 @@ export default function CartPage() {
                           </div>
 
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-medium text-gray-900 truncate">{item.title}</h3>
-                            <p className="text-lg font-semibold text-gray-700">${item.price.toFixed(2)}</p>
+                            <h3 className="font-medium text-gray-900 truncate">{item.product.title}</h3>
+                            <p className="text-lg font-semibold text-gray-700">${item.product.price.toFixed(2)}</p>
                           </div>
 
                           <div className="flex items-center space-x-2">
@@ -234,7 +379,7 @@ export default function CartPage() {
                               size="icon"
                               onClick={() => updateQuantity(item.id, item.quantity - 1)}
                               className="h-8 w-8"
-                              disabled={isUpdating}
+                              disabled={isDisabled}
                             >
                               <Minus className="w-4 h-4" />
                             </Button>
@@ -246,22 +391,24 @@ export default function CartPage() {
                               size="icon"
                               onClick={() => updateQuantity(item.id, item.quantity + 1)}
                               className="h-8 w-8"
-                              disabled={isUpdating}
+                              disabled={isDisabled || item.product.inStock === false}
                             >
                               <Plus className="w-4 h-4" />
                             </Button>
                           </div>
 
                           <div className="text-right">
-                            <p className="font-semibold text-gray-900">${(item.price * item.quantity).toFixed(2)}</p>
+                            <p className="font-semibold text-gray-900">
+                              ${(item.product.price * item.quantity).toFixed(2)}
+                            </p>
                             <Button
                               variant="ghost"
                               size="sm"
                               onClick={() => removeItem(item.id)}
-                              className="text-red-600 hover:text-red-700 mt-1"
-                              disabled={isUpdating}
+                              className="text-red-600 hover:text-red-700 hover:bg-red-50 mt-1"
+                              disabled={isDisabled}
                             >
-                              {isUpdating ? (
+                              {isRemoving ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
                               ) : (
                                 <Trash2 className="w-4 h-4" />
@@ -270,7 +417,7 @@ export default function CartPage() {
                           </div>
                         </div>
 
-                        {index < cart.length - 1 && <Separator className="mt-4" />}
+                        {index < cartItems.length - 1 && <Separator className="mt-4" />}
                       </div>
                     )
                   })}
@@ -278,19 +425,20 @@ export default function CartPage() {
               </Card>
             </div>
 
+            {/* Order Summary */}
             <div className="lg:col-span-1">
-              <Card className="sticky top-4">
+              <Card className="sticky top-20">
                 <CardHeader>
                   <CardTitle>Order Summary</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Subtotal</span>
+                    <div className="flex justify-between text-sm sm:text-base">
+                      <span className="text-gray-600">Subtotal ({itemCount} items)</span>
                       <span className="font-medium text-gray-900">${subtotal.toFixed(2)}</span>
                     </div>
 
-                    <div className="flex justify-between">
+                    <div className="flex justify-between text-sm sm:text-base">
                       <span className="text-gray-600">Shipping</span>
                       <span className="font-medium text-gray-900">
                         {shipping === 0 ? <span className="text-green-600">Free</span> : `$${shipping.toFixed(2)}`}
@@ -298,9 +446,12 @@ export default function CartPage() {
                     </div>
 
                     {subtotal < 100 && subtotal > 0 && (
-                      <p className="text-sm text-blue-600">
-                        Add ${(100 - subtotal).toFixed(2)} more for free shipping!
-                      </p>
+                      <div className="bg-blue-50 p-3 rounded-lg">
+                        <p className="text-sm text-blue-700">
+                          Add <span className="font-semibold">${(100 - subtotal).toFixed(2)}</span> more for free
+                          shipping!
+                        </p>
+                      </div>
                     )}
                   </div>
 
@@ -311,23 +462,45 @@ export default function CartPage() {
                     <span className="text-gray-900">${total.toFixed(2)}</span>
                   </div>
 
-                  <Link href={`/checkout?amount=${total.toFixed(2)}`}>
-                    <Button className="w-full" size="lg">
-                      Proceed to Checkout
-                    </Button>
-                  </Link>
+                  <div className="space-y-3 pt-2">
+                    <Link href={`/checkout?amount=${total.toFixed(2)}`}>
+                      <Button className="w-full" size="lg" disabled={cartItems.length === 0}>
+                        Proceed to Checkout
+                      </Button>
+                    </Link>
 
-                  <Link href="/shop">
-                    <Button variant="outline" className="w-full">
-                      Continue Shopping
-                    </Button>
-                  </Link>
+                    <Link href="/">
+                      <Button variant="outline" className="w-full">
+                        Continue Shopping
+                      </Button>
+                    </Link>
+                  </div>
                 </CardContent>
               </Card>
             </div>
           </div>
         )}
       </main>
+
+      {/* Mobile Bottom Summary */}
+      {cartItems.length > 0 && (
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t p-4 z-10">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <p className="text-sm text-gray-600">Total ({itemCount} items)</p>
+              <p className="text-xl font-bold">${total.toFixed(2)}</p>
+            </div>
+            <Link href={`/checkout?amount=${total.toFixed(2)}`}>
+              <Button size="lg" className="px-8">
+                Checkout
+              </Button>
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile bottom padding */}
+      <div className="h-20 lg:h-0"></div>
     </div>
   )
 }
