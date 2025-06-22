@@ -623,7 +623,6 @@ export default function ProductPage(props: ProductPageProps) {
         </div>
       </div>
 
-      {/* Mobile Sticky Bottom Bar */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t p-4 z-10">
         <div className="flex gap-3">
           <Button
@@ -651,7 +650,6 @@ export default function ProductPage(props: ProductPageProps) {
         </div>
       </div>
 
-      {/* Add padding bottom for mobile sticky bar */}
       <div className="h-20 lg:h-0"></div>
 
       <div className="mt-8 lg:mt-16">

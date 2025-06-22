@@ -58,7 +58,6 @@ export async function GET(req: NextRequest) {
     })
 
     if (!user?.cart) {
-      // Create an empty cart if it doesn't exist
       const newCart = await prisma.cart.create({
         data: {
           userId: user?.id,
@@ -83,7 +82,6 @@ export async function GET(req: NextRequest) {
       })
     }
 
-    // Calculate totals
     const subtotal = user.cart.items.reduce((total, item) => {
       return total + item.product.price * item.quantity
     }, 0)

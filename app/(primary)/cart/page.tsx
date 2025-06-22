@@ -46,7 +46,6 @@ export default function CartPage() {
       setIsLoading(true)
       const response = await axios.get<CartResponse>("/api/cart/get")
 
-      // Handle the nested structure from your API
       const items = response.data.items || []
       setCartItems(items)
     } catch (error: any) {
@@ -82,7 +81,6 @@ export default function CartPage() {
         return
       }
 
-      // Optimistic update
       const originalItems = [...cartItems]
       const updatedItems = cartItems.map((item) => (item.id === cartItemId ? { ...item, quantity: newQuantity } : item))
       setCartItems(updatedItems)
@@ -99,7 +97,6 @@ export default function CartPage() {
           description: "Quantity updated successfully.",
         })
       } catch (error) {
-        // Revert on error
         setCartItems(originalItems)
         console.error("Error updating quantity:", error)
         toast({
@@ -126,13 +123,12 @@ export default function CartPage() {
       setRemovingItems((prev) => new Set(prev).add(cartItemId))
 
       try {
-        await axios.delete(`/api/cart/remove/${cartItemId}`)
+        await axios.delete(`/api/cart/${cartItemId}`)
         toast({
           title: "Item Removed",
           description: "Item removed from your cart.",
         })
       } catch (error) {
-        // Revert on error
         setCartItems(originalItems)
         console.error("Error removing item:", error)
         toast({
@@ -240,7 +236,6 @@ export default function CartPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-            {/* Cart Items - Mobile Cards */}
             <div className="lg:col-span-2 space-y-4">
               <div className="block lg:hidden space-y-3">
                 {cartItems.map((item) => {
@@ -332,7 +327,6 @@ export default function CartPage() {
                 })}
               </div>
 
-              {/* Desktop Single Card */}
               <Card className="hidden lg:block">
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between">
@@ -425,7 +419,6 @@ export default function CartPage() {
               </Card>
             </div>
 
-            {/* Order Summary */}
             <div className="lg:col-span-1">
               <Card className="sticky top-20">
                 <CardHeader>
@@ -482,7 +475,6 @@ export default function CartPage() {
         )}
       </main>
 
-      {/* Mobile Bottom Summary */}
       {cartItems.length > 0 && (
         <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t p-4 z-10">
           <div className="flex items-center justify-between mb-3">
@@ -499,7 +491,6 @@ export default function CartPage() {
         </div>
       )}
 
-      {/* Mobile bottom padding */}
       <div className="h-20 lg:h-0"></div>
     </div>
   )
