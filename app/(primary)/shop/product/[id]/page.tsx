@@ -519,24 +519,29 @@ export default function ProductPage(props: ProductPageProps) {
           </div>
 
           <div className="space-y-4 sm:space-y-6">
-            <div className="hidden lg:block">
-              <div className="flex items-center gap-2 mb-2">
-                {product.category && (
-                  <Badge variant="secondary" className="text-xs">
-                    {product.category}
-                  </Badge>
-                )}
-                {product.inStock ? (
-                  <Badge className="bg-green-100 text-green-800 hover:bg-green-100">In Stock</Badge>
-                ) : (
-                  <Badge variant="destructive">Out of Stock</Badge>
-                )}
-              </div>
-
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">{product.title}</h1>
-
-
+            <div className="hidden lg:flex items-center gap-2 mb-2">
+              {product.category && (
+                <Badge variant="secondary" className="text-xs">
+                  {product.category}
+                </Badge>
+              )}
+              {product.inStock ? (
+                <Badge className="bg-green-100 text-green-800 hover:bg-green-100">In Stock</Badge>
+              ) : (
+                <Badge variant="destructive">Out of Stock</Badge>
+              )}
+              <Button
+                variant="ghost"
+                onClick={handleAddToWishlist}
+                disabled={addingToWishlist}
+                className="h-8 px-2 ml-6 text-4xl text-black bg-white border-0"
+                aria-pressed={isWishlisted}
+              >
+                <Heart className={`w-5 h-5 ${isWishlisted ? "fill-red-500 text-red-500" : ""}`} />
+              </Button>
             </div>
+
+            <h1 className="hidden lg:block text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">{product.title}</h1>
 
             <div className="lg:hidden">
               <div className="flex items-center gap-2 mb-3">
@@ -550,10 +555,18 @@ export default function ProductPage(props: ProductPageProps) {
                 ) : (
                   <Badge variant="destructive">Out of Stock</Badge>
                 )}
+                <Button
+                  variant="ghost"
+                  onClick={handleAddToWishlist}
+                  disabled={addingToWishlist}
+                  className="h-8 px-2 text-black bg-white border-0"
+                  aria-pressed={isWishlisted}
+                >
+                  <Heart className={`w-5 h-5 ${isWishlisted ? "fill-red-500 text-red-500" : ""}`} />
+                </Button>
               </div>
-
-
             </div>
+
 
             <Separator />
 
@@ -593,7 +606,6 @@ export default function ProductPage(props: ProductPageProps) {
                 </div>
               </div>
 
-              {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button
                   onClick={addToCart}
@@ -605,16 +617,7 @@ export default function ProductPage(props: ProductPageProps) {
                   {addingToCart ? "Adding..." : "Add to Cart"}
                 </Button>
 
-                <Button
-                  variant={isWishlisted ? "secondary" : "outline"}
-                  onClick={handleAddToWishlist}
-                  disabled={addingToWishlist}
-                  className="h-12 px-4 sm:px-6 touch-manipulation hidden lg:flex"
-                  aria-pressed={isWishlisted}
-                >
-                  <Heart className={`w-5 h-5 mr-2 ${isWishlisted ? "fill-red-500 text-red-500" : ""}`} />
-                  {addingToWishlist ? "..." : isWishlisted ? "Wishlisted" : "Add to Wishlist"}
-                </Button>
+
               </div>
             </div>
 

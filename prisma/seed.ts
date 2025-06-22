@@ -1,5 +1,6 @@
-import prisma from "@/lib/db";
+import { PrismaClient } from "@prisma/client";
 
+const prisma = new PrismaClient();
 
 async function main() {
   const user = await prisma.user.upsert({
@@ -19,23 +20,15 @@ async function main() {
     create: {
       id: "test-product-id",
       title: "Test Product",
-      description: "This is a test product for wishlist testing.",
+      description: "Test product for wishlist testing.",
       price: 999.99,
       imageUrl: "https://via.placeholder.com/300",
       category: "Electronics",
     },
   });
 
-  // 3. Optionally create a Wishlist item to link user and product
-  // await prisma.wishlist.create({
-  //   data: {
-  //     userId: user.id,
-  //     productId: product.id,
-  //   },
-  // });
-
-  console.log("✅ Google User ID:", user.id);
-  console.log("✅ Product ID:", product.id);
+  console.log("✅ Seeded User ID:", user.id);
+  console.log("✅ Seeded Product ID:", product.id);
 }
 
 main()
