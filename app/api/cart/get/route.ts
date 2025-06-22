@@ -1,41 +1,9 @@
-// import { NextRequest, NextResponse } from "next/server";
-// import { getServerSession } from "next-auth";
-// import { authOptions } from "@/lib/authoptions";
-// import prisma from "@/lib/db";
-
-// export async function GET(req: NextRequest) {
-//   const session = await getServerSession(authOptions);
-//   if (!session?.user?.email) {
-//     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-//   }
-
-//   const user = await prisma.user.findUnique({
-//     where: { email: session.user.email },
-//     include: {
-//       cart: {
-//         include: {
-//           items: {
-//             include: {
-//               product: true,
-//             },
-//           },
-//         },
-//       },
-//     },
-//   });
-
-//   if (!user?.cart) {
-//     return NextResponse.json({ items: [] });
-//   }
-
-//   return NextResponse.json({ items: user.cart.items });
-// }
-import { type NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/authoptions"
 import prisma from "@/lib/db"
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user?.email) {
@@ -58,7 +26,7 @@ export async function GET(req: NextRequest) {
     })
 
     if (!user?.cart) {
-      const newCart = await prisma.cart.create({
+      await prisma.cart.create({
         data: {
           userId: user?.id,
           items: {

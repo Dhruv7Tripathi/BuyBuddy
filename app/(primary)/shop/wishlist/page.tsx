@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 import Image from "next/image"
 import Link from "next/link"
-import { Heart, ShoppingCart, Trash2, ArrowLeft, Star, Loader2 } from "lucide-react"
+import { Heart, ShoppingCart, Trash2, ArrowLeft, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -38,7 +38,7 @@ interface WishlistResponse {
 }
 
 export default function WishlistPage() {
-  const { data: session, status } = useSession()
+  const { status } = useSession()
   const router = useRouter()
   const { toast } = useToast()
 
@@ -60,9 +60,9 @@ export default function WishlistPage() {
       setLoading(true)
       const response = await axios.get<WishlistResponse>("/api/wishlist/get")
       setWishlistItems(response.data.items || [])
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error fetching wishlist:", error)
-      if (error.response?.status === 401) {
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
         toast({
           title: "Please Sign In",
           description: "You need to be signed in to view your wishlist.",
@@ -230,8 +230,7 @@ export default function WishlistPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Mobile Header */}
+    <div className="min-h-screen bg-white">
       <header className="bg-white shadow-sm border-b sticky top-0 z-10 lg:hidden">
         <div className="px-4 py-3">
           <div className="flex items-center justify-between">
@@ -264,7 +263,6 @@ export default function WishlistPage() {
           </Button>
         </div>
 
-        {/* Wishlist Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
           {wishlistItems.map((wishlistItem) => {
             const { product } = wishlistItem
@@ -277,7 +275,7 @@ export default function WishlistPage() {
                 key={wishlistItem.id}
                 className={`group relative overflow-hidden ${isDisabled ? "opacity-50" : ""}`}
               >
-                <div className="relative">
+                <div className="relative bg-white rounded-lg shadow-sm overflow-hidden">
                   <Link href={`/product/${product.id}`}>
                     <Image
                       src={product.imageUrl || "/placeholder.svg?height=300&width=300"}
@@ -297,7 +295,7 @@ export default function WishlistPage() {
                   <Button
                     size="icon"
                     variant="outline"
-                    className="absolute top-2 right-2 bg-white/90 hover:bg-white shadow-sm"
+                    className="absolute top-2 right-2 bg-black/90 hover:bg-black shadow-sm"
                     onClick={() => removeFromWishlist(wishlistItem.id)}
                     disabled={isDisabled}
                   >
@@ -319,25 +317,10 @@ export default function WishlistPage() {
                       </h3>
                     </Link>
 
-                    {(product.rating || product.reviewCount) && (
-                      <div className="flex items-center gap-2">
-                        <div className="flex items-center">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`w-3 h-3 sm:w-4 sm:h-4 ${i < Math.floor(product.rating || 0)
-                                  ? "fill-yellow-400 text-yellow-400"
-                                  : "text-gray-300"
-                                }`}
-                            />
-                          ))}
-                        </div>
-                        <span className="text-xs sm:text-sm text-gray-600">({product.reviewCount || 0})</span>
-                      </div>
-                    )}
+
 
                     <div className="flex items-center gap-2">
-                      <span className="text-lg sm:text-xl font-bold text-gray-900">${product.price.toFixed(2)}</span>
+                      <span className="text-lg sm:text-xl font-bold text-white">${product.price.toFixed(2)}</span>
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-2 pt-2">
