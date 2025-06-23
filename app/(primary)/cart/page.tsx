@@ -3,13 +3,15 @@
 import { useState, useEffect, useMemo, useCallback } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowLeft, Minus, Plus, Trash2, ShoppingBag, Loader2, X } from "lucide-react"
+import { Minus, Plus, Trash2, ShoppingBag, Loader2, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { useToast } from "@/hooks/use-toast"
 import { Badge } from "@/components/ui/badge"
 import axios from "axios"
+import Loader from "@/components/(landingPage)/loading"
+
 
 interface Product {
   id: string
@@ -178,51 +180,13 @@ export default function CartPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
-        <div className="flex flex-col items-center space-y-4">
-          <Loader2 className="w-8 h-8 animate-spin text-gray-700" />
-          <p className="text-gray-600 font-medium">Loading your cart...</p>
-        </div>
-      </div>
+      <Loader />
+
     )
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <header className="bg-white shadow-lg border-b sticky top-0 z-10 backdrop-blur-sm bg-white/95">
-        <div className="px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-14 sm:h-16">
-            <div className="flex items-center">
-              <Link href="/">
-                <Button variant="ghost" size="sm" className="mr-2 sm:mr-4 p-2 hover:bg-gray-100 transition-colors">
-                  <ArrowLeft className="w-4 h-4 sm:mr-2" />
-                  <span className="hidden sm:inline">Back</span>
-                </Button>
-              </Link>
-              <div>
-                <h1 className="text-lg sm:text-2xl font-bold text-gray-900">Buddy Cart</h1>
-                {cartItems.length > 0 && (
-                  <p className="text-xs sm:text-sm text-gray-600">
-                    {itemCount} item{itemCount !== 1 ? "s" : ""}
-                  </p>
-                )}
-              </div>
-            </div>
-            {cartItems.length > 0 && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={clearCart}
-                className="text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors"
-              >
-                <X className="w-4 h-4 sm:mr-2" />
-                <span className="hidden sm:inline">Clear All</span>
-              </Button>
-            )}
-          </div>
-        </div>
-      </header>
-
       <main className="px-4 sm:px-6 lg:px-8 py-4 sm:py-8 max-w-7xl mx-auto">
         {cartItems.length === 0 ? (
           <div className="text-center py-12 sm:py-16">
@@ -254,6 +218,7 @@ export default function CartPage() {
                     >
                       <CardContent className="p-4">
                         <div className="flex space-x-3">
+
                           <div className="relative flex-shrink-0">
                             <Image
                               src={item.product.imageUrl || "/placeholder.svg?height=80&width=80"}
@@ -268,6 +233,7 @@ export default function CartPage() {
                               </Badge>
                             )}
                           </div>
+
 
                           <div className="flex-1 min-w-0">
                             <div className="flex justify-between items-start mb-2">
@@ -338,6 +304,7 @@ export default function CartPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6 p-6">
+
                   {cartItems.map((item, index) => {
                     const isUpdating = updatingItems.has(item.id)
                     const isRemoving = removingItems.has(item.id)
@@ -346,6 +313,17 @@ export default function CartPage() {
                     return (
                       <div key={item.id} className={`${isDisabled ? "opacity-50" : ""} group`}>
                         <div className="flex items-center space-x-6 p-4 rounded-xl hover:bg-gray-50 transition-colors">
+                          {cartItems.length > 0 && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={clearCart}
+                              className="text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors"
+                            >
+                              <X className="w-4 h-4 sm:mr-2" />
+                              <span className="hidden sm:inline">Clear All</span>
+                            </Button>
+                          )}
                           <div className="relative flex-shrink-0">
                             <Image
                               src={item.product.imageUrl || "/placeholder.svg?height=100&width=100"}

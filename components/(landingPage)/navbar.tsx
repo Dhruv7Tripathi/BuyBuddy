@@ -18,8 +18,9 @@ export default function Navbar() {
 
   return (
     <div className="z-50 bg-gray-50 transition-transform duration-300">
-      <header className="bg-white border-b">
+      <header className="bg-white sticky z-10 top-0 border-b">
         <div className="container mx-auto px-4">
+
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <h1 className="text-2xl text-black font-bold ml-4 md:ml-12">
@@ -100,6 +101,25 @@ export default function Navbar() {
                   </div>
                 </div>
 
+
+
+                <Link
+                  href="/shop/wishlist"
+                  className="flex items-center justify-between py-2 border-t pt-3"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <span className="text-gray-700">Wishlist</span>
+                  <Heart className="h-5 w-5 text-gray-600" />
+                </Link>
+
+                <Link
+                  href="/cart"
+                  className="flex items-center justify-between py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <span className="text-gray-700">Cart</span>
+                  <ShoppingCart className="h-5 w-5 text-gray-600" />
+                </Link>
                 <div className="border-t pt-3">
                   <div className="flex items-center space-x-2 text-gray-700 mb-3">
                     <Menu className="h-4 w-4" />
@@ -125,23 +145,6 @@ export default function Navbar() {
                   </div>
                 </div>
 
-                <Link
-                  href="/shop/wishlist"
-                  className="flex items-center justify-between py-2 border-t pt-3"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <span className="text-gray-700">Wishlist</span>
-                  <Heart className="h-5 w-5 text-gray-600" />
-                </Link>
-
-                <Link
-                  href="/cart"
-                  className="flex items-center justify-between py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <span className="text-gray-700">Cart</span>
-                  <ShoppingCart className="h-5 w-5 text-gray-600" />
-                </Link>
               </div>
             </div>
           </div>
