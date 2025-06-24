@@ -5,7 +5,7 @@ import type React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Minus, Plus, ShoppingCart, Heart, ArrowLeft, Share2, Star } from "lucide-react"
+import { Minus, Plus, ShoppingCart, Heart, Share2, Star } from "lucide-react"
 import axios from "axios"
 import { useEffect, useState, use } from "react"
 import { Separator } from "@/components/ui/separator"
@@ -40,12 +40,9 @@ export default function ProductPage(props: ProductPageProps) {
   const [addingToCart, setAddingToCart] = useState(false)
   const [addingToWishlist, setAddingToWishlist] = useState(false)
   const [imageLoading, setImageLoading] = useState(true)
-  const [touchStart, setTouchStart] = useState<number | null>(null)
-  const [touchEnd, setTouchEnd] = useState<number | null>(null)
   const { toast } = useToast()
   const { id } = use(props.params)
 
-  const minSwipeDistance = 50
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -60,7 +57,7 @@ export default function ProductPage(props: ProductPageProps) {
         }
 
         setProduct(productData)
-        checkWishlistStatus(productData.id)
+        // checkWishlistStatus(productData.id)
       } catch (error) {
         console.error("Failed to fetch product:", error)
       } finally {
@@ -71,14 +68,14 @@ export default function ProductPage(props: ProductPageProps) {
     fetchProduct()
   }, [id])
 
-  const checkWishlistStatus = async (productId: string) => {
-    try {
-      const response = await axios.get(`/api/wishlist/check/${productId}`)
-      setIsWishlisted(response.data.isWishlisted)
-    } catch (error) {
-      console.error("Failed to check wishlist status:", error)
-    }
-  }
+  // const checkWishlistStatus = async (productId: string) => {
+  //   try {
+  //     const response = await axios.get(`/api/wishlist/check/${productId}`)
+  //     setIsWishlisted(response.data.isWishlisted)
+  //   } catch (error) {
+  //     console.error("Failed to check wishlist status:", error)
+  //   }
+  // }
 
   const handleAddToWishlist = async () => {
     if (!product) return
@@ -93,7 +90,7 @@ export default function ProductPage(props: ProductPageProps) {
           description: `${product.title} has been removed from your wishlist.`,
         })
       } else {
-        await axios.post("/api/wishlist/add", { productId: product.id })
+        await axios.post("/api/wishlist", { productId: product.id })
         setIsWishlisted(true)
         toast({
           title: "Added to Wishlist",
@@ -148,7 +145,7 @@ export default function ProductPage(props: ProductPageProps) {
 
     setAddingToCart(true)
     try {
-      await axios.post("/api/cart/add", {
+      await axios.post("/api/cart", {
         productId: product.id,
         quantity,
       })
