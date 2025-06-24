@@ -34,7 +34,7 @@ export default function Footer() {
         <div>
           <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
           <p className="text-sm mb-2">Phone: 0123456789</p>
-          <p className="text-sm mb-4">Email: @dhruvclothing.com</p>
+          <p className="text-sm mb-4">Email: @dhruvtech.com</p>
           <div className="flex space-x-4 text-xl">
 
             <FaInstagram />
