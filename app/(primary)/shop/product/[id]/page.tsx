@@ -10,7 +10,7 @@ import axios from "axios"
 import { useEffect, useState, use } from "react"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
-import CollectionsPage from "@/components/(landingPage)/collections"
+import TopSellingProducts from "@/components/(landingPage)/topSellingProduct"
 import { useToast } from "@/hooks/use-toast"
 import Loader from "@/components/(landingPage)/loading"
 
@@ -57,7 +57,6 @@ export default function ProductPage(props: ProductPageProps) {
         }
 
         setProduct(productData)
-        // checkWishlistStatus(productData.id)
       } catch (error) {
         console.error("Failed to fetch product:", error)
       } finally {
@@ -67,16 +66,6 @@ export default function ProductPage(props: ProductPageProps) {
 
     fetchProduct()
   }, [id])
-
-  // const checkWishlistStatus = async (productId: string) => {
-  //   try {
-  //     const response = await axios.get(`/api/wishlist/check/${productId}`)
-  //     setIsWishlisted(response.data.isWishlisted)
-  //   } catch (error) {
-  //     console.error("Failed to check wishlist status:", error)
-  //   }
-  // }
-
   const handleAddToWishlist = async () => {
     if (!product) return
 
@@ -303,18 +292,18 @@ export default function ProductPage(props: ProductPageProps) {
                 </div>
                 <div className="flex items-center gap-2 ml-4">
                   <Button
-                    variant="ghost"
+                    variant="default"
                     size="sm"
                     onClick={handleShare}
-                    className="touch-manipulation min-h-[44px] min-w-[44px]"
+                    className="min-h-[44px] min-w-[44px]"
                   >
                     <Share2 className="w-4 h-4" />
                   </Button>
                   <Button
-                    variant="ghost"
+                    variant="default"
                     onClick={handleAddToWishlist}
                     disabled={addingToWishlist}
-                    className="touch-manipulation min-h-[44px] min-w-[44px]"
+                    className="min-h-[44px] min-w-[44px]"
                     aria-pressed={isWishlisted}
                   >
                     <Heart className={`w-5 h-5 ${isWishlisted ? "fill-red-500 text-red-500" : ""}`} />
@@ -341,22 +330,7 @@ export default function ProductPage(props: ProductPageProps) {
               </div>
             </div>
 
-            {product.rating && (
-              <div className="flex items-center gap-2 py-1">
-                <div className="flex items-center">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star
-                      key={star}
-                      className={`w-4 h-4 ${star <= Math.floor(product.rating!) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-                        }`}
-                    />
-                  ))}
-                </div>
-                <span className="text-sm text-gray-600">
-                  {product.rating} ({product.reviewCount} reviews)
-                </span>
-              </div>
-            )}
+
 
             <Separator className="my-4" />
 
@@ -444,12 +418,16 @@ export default function ProductPage(props: ProductPageProps) {
             <Button
               onClick={addToCart}
               disabled={!product.inStock || addingToCart}
-              className="w-full bg-black text-white hover:bg-gray-800 h-14 text-lg touch-manipulation font-medium rounded-lg"
+              className="w-full bg-gray-600 text-white hover:bg-gray-700 h-14 text-lg font-medium rounded-lg"
               size="lg"
             >
               <ShoppingCart className="w-5 h-5 mr-2" />
               {addingToCart ? "Adding..." : "Add to Cart"}
             </Button>
+
+
+
+
           </div>
           <div className="text-right min-w-[120px]">
             <div className="text-xl font-bold">
@@ -468,9 +446,11 @@ export default function ProductPage(props: ProductPageProps) {
       </div>
 
       <div className="h-28 lg:h-0"></div>
-
-      <div className="mt-8 lg:mt-16">
-        <CollectionsPage />
+      <div className=" mx-auto  lg:px-6 py-8">
+        {/* <h2 className="text-2xl font-semibold mb-6">You May Also Like</h2> */}
+        <TopSellingProducts />
+        <div className="mt-8 lg:mt-16">
+        </div>
       </div>
     </div>
   )

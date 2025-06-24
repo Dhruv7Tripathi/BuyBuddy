@@ -18,7 +18,7 @@ export default function Navbar() {
 
   return (
     <div className="z-50 bg-gray-50 transition-transform duration-300">
-      <header className="bg-white sticky z-10 top-0 border-b">
+      <header className="bg-white sticky z-10 top-0 border-gray-300 shadow-sm">
         <div className="container mx-auto px-4">
 
           <div className="flex items-center justify-between h-16">
@@ -151,7 +151,7 @@ export default function Navbar() {
         )}
       </header>
 
-      <nav className="hidden md:block bg-white border-b">
+      <nav className="hidden md:block bg-white border-b ">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-12">
             <div className="flex items-center space-x-8">

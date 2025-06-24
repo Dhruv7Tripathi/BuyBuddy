@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import axios from "axios"
+import Loader from "@/components/(landingPage)/loading"
 
 interface Product {
   id: string
@@ -94,7 +95,6 @@ export default function WishlistPage() {
         description: "Item has been removed from your wishlist.",
       })
     } catch (error) {
-      // Revert on error
       setWishlistItems(originalItems)
       console.error("Error removing from wishlist:", error)
       toast({
@@ -157,7 +157,7 @@ export default function WishlistPage() {
     setMovingItems((prev) => new Set(prev).add(wishlistItem.id))
 
     try {
-      await axios.post("/api/wishlist/move-to-cart", {
+      await axios.post("/api/cart", {
         wishlistItemId: wishlistItem.id,
         quantity: 1,
       })
@@ -186,12 +186,9 @@ export default function WishlistPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
-          <p className="text-gray-600">Loading your wishlist...</p>
-        </div>
-      </div>
+
+      <Loader />
+
     )
   }
 
