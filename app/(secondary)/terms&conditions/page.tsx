@@ -92,7 +92,7 @@ export default function TermsAndConditions() {
                     <section>
                       <h2 className="text-xl font-semibold text-white mb-3">1. Acceptance of Terms</h2>
                       <p>
-                        By accessing and using BuyBuddy's services, you accept and agree to be bound by the terms and
+                        By accessing and using BuyBuddy&apos;s services, you accept and agree to be bound by the terms and
                         provision of this agreement. If you do not agree to abide by the above, please do not use this
                         service.
                       </p>
@@ -101,7 +101,7 @@ export default function TermsAndConditions() {
                     <section>
                       <h2 className="text-xl font-semibold text-white mb-3">2. Use License</h2>
                       <p>
-                        Permission is granted to temporarily download one copy of the materials on BuyBuddy's website
+                        Permission is granted to temporarily download one copy of the materials on BuyBuddy&apos;`s website
                         for personal, non-commercial transitory viewing only. This is the grant of a license, not a
                         transfer of title, and under this license you may not:
                       </p>
@@ -167,7 +167,7 @@ export default function TermsAndConditions() {
                       <p>
                         In no event shall BuyBuddy or its suppliers be liable for any damages (including, without
                         limitation, damages for loss of data or profit, or due to business interruption) arising out of
-                        the use or inability to use the materials on BuyBuddy's website.
+                        the use or inability to use the materials on BuyBuddy&apos;s website.
                       </p>
                     </section>
 
