@@ -18,7 +18,7 @@ export default function Navbar() {
 
   return (
     <div className="z-50 bg-gray-50 transition-transform duration-300">
-      <header className="bg-white sticky z-10 top-0 border-gray-300 shadow-sm">
+      <header className="bg-white sticky z-10 top-0 border-gray-400 shadow-sm">
         <div className="container mx-auto px-4">
 
           <div className="flex items-center justify-between h-16">

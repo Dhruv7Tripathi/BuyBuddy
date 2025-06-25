@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import Image from 'next/image';
+import Loader from '@/components/(landingPage)/loading';
+
 type Product = {
   id: string;
   title: string;
@@ -43,53 +45,56 @@ export default function AdminProductPage() {
   };
 
   return (
-    <div className="p-6">
+    <div className="min-h-screen bg-white text-black p-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Manage Products</h1>
+        <h1 className="text-2xl font-bold text-black">Manage Products</h1>
         <Link href="/admin/products/new">
-          <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          <button className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors">
             + Add Product
           </button>
         </Link>
       </div>
 
       {loading ? (
-        <p>Loading products...</p>
+        <Loader />
       ) : products.length === 0 ? (
-        <p>No products found.</p>
+        <p className="text-black">No products found.</p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full border border-black rounded">
-            <thead className="text-black bg-gray-100">
+        <div className="overflow-x-auto bg-white">
+          <table className="min-w-full border border-gray-300 rounded bg-white">
+            <thead className="bg-gray-50">
               <tr>
-                <th className="px-4 py-2 text-left">Image</th>
-                <th className="px-4 py-2 text-left">Title</th>
-                <th className="px-4 py-2 text-left">Category</th>
-                <th className="px-4 py-2 text-left">Price (€)</th>
-                <th className="px-4 py-2 text-left">Actions</th>
+                <th className="px-4 py-2 text-left text-black border-b border-gray-300">Image</th>
+                <th className="px-4 py-2 text-left text-black border-b border-gray-300">Title</th>
+                <th className="px-4 py-2 text-left text-black border-b border-gray-300">Category</th>
+                <th className="px-4 py-2 text-left text-black border-b border-gray-300">Price</th>
+                <th className="px-4 py-2 text-left text-black border-b border-gray-300">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-white">
               {products.map((product) => (
-                <tr key={product.id} className="border-t">
+                <tr key={product.id} className="border-b border-gray-200 hover:bg-gray-50">
                   <td className="px-4 py-2">
                     <Image
                       src={product.imageUrl}
                       alt={product.title}
                       width={16}
                       height={16}
-                      className="w-16 h-16 object-cover rounded" />
+                      className="w-16 h-16 object-cover rounded border border-gray-200"
+                    />
                   </td>
-                  <td className="px-4 py-2">{product.title}</td>
-                  <td className="px-4 py-2 capitalize">{product.category}</td>
-                  <td className="px-4 py-2">€{product.price.toFixed(2)}</td>
+                  <td className="px-4 py-2 text-black">{product.title}</td>
+                  <td className="px-4 py-2 capitalize text-black">{product.category}</td>
+                  <td className="px-4 py-2 text-black">€{product.price.toFixed(2)}</td>
                   <td className="px-4 py-2 space-x-2">
                     <Link href={`/admin/products/${product.id}/edit`}>
-                      <button className="text-blue-600 hover:underline">Edit</button>
+                      <button className="text-green-600 hover:text-emerald-800 hover:underline transition-colors">
+                        Edit
+                      </button>
                     </Link>
                     <button
                       onClick={() => handleDelete(product.id)}
-                      className="text-red-600 hover:underline"
+                      className="text-red-600 hover:text-red-800 hover:underline transition-colors"
                     >
                       Delete
                     </button>

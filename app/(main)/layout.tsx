@@ -1,7 +1,7 @@
 // import Navbar from "@/components/(landingPage)/navbar";
 export const metadata = {
-  title: 'My App',
-  description: 'Description',
+  title: 'BuyBuddy',
+  description: 'Admin Panel for BuyBuddy',
 };
 
 export default function RootLayout({
