@@ -8,29 +8,32 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(cuid())
-  email     String     @unique
-  name      String?
-  image     String?
-  password  String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  provider  Provider
-  cart      Cart?
-  cartId    String?    @unique
-  Wishlist  Wishlist[]
+  id              String            @id @default(cuid())
+  email           String            @unique
+  name            String?
+  image           String?
+  password        String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  provider        Provider
+  cart            Cart?
+  cartId          String?           @unique
+  Wishlist        Wishlist[]
+  shippingDetails ShippingDetails[]
+  orders          Order[]
 }
 
 model Product {
-  id          String     @id @default(uuid())
+  id          String      @id @default(uuid())
   title       String
   description String?
-  price       Float
+  price       Decimal     @db.Decimal(10, 2)
   imageUrl    String
   category    String?
   Wishlist    Wishlist[]
   cartItems   CartItem[]
-  createdAt   DateTime   @default(now())
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now())
 }
 
 model Wishlist {
@@ -63,6 +66,71 @@ model CartItem {
   productId String
   quantity  Int      @default(1)
   createdAt DateTime @default(now())
+}
+
+model ShippingDetails {
+  id             String   @id @default(uuid())
+  firstName      String
+  lastName       String
+  email          String
+  phone          String?
+  address        String
+  apartment      String?
+  city           String
+  state          String
+  zipCode        String
+  country        String   @default("Ind")
+  shippingMethod String?
+  userEmail      String
+  user           User     @relation(fields: [userEmail], references: [email])
+  orders         Order[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([userEmail])
+}
+
+model Order {
+  id                String          @id @default(uuid())
+  orderNumber       String          @unique
+  status            OrderStatus     @default(PENDING)
+  totalAmount       Decimal         @db.Decimal(10, 2)
+  currency          String          @default("USD")
+  userEmail         String
+  shippingDetailsId String
+  user              User            @relation(fields: [userEmail], references: [email])
+  shippingDetails   ShippingDetails @relation(fields: [shippingDetailsId], references: [id])
+  orderItems        OrderItem[]
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@index([userEmail])
+  @@index([orderNumber])
+}
+
+model OrderItem {
+  id          String   @id @default(uuid())
+  orderId     String
+  productId   String
+  productName String
+  productSku  String?
+  quantity    Int
+  unitPrice   Decimal  @db.Decimal(10, 2)
+  totalPrice  Decimal  @db.Decimal(10, 2)
+  product     Product  @relation(fields: [productId], references: [id])
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@index([orderId])
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
 }
 
 enum Provider {

@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge"
 import TopSellingProducts from "@/components/(landingPage)/topSellingProduct"
 import { useToast } from "@/hooks/use-toast"
 import Loader from "@/components/(landingPage)/loading"
+import { useSession } from "next-auth/react"
 
 interface Product {
   id: string
@@ -42,7 +43,7 @@ export default function ProductPage(props: ProductPageProps) {
   const [imageLoading, setImageLoading] = useState(true)
   const { toast } = useToast()
   const { id } = use(props.params)
-
+  const { status } = useSession()
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -68,6 +69,14 @@ export default function ProductPage(props: ProductPageProps) {
   }, [id])
   const handleAddToWishlist = async () => {
     if (!product) return
+    if (status === "unauthenticated" || status === "loading") {
+      toast({
+        title: "Please Sign In",
+        description: "You need to sign in to add items to your wishlist.",
+        variant: "destructive",
+      })
+      return
+    }
 
     setAddingToWishlist(true)
     try {
@@ -127,6 +136,14 @@ export default function ProductPage(props: ProductPageProps) {
       toast({
         title: "Out of Stock",
         description: "This item is currently out of stock.",
+        variant: "destructive",
+      })
+      return
+    }
+    if (status == "unauthenticated" || status == "loading") {
+      toast({
+        title: "Please Sign In",
+        description: "You need to sign in to add items to your cart.",
         variant: "destructive",
       })
       return

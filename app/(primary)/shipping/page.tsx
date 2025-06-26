@@ -1,16 +1,14 @@
 "use client"
 
-import { useState, type FormEvent } from "react"
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar"
+import { useEffect, useState, type FormEvent } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import { CheckCircle, Package, Truck } from "lucide-react"
 
 export default function ShippingDetails() {
   const [formData, setFormData] = useState({
@@ -25,14 +23,12 @@ export default function ShippingDetails() {
     zipCode: "",
     country: "US",
     shippingMethod: "",
-    sameAsBilling: false,
-    billingAddress: "",
-    billingCity: "",
-    billingState: "",
-    billingZipCode: "",
   })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const { status } = useSession()
+  const router = useRouter()
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({
@@ -41,13 +37,18 @@ export default function ShippingDetails() {
     }))
   }
 
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/signin")
+    }
+  }, [status, router])
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setError(null)
     setIsLoading(true)
 
-    // Validate required fields
-    const requiredFields = ["firstName", "lastName", "email", "address", "city", "state", "zipCode", "shippingMethod"]
+    const requiredFields = ["firstName", "lastName", "email", "address", "city", "state", "zipCode"]
     const missingFields = requiredFields.filter((field) => !formData[field as keyof typeof formData])
 
     if (missingFields.length > 0) {
@@ -57,10 +58,21 @@ export default function ShippingDetails() {
     }
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      console.log("Shipping details submitted:", formData)
-      alert("Shipping details saved successfully!")
+      const response = await fetch("/api/shipping", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to save shipping details")
+      }
+
+      const result = await response.json()
+      console.log("Shipping details submitted:", result)
+      setIsSubmitted(true)
     } catch (err) {
       console.error(err)
       setError("Failed to save shipping details.")
@@ -70,177 +82,219 @@ export default function ShippingDetails() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <SidebarProvider>
-        <div className="flex min-h-screen bg-white text-black w-full">
-          <SidebarInset className="bg-white">
-            <div className="flex min-h-screen items-center justify-center p-6">
-              <Card className="w-full max-w-2xl bg-white border-gray-200">
-                <CardHeader>
-                  <CardTitle className="text-2xl font-bold text-center text-black">Shipping Details</CardTitle>
-                </CardHeader>
+    <div className="min-h-screen bg-gray-50">
+      <div className="grid lg:grid-cols-2 min-h-screen">
+        <div className="flex items-center justify-center p-6 bg-white">
+          <Card className="w-full bg-white max-w-2xl border-gray-200 shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-2xl text-black font-bold text-center">Shipping Details</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {error && (
+                  <div className="rounded-md bg-red-50 border border-red-200 p-3">
+                    <p className="text-sm text-red-600">{error}</p>
+                  </div>
+                )}
 
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    {error && (
-                      <div className="rounded-md bg-red-900/20 border border-red-800 p-3">
-                        <p className="text-sm text-red-400">{error}</p>
-                      </div>
-                    )}
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-semibold text-black">Contact Information</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="firstName" className="text-black">
-                            First Name *
-                          </Label>
-                          <Input
-                            id="firstName"
-                            type="text"
-                            value={formData.firstName}
-                            onChange={(e) => handleInputChange("firstName", e.target.value)}
-                            required
-                            className="bg-white border-gray-200 text-black placeholder:text-gray-400"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="lastName" className="text-black">
-                            Last Name *
-                          </Label>
-                          <Input
-                            id="lastName"
-                            type="text"
-                            value={formData.lastName}
-                            onChange={(e) => handleInputChange("lastName", e.target.value)}
-                            required
-                            className="bg-white border-gray-200 text-black placeholder:text-gray-400"
-                          />
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="email" className="text-black">
-                            Email *
-                          </Label>
-                          <Input
-                            id="email"
-                            type="email"
-                            value={formData.email}
-                            onChange={(e) => handleInputChange("email", e.target.value)}
-                            required
-                            className="bg-white border-gray-200 text-black placeholder:text-gray-400"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="phone" className="text-black">
-                            Phone
-                          </Label>
-                          <Input
-                            id="phone"
-                            type="tel"
-                            value={formData.phone}
-                            onChange={(e) => handleInputChange("phone", e.target.value)}
-                            className="bg-white border-gray-200 text-black placeholder:text-gray-400"
-                          />
-                        </div>
-                      </div>
+                <div className="space-y-4 text-black bg-white">
+                  <h3 className="text-lg font-semibold">Contact Information</h3>
+                  <div className="grid grid-cols-1 bg-white md:grid-cols-2 gap-4">
+                    <div className="space-y-2  text-black">
+                      <Label htmlFor="firstName">First Name *</Label>
+                      <Input
+                        id="firstName"
+                        type="text"
+                        className="text-black bg-white border-gray-300 hover:border-gray-400 focus:border-gray-500"
+                        value={formData.firstName}
+                        onChange={(e) => handleInputChange("firstName", e.target.value)}
+                        required
+                      />
                     </div>
+                    <div className="space-y-2 ">
+                      <Label htmlFor="lastName">Last Name *</Label>
+                      <Input
+                        id="lastName"
+                        className="text-black bg-white border-gray-300 hover:border-gray-400 focus:border-gray-500"
+                        type="text"
+                        value={formData.lastName}
+                        onChange={(e) => handleInputChange("lastName", e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email *</Label>
+                      <Input
+                        id="email"
+                        className="text-black bg-white border-gray-300 hover:border-gray-400 focus:border-gray-500"
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => handleInputChange("email", e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone</Label>
+                      <Input
+                        id="phone"
+                        className="text-black bg-white border-gray-300 hover:border-gray-400 focus:border-gray-500"
+                        type="tel"
+                        value={formData.phone}
+                        onChange={(e) => handleInputChange("phone", e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
 
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-semibold text-black">Shipping Address</h3>
-                      <div className="space-y-2">
-                        <Label htmlFor="address" className="text-black">
-                          Address *
-                        </Label>
-                        <Input
-                          id="address"
-                          type="text"
-                          value={formData.address}
-                          onChange={(e) => handleInputChange("address", e.target.value)}
-                          required
-                          className="bg-white border-gray-200 text-black placeholder:text-gray-400"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="apartment" className="text-black">
-                          Apartment, suite, etc.
-                        </Label>
-                        <Input
-                          id="apartment"
-                          type="text"
-                          value={formData.apartment}
-                          onChange={(e) => handleInputChange("apartment", e.target.value)}
-                          className="bg-white border-gray-200 text-black placeholder:text-gray-400"
-                        />
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="city" className="text-black">
-                            City *
-                          </Label>
-                          <Input
-                            id="city"
-                            type="text"
-                            value={formData.city}
-                            onChange={(e) => handleInputChange("city", e.target.value)}
-                            required
-                            className="bg-white border-gray-200 text-black placeholder:text-gray-400"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="state" className="text-black">
-                            State *
-                          </Label>
-                          <Input
-                            id="state"
-                            type="text"
-                            value={formData.state}
-                            onChange={(e) => handleInputChange("state", e.target.value)}
-                            required
-                            className="bg-white border-gray-300 text-black placeholder:text-gray-400"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="zipCode" className="text-black">
-                            ZIP Code *
-                          </Label>
-                          <Input
-                            id="zipCode"
-                            type="text"
-                            value={formData.zipCode}
-                            onChange={(e) => handleInputChange("zipCode", e.target.value)}
-                            required
-                            className="bg-white border-gray-300 text-black placeholder:text-gray-400"
-                          />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="country" className="text-black">
-                          Country
-                        </Label>
-                        <Select value={formData.country} onValueChange={(value) => handleInputChange("country", value)}>
-                          <SelectTrigger className="bg-white border-gray-300 text-black">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent className="bg-white text-black  border-gray-300 rounded-md">
-                            <SelectItem value="US">United States</SelectItem>
-                            <SelectItem value="CA">Canada</SelectItem>
-                            <SelectItem value="UK">India</SelectItem>
-                            <SelectItem value="AU">Australia</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
+                <div className="space-y-4 text-black">
+                  <h3 className="text-lg font-semibold">Shipping Address</h3>
+                  <div className="space-y-2">
+                    <Label htmlFor="address">Address *</Label>
+                    <Input
+                      id="address"
+                      className="text-black bg-white border-gray-300 hover:border-gray-400 focus:border-gray-500"
+                      type="text"
+                      value={formData.address}
+                      onChange={(e) => handleInputChange("address", e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="apartment">Apartment, suite, etc.</Label>
+                    <Input
+                      id="apartment"
+                      className="text-black bg-white border-gray-300 hover:border-gray-400 focus:border-gray-500"
+                      type="text"
+                      value={formData.apartment}
+                      onChange={(e) => handleInputChange("apartment", e.target.value)}
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="city">City *</Label>
+                      <Input
+                        id="city"
+                        className="text-black bg-white border-gray-300 hover:border-gray-400 focus:border-gray-500"
+                        type="text"
+                        value={formData.city}
+                        onChange={(e) => handleInputChange("city", e.target.value)}
+                        required
+                      />
                     </div>
-                    <Button type="submit" className="w-full bg-gray-800 rounded-md text-white hover:bg-black" disabled={isLoading}>
-                      {isLoading ? "Saving..." : "Save Shipping Details"}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
-          </SidebarInset>
+                    <div className="space-y-2">
+                      <Label htmlFor="state">State *</Label>
+                      <Input
+                        id="state"
+                        className="text-black bg-white border-gray-300 hover:border-gray-400 focus:border-gray-500"
+                        type="text"
+                        value={formData.state}
+                        onChange={(e) => handleInputChange("state", e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="zipCode">ZIP Code *</Label>
+                      <Input
+                        id="zipCode"
+                        className="text-black bg-white border-gray-300 hover:border-gray-400 focus:border-gray-500"
+                        type="text"
+                        value={formData.zipCode}
+                        onChange={(e) => handleInputChange("zipCode", e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="country">Country</Label>
+                    <Select
+                      value={formData.country}
+                      onValueChange={(value) => handleInputChange("country", value)}>
+                      <SelectTrigger className="text-black bg-white border-gray-300 hover:border-gray-400 focus:border-gray-500">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white text-black">
+                        <SelectItem value="US">United States</SelectItem>
+                        <SelectItem value="CA">Canada</SelectItem>
+                        <SelectItem value="IN">India</SelectItem>
+                        <SelectItem value="AU">Australia</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <Button type="submit" variant={"default"} className="w-full bg-gray-800 text-white hover:bg-gray-900 " disabled={isLoading}>
+                  {isLoading ? "Saving..." : "Save Shipping Details"}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
         </div>
-      </SidebarProvider>
+
+        <div className="flex items-center justify-center p-6 bg-gradient-to-br from-green-50 to-blue-50">
+          <div className="text-center space-y-6 max-w-md">
+            {isSubmitted ? (
+              <>
+                <div className="relative">
+                  <div className="w-32 h-32 mx-auto bg-green-100 rounded-full flex items-center justify-center animate-bounce">
+                    <CheckCircle className="w-16 h-16 text-green-600" />
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-yellow-400 rounded-full animate-ping"></div>
+                </div>
+                <div className="space-y-4">
+                  <h2 className="text-3xl font-bold text-green-700">Thank You for Your Purchase!</h2>
+                  <p className="text-gray-600 text-lg">
+                    Your shipping details have been saved successfully. We'll process your order shortly!
+                  </p>
+                  <div className="flex justify-center space-x-4 text-sm text-gray-500">
+                    <div className="flex items-center space-x-1">
+                      <Package className="w-4 h-4" />
+                      <span>Processing</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <Truck className="w-4 h-4" />
+                      <span>Fast Shipping</span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="w-32 h-32 mx-auto bg-blue-100 rounded-full flex items-center justify-center">
+                  <Package className="w-16 h-16 text-blue-600" />
+                </div>
+                <div className="space-y-4">
+                  <h2 className="text-2xl font-bold text-gray-800">Almost There!</h2>
+                  <p className="text-gray-600">
+                    Complete your shipping details to finalize your purchase. We're excited to get your order to you!
+                  </p>
+                  <div className="grid grid-cols-3 gap-4 text-xs text-gray-500">
+                    <div className="text-center">
+                      <div className="w-8 h-8 bg-green-100 rounded-full mx-auto mb-1 flex items-center justify-center">
+                        <CheckCircle className="w-4 h-4 text-green-600" />
+                      </div>
+                      <span>Cart</span>
+                    </div>
+                    <div className="text-center">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full mx-auto mb-1 flex items-center justify-center">
+                        <Truck className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <span>Shipping</span>
+                    </div>
+                    <div className="text-center">
+                      <div className="w-8 h-8 bg-gray-100 rounded-full mx-auto mb-1 flex items-center justify-center">
+                        <Package className="w-4 h-4 text-gray-400" />
+                      </div>
+                      <span>Complete</span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
