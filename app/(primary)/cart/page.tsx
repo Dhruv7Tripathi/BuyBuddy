@@ -301,6 +301,17 @@ export default function CartPage() {
                 <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-t-lg">
                   <CardTitle className="flex items-center justify-between text-gray-900">
                     <span className="text-xl font-bold">Cart Items ({itemCount})</span>
+                    {cartItems.length > 0 && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={clearCart}
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors"
+                      >
+                        <X className="w-4 h-4 sm:mr-2" />
+                        <span className="hidden sm:inline">Clear All</span>
+                      </Button>
+                    )}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6 p-6">
@@ -312,18 +323,8 @@ export default function CartPage() {
 
                     return (
                       <div key={item.id} className={`${isDisabled ? "opacity-50" : ""} group`}>
-                        <div className="flex items-center space-x-6 p-4 rounded-xl hover:bg-gray-50 transition-colors">
-                          {cartItems.length > 0 && (
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={clearCart}
-                              className="text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors"
-                            >
-                              <X className="w-4 h-4 sm:mr-2" />
-                              <span className="hidden sm:inline">Clear All</span>
-                            </Button>
-                          )}
+                        <div className="flex items-center space-x-6 p-4 rounded-xl  transition-colors">
+
                           <div className="relative flex-shrink-0">
                             <Image
                               src={item.product.imageUrl || "/placeholder.svg?height=100&width=100"}
@@ -346,15 +347,15 @@ export default function CartPage() {
 
                           <div className="flex-1 min-w-0">
                             <h3 className="font-semibold text-gray-900 text-lg mb-1">{item.product.title}</h3>
-                            <p className="text-xl font-bold text-blue-600">${item.product.price.toFixed(2)}</p>
+                            <p className="text-xl font-bold text-gray-800">${item.product.price.toFixed(2)}</p>
                           </div>
 
                           <div className="flex items-center space-x-3 bg-gray-50 rounded-lg p-2">
                             <Button
-                              variant="ghost"
+                              variant="default"
                               size="icon"
                               onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                              className="h-9 w-9 hover:bg-white rounded-md"
+                              className="h-9 w-9 hover:bg-gray-50 rounded-md"
                               disabled={isDisabled}
                             >
                               <Minus className="w-4 h-4" />
@@ -363,10 +364,10 @@ export default function CartPage() {
                             <span className="w-12 text-center font-semibold text-gray-900 text-lg">{item.quantity}</span>
 
                             <Button
-                              variant="ghost"
+                              variant="default"
                               size="icon"
                               onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              className="h-9 w-9 hover:bg-white rounded-md"
+                              className="h-9 w-9 hover:bg-gray-50 rounded-md"
                               disabled={isDisabled || item.product.inStock === false}
                             >
                               <Plus className="w-4 h-4" />
@@ -404,7 +405,7 @@ export default function CartPage() {
             {/* Order Summary */}
             <div className="lg:col-span-1">
               <Card className="sticky top-20 bg-white border-0 shadow-xl">
-                <CardHeader className="bg-gray-600 text-white rounded-t-lg">
+                <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 text-black rounded-t-lg">
                   <CardTitle className="text-xl font-bold">Order Summary</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6 p-6">
@@ -438,7 +439,7 @@ export default function CartPage() {
                     <span className="text-green-600">${total.toFixed(2)}</span>
                   </div>
 
-                  <div className="space-y-3 pt-2">
+                  <div className="space-y-4 pt-2">
                     <Link href={`/checkout?amount=${total.toFixed(2)}`}>
                       <Button
                         className="w-full bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-700 text-white font-semibold py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
@@ -450,7 +451,7 @@ export default function CartPage() {
                     </Link>
 
                     <Link href="/">
-                      <Button variant="outline" className="w-full border-2 border-gray-300 hover:bg-gray-700 font-medium py-3 rounded-xl transition-colors">
+                      <Button variant="outline" className="w-full border-2 mt-1 border-gray-300 hover:bg-gray-700 font-medium py-3 rounded-xl transition-colors">
                         Continue Shopping
                       </Button>
                     </Link>
@@ -463,21 +464,21 @@ export default function CartPage() {
       </main>
 
       {/* Mobile Checkout Bar */}
-      {cartItems.length > 0 && (
+      {/* {cartItems.length > 0 && (
         <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-gray-100 p-4 z-10 shadow-2xl">
           <div className="flex items-center justify-between mb-3">
             <div>
-              <p className="text-sm text-gray-600 font-medium">Total ({itemCount} items)</p>
-              <p className="text-2xl font-bold text-blue-600">${total.toFixed(2)}</p>
+              {/* <p className="text-sm text-gray-600 font-medium">Total ({itemCount} items)</p> */}
+      {/* <p className="text-2xl font-bold text-emerald-600">${total.toFixed(2)}</p>
             </div>
             <Link href={`/checkout?amount=${total.toFixed(2)}`}>
-              <Button size="lg" className="px-8 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl">
+              <Button size="lg" className="px-8 bg-gray-700 hover:bg-gray-800 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl">
                 Checkout
               </Button>
             </Link>
           </div>
-        </div>
-      )}
+        </div> 
+      )} */}
 
       <div className="h-20 lg:h-0"></div>
     </div>

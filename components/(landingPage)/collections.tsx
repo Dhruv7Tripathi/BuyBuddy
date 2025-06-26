@@ -45,11 +45,11 @@ export default function CollectionsPage() {
             <div className="space-y-4">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Smartphones</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Laptops</h3>
                   <div className="space-y-2">
-                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">iPhone</p>
-                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Samsung Galaxy</p>
-                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Google</p>
+                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Asus</p>
+                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Lenovo</p>
+                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Hp</p>
                   </div>
                 </div>
                 <div className="w-40 h-40 ml-4 flex-shrink-0">
@@ -63,10 +63,10 @@ export default function CollectionsPage() {
                 </div>
               </div>
               <Link
-                href="/shop/list/smartphones"
+                href="/shop/list/laptops"
                 className="flex items-center text-gray-600 hover:text-gray-900 transition-colors text-sm pt-2"
               >
-                <span>All Smartphones</span>
+                <span>All Laptops</span>
                 <ChevronRight className="w-4 h-4 ml-1" />
               </Link>
             </div>
