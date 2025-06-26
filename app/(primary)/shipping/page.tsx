@@ -32,7 +32,6 @@ interface CartResponse {
   itemCount: number
 }
 
-// Loading component for Suspense fallback
 function ShippingPageLoading() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -44,7 +43,6 @@ function ShippingPageLoading() {
   )
 }
 
-// Main component that uses useSearchParams
 function ShippingPageContent() {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -70,7 +68,6 @@ function ShippingPageContent() {
   const searchParams = useSearchParams()
   const { toast } = useToast()
 
-  // Get amount from URL params as fallback
   const urlAmount = searchParams.get("amount")
 
   const fetchCartData = useCallback(async () => {
@@ -80,7 +77,7 @@ function ShippingPageContent() {
       setCartData(response.data)
     } catch (error) {
       console.error("Error fetching cart:", error)
-      // If cart fetch fails, use URL amount as fallback
+
       if (urlAmount) {
         const amount = Number.parseFloat(urlAmount)
         const subtotal = amount > 9.99 ? amount - 9.99 : amount
@@ -106,7 +103,6 @@ function ShippingPageContent() {
 
     if (status === "authenticated") {
       fetchCartData()
-      // Pre-fill email from session
       if (session?.user?.email) {
         setFormData((prev) => ({
           ...prev,
@@ -168,7 +164,6 @@ function ShippingPageContent() {
     }
   }
 
-  // Show loading while loading cart or session
   if (status === "loading" || isLoadingCart) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -185,7 +180,6 @@ function ShippingPageContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header with back button */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">

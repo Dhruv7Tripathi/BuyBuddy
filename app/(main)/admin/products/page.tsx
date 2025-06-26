@@ -85,7 +85,9 @@ export default function AdminProductPage() {
                   </td>
                   <td className="px-4 py-2 text-black">{product.title}</td>
                   <td className="px-4 py-2 capitalize text-black">{product.category}</td>
-                  <td className="px-4 py-2 text-black">€{product.price.toFixed(2)}</td>
+                  <td className="px-4 py-2 text-black">
+                    ${Number(product.price).toFixed(2)}
+                  </td>
                   <td className="px-4 py-2 space-x-2">
                     <Link href={`/admin/products/${product.id}/edit`}>
                       <button className="text-green-600 hover:text-emerald-800 hover:underline transition-colors">

@@ -61,7 +61,7 @@ export default function HomePage() {
   return (
     <div className="bg-gray-50  min-h-screen">
       <Navbar />
-      <div className=" container mx-auto px-8  mt-12">
+      <div className=" container mx-auto px-8 mt-12">
         <div className="flex flex-col lg:flex-row gap-6">
           <main className="flex-1">
             <div
@@ -187,24 +187,25 @@ export default function HomePage() {
           <TopSellingProducts />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="group relative overflow-hidden rounded-2xl border-0 shadow-xl hover:shadow-2xl transition-all duration-500">
-            <div className="relative p-10 text-white h-64">
+          {/* Premium Watches */}
+          <Card className="group relative overflow-hidden rounded-2xl border-0 shadow-xl hover:shadow-2xl transition-all duration-500 bg-white dark:bg-[#1f1f1f]">
+            <div className="relative p-10 text-gray-900 dark:text-white h-64">
               <div className="relative z-10 space-y-6">
                 <div>
                   <h2 className="text-4xl font-bold">Premium Watches</h2>
-                  <p className="text-xl text-white/90 mt-2">Luxury Timepieces</p>
+                  <p className="text-xl text-gray-700 dark:text-white/90 mt-2">Luxury Timepieces</p>
                 </div>
                 <p className="text-3xl font-bold">Save Up to $199</p>
                 <Link href="/shop/list/watches">
                   <Button
                     size="lg"
-                    className=" text-gray-900 hover:bg-gray-100 group-hover:scale-105 transition-transform duration-300"
+                    className="bg-white text-gray-900 hover:bg-gray-100 dark:bg-gray-100 dark:hover:bg-gray-200 group-hover:scale-105 transition-transform duration-300"
                   >
                     Explore Collection
                   </Button>
                 </Link>
               </div>
-              <div className="absolute right-0 top-0 h-full w-1/2  transition-opacity duration-500">
+              <div className="absolute right-0 top-0 h-full w-1/2 transition-opacity duration-500">
                 <Image
                   src="/watch.webp"
                   alt="Premium Watch"
@@ -215,18 +216,19 @@ export default function HomePage() {
             </div>
           </Card>
 
-          <Card className="group relative overflow-hidden rounded-2xl border-0 shadow-xl hover:shadow-2xl transition-all duration-500">
-            <div className="relative p-10 text-white h-64">
+          {/* Gaming Laptops */}
+          <Card className="group relative overflow-hidden rounded-2xl border-0 shadow-xl hover:shadow-2xl transition-all duration-500 bg-white dark:bg-[#1f1f1f]">
+            <div className="relative p-10 text-gray-900 dark:text-white h-64">
               <div className="relative z-10 space-y-6">
                 <div>
                   <h2 className="text-4xl font-bold">Gaming Laptops</h2>
-                  <p className="text-xl text-white/90 mt-2">Ultimate Performance</p>
+                  <p className="text-xl text-gray-700 dark:text-white/90 mt-2">Ultimate Performance</p>
                 </div>
                 <p className="text-3xl font-bold">Save Up to $399</p>
                 <Link href="/shop/list/laptops">
                   <Button
                     size="lg"
-                    className="bg-white text-gray-900 hover:bg-gray-100 group-hover:scale-105 transition-transform duration-300"
+                    className="bg-white text-gray-900 hover:bg-gray-100 dark:bg-gray-100 dark:hover:bg-gray-200 group-hover:scale-105 transition-transform duration-300"
                   >
                     Shop Gaming
                   </Button>
@@ -243,6 +245,7 @@ export default function HomePage() {
             </div>
           </Card>
         </div>
+
       </div>
       <Collections />
       <SelectedBrands />

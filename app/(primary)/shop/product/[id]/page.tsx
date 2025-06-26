@@ -307,7 +307,7 @@ export default function ProductPage(props: ProductPageProps) {
                     )}
                   </div>
                 </div>
-                <div className="flex items-center gap-2 ml-4">
+                <div className="flex items-center dark:bg-white gap-2 ml-4">
                   <Button
                     variant="default"
                     size="sm"
