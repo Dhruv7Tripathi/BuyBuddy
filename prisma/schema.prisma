@@ -111,9 +111,8 @@ model Order {
 model OrderItem {
   id          String   @id @default(uuid())
   orderId     String
-  productId   String
   productName String
-  productSku  String?
+  productId   String
   quantity    Int
   unitPrice   Decimal  @db.Decimal(10, 2)
   totalPrice  Decimal  @db.Decimal(10, 2)

@@ -16,12 +16,10 @@ export async function POST(request: NextRequest) {
     const { firstName, lastName, email, phone, address, apartment, city, state, zipCode, country, shippingMethod } =
       body
 
-    // Validate required fields
     if (!firstName || !lastName || !email || !address || !city || !state || !zipCode) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 
-    // Create shipping details in database
     const shippingDetails = await prisma.shippingDetails.create({
       data: {
         firstName,

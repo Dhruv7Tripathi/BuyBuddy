@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { CheckCircle, Package, Truck } from "lucide-react"
+import axios from "axios"
 
 export default function ShippingDetails() {
   const [formData, setFormData] = useState({
@@ -57,20 +58,17 @@ export default function ShippingDetails() {
       return
     }
 
-    try {
-      const response = await fetch("/api/shipping", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      })
 
-      if (!response.ok) {
+    try {
+      // const axios = (await import("axios")).default
+      const response = await axios.post("/api/shipping", formData)
+
+      if (response.status !== 200) {
         throw new Error("Failed to save shipping details")
       }
 
-      const result = await response.json()
+      const result = response.data
+      router.push("/checkout?amount=${total.toFixed(2)}")
       console.log("Shipping details submitted:", result)
       setIsSubmitted(true)
     } catch (err) {
