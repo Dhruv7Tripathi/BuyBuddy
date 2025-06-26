@@ -11,7 +11,7 @@ import { useToast } from "@/hooks/use-toast"
 import { Badge } from "@/components/ui/badge"
 import axios from "axios"
 import type { Decimal } from "@prisma/client/runtime/library"
-
+import Loader from "@/components/(landingPage)/loading"
 interface Product {
   id: string
   title: string
@@ -35,13 +35,11 @@ interface CartResponse {
   itemCount?: number
 }
 
-// Helper function to convert Decimal to number for calculations
 const decimalToNumber = (decimal: Decimal | number): number => {
   if (typeof decimal === "number") return decimal
   return Number.parseFloat(decimal.toString())
 }
 
-// Helper function to format price
 const formatPrice = (price: Decimal | number): string => {
   return decimalToNumber(price).toFixed(2)
 }
@@ -52,6 +50,13 @@ export default function CartPage() {
   const [updatingItems, setUpdatingItems] = useState<Set<string>>(new Set())
   const [removingItems, setRemovingItems] = useState<Set<string>>(new Set())
   const { toast } = useToast()
+
+  // useEffect(() => {
+  //   const delivery = axios.get("/api/shipping");
+  //   if (!delivery) {
+  //     router.push("/shipping")
+  //   }
+  // }, [router]);
 
   const fetchCart = useCallback(async () => {
     try {
@@ -193,12 +198,9 @@ export default function CartPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
-          <p>Loading your cart...</p>
-        </div>
-      </div>
+
+      <Loader />
+
     )
   }
 
