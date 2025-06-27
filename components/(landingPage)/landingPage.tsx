@@ -184,10 +184,11 @@ export default function HomePage() {
 
         </div>
         <div className="mt-10">
-          <TopSellingProducts />
+          <TopSellingProducts params={{
+            params: []
+          }} />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Premium Watches */}
           <Card className="group relative overflow-hidden rounded-2xl border-0 shadow-xl hover:shadow-2xl transition-all duration-500 bg-white dark:bg-[#1f1f1f]">
             <div className="relative p-10 text-gray-900 dark:text-white h-64">
               <div className="relative z-10 space-y-6">
@@ -216,7 +217,6 @@ export default function HomePage() {
             </div>
           </Card>
 
-          {/* Gaming Laptops */}
           <Card className="group relative overflow-hidden rounded-2xl border-0 shadow-xl hover:shadow-2xl transition-all duration-500 bg-white dark:bg-[#1f1f1f]">
             <div className="relative p-10 text-gray-900 dark:text-white h-64">
               <div className="relative z-10 space-y-6">

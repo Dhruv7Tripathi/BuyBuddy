@@ -24,25 +24,6 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useSession } from "next-auth/react"
-
-const menuItems = [
-  {
-    title: "Products",
-    url: "/admin/products",
-    icon: Package,
-  },
-  {
-    title: "Orders",
-    url: "/admin/orders",
-    icon: ShoppingCart,
-  },
-  {
-    title: "Top Products",
-    url: "/admin/topproducts",
-    icon: Users,
-  },
-]
-
 export default function AddProduct() {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
@@ -85,7 +66,7 @@ export default function AddProduct() {
         category
       })
 
-      router.push(`shop/list/${category}`)
+      router.push(`shop/(landingPage)/topSellingProduct`)
     } catch (err) {
       console.error(err)
       setError("Failed to add the product.")
@@ -97,40 +78,6 @@ export default function AddProduct() {
   return (
     <SidebarProvider>
       <div className="flex min-h-screen bg-white text-black w-full">
-        <Sidebar className="bg-white text-black border-r border-gray-200">
-          <SidebarHeader className="bg-white text-black">
-            <div className="flex items-center gap-2 px-4 py-2">
-              <h1 className="text-lg font-semibold text-black">BuyBuddy</h1>
-            </div>
-          </SidebarHeader>
-
-          <SidebarContent className="bg-white">
-            <SidebarGroup>
-              <SidebarGroupLabel className="text-black">Admin Panel</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {menuItems.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild className="text-black hover:bg-gray-100">
-                        <a href={item.url}>
-                          <item.icon className="h-4 w-4 text-black" />
-                          <span className="text-black">{item.title}</span>
-                        </a>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </SidebarContent>
-
-          <SidebarFooter className="bg-white">
-            <div className="px-4 py-2">
-              <p className="text-sm text-gray-600">Admin Dashboard</p>
-            </div>
-          </SidebarFooter>
-        </Sidebar>
-
         <SidebarInset className="bg-white">
           <div className="flex min-h-screen items-center justify-center p-6 bg-white">
             <Card className="w-full max-w-md bg-white text-black border border-gray-200">

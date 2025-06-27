@@ -23,7 +23,7 @@ export default function CollectionsPage() {
                 </div>
                 <div className="w-40 h-40 ml-4 flex-shrink-0">
                   <Image
-                    src="/collections/tablet.avif"
+                    src="/tablet.jpg"
                     alt="Tablet"
                     width={160}
                     height={80}
@@ -49,13 +49,15 @@ export default function CollectionsPage() {
                   <div className="space-y-2">
                     <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Asus</p>
                     <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Lenovo</p>
-                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Hp</p>
+                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Macbook</p>
+                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Dell</p>
+                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Acer</p>
                   </div>
                 </div>
                 <div className="w-40 h-40 ml-4 flex-shrink-0">
                   <Image
-                    src="/collections/smartphones.png"
-                    alt="Smartphone"
+                    src="/laptop.png"
+                    alt="Laptop"
                     width={160}
                     height={80}
                     className="object-contain rounded-lg"
@@ -87,7 +89,7 @@ export default function CollectionsPage() {
                 </div>
                 <div className="w-40 h-40 relative ml-4 flex-shrink-0">
                   <Image
-                    src="/watch.webp"
+                    src="/applewatch.webp"
                     alt="Smartwatch"
                     width={160}
                     height={80}
@@ -120,7 +122,7 @@ export default function CollectionsPage() {
                 </div>
                 <div className="w-40 h-40 relative ml-4 flex-shrink-0">
                   <Image
-                    src="/collections/cable.jpg"
+                    src="/headphones.webp"
                     alt="Accessories"
                     width={160}
                     height={80}
