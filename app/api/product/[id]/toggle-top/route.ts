@@ -1,9 +1,11 @@
 import { type NextRequest, NextResponse } from "next/server"
 import prisma from "@/lib/db"
-
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+interface Params {
+  params: Promise<{ id: string }>
+}
+export async function PATCH(request: NextRequest, { params }: Params) {
   try {
-    const { id } = params
+    const { id } = await params
     const { isTopProduct } = await request.json()
 
     // Check if product exists
