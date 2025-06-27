@@ -23,7 +23,7 @@ export default function CollectionsPage() {
                 </div>
                 <div className="w-40 h-40 ml-4 flex-shrink-0">
                   <Image
-                    src="/tablet.jpg"
+                    src="/(collections)/tablet.jpg"
                     alt="Tablet"
                     width={160}
                     height={80}
@@ -56,7 +56,7 @@ export default function CollectionsPage() {
                 </div>
                 <div className="w-40 h-40 ml-4 flex-shrink-0">
                   <Image
-                    src="/laptop.png"
+                    src="/(collections)/laptop.png"
                     alt="Laptop"
                     width={160}
                     height={80}
@@ -89,7 +89,7 @@ export default function CollectionsPage() {
                 </div>
                 <div className="w-40 h-40 relative ml-4 flex-shrink-0">
                   <Image
-                    src="/applewatch.webp"
+                    src="/(collections)/applewatch.webp"
                     alt="Smartwatch"
                     width={160}
                     height={80}
@@ -122,7 +122,7 @@ export default function CollectionsPage() {
                 </div>
                 <div className="w-40 h-40 relative ml-4 flex-shrink-0">
                   <Image
-                    src="/headphones.webp"
+                    src="/(collections)/headphones.webp"
                     alt="Accessories"
                     width={160}
                     height={80}

@@ -13,19 +13,19 @@ import { Card } from "../ui/card";
 
 const heroImages = [
   {
-    src: "/ps5.webp",
+    src: "/(landingpage)/ps5.webp",
     alt: "PlayStation 5 Console and Controller",
     title: "PLAY STATION 5",
     subtitle: "Next-Gen Gaming Experience",
   },
   {
-    src: "/laptop.jpg",
+    src: "/(landingpage)/laptop.jpg",
     alt: "Laptop",
     title: "High Performance Laptops",
     subtitle: "Power Your Productivity",
   },
   {
-    src: "/watch.webp",
+    src: "/(landingpage)/watch.webp",
     alt: "Smart Watch",
     title: "Smart Watches",
     subtitle: "Stay Connected in Style",
@@ -132,7 +132,7 @@ export default function HomePage() {
             </div>
             <div className="absolute opacity-50  right-0 top-0 h-full w-full">
               <Image
-                src="/watch.webp"
+                src="/(landingpage)/watch.webp"
                 alt="Camera lens"
                 fill
                 className="object-cover object-center transition-transform duration-500 ease-in-out group-hover:scale-105"
@@ -153,7 +153,7 @@ export default function HomePage() {
             </div>
             <div className="absolute opacity-50 right-0 top-0 h-full w-full">
               <Image
-                src="/laptop.jpg"
+                src="/(landingpage)/laptop.jpg"
                 alt="laptop"
                 fill
                 className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
@@ -174,7 +174,7 @@ export default function HomePage() {
             </div>
             <div className="absolute opacity-50 right-0 top-0 h-full w-full">
               <Image
-                src="/ps5II.webp"
+                src="/(landingpage)/ps5II.webp"
                 alt="buds"
                 fill
                 className="object-cover object-center transition-transform duration-300 group-hover:scale-105"

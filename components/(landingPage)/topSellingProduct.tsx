@@ -143,11 +143,11 @@ export default function TopSellingProducts() {
             <div className="mt-4 space-y-1">
               <h3 className="text-md font-semibold text-gray-900 line-clamp-2">{product.title}</h3>
               <p className="text-sm text-gray-500 line-clamp-2">{product.description}</p>
-              {product.category && (
+              {/* {product.category && (
                 <span className="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">
                   {product.category}
                 </span>
-              )}
+              )} */}
             </div>
             <div className="mt-4 flex justify-between items-end">
               {/* <p className="text-lg font-semibold text-gray-800">${product.price.toFixed(2)}</p> */}
