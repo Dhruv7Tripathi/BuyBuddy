@@ -7,7 +7,8 @@ import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
 import { toast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
-
+import Loader from "@/components/(landingPage)/loading"
+import axios from "axios"
 interface Product {
   id: string
   title: string
@@ -30,12 +31,8 @@ export default function AdminTopProducts() {
   const fetchProducts = async () => {
     try {
       setLoading(true)
-      const response = await fetch("/api/products")
-      if (!response.ok) {
-        throw new Error("Failed to fetch products")
-      }
-      const data = await response.json()
-      setProducts(data)
+      const response = await axios.get("/api/product")
+      setProducts(response.data)
     } catch (error) {
       console.error("Error fetching products:", error)
       toast({
@@ -51,21 +48,9 @@ export default function AdminTopProducts() {
   const toggleTopProduct = async (productId: string, isTopProduct: boolean) => {
     try {
       setUpdating(productId)
-      const response = await fetch(`/api/products/${productId}/toggle-top`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ isTopProduct }),
-      })
+      const response = await axios.patch(`/api/products/${productId}/toggle-top`, { isTopProduct })
+      const data = response.data
 
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to update product")
-      }
-
-      // Update local state
       setProducts(products.map((product) => (product.id === productId ? { ...product, isTopProduct } : product)))
 
       toast({
@@ -88,11 +73,7 @@ export default function AdminTopProducts() {
 
   if (loading) {
     return (
-      <div className="container mx-auto p-6">
-        <div className="flex items-center justify-center h-64">
-          <div className="text-lg">Loading products...</div>
-        </div>
-      </div>
+      <Loader />
     )
   }
 

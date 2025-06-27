@@ -125,7 +125,7 @@ export default function HomePage() {
               <h2 className="text-2xl font-bold">Watches</h2>
               <p className="text-xl mb-2 font-bold">Save Up to 99$</p>
               <Link href="/shop/list/watches">
-                <Button variant="default" className="bg-white mt-2 text-gray-900 hover:bg-gray-100">
+                <Button variant="default" className="bg-white mt-4 text-gray-900 hover:bg-gray-100">
                   Show Deals
                 </Button>
               </Link>
@@ -146,7 +146,7 @@ export default function HomePage() {
               <h2 className="text-2xl font-bold">Laptops</h2>
               <p className="text-xl font-bold">Save Up to 99$</p>
               <Link href="/shop/list/laptops">
-                <Button variant="default" className="bg-white text-gray-900 hover:bg-gray-100">
+                <Button variant="default" className="bg-white mt-4 text-gray-900 hover:bg-gray-100">
                   Show Deals
                 </Button>
               </Link>
@@ -167,7 +167,7 @@ export default function HomePage() {
               <h2 className="text-2xl font-bold">Accessories</h2>
               <p className="text-xl font-bold">Save Up to 99$</p>
               <Link href="/shop/list/accessories">
-                <Button variant="default" className="bg-white text-gray-900 hover:bg-gray-100">
+                <Button variant="default" className="bg-white mt-4 text-gray-900 hover:bg-gray-100">
                   Show Deals
                 </Button>
               </Link>
@@ -184,9 +184,7 @@ export default function HomePage() {
 
         </div>
         <div className="mt-10">
-          <TopSellingProducts params={{
-            params: []
-          }} />
+          <TopSellingProducts />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card className="group relative overflow-hidden rounded-2xl border-0 shadow-xl hover:shadow-2xl transition-all duration-500 bg-white dark:bg-[#1f1f1f]">
@@ -200,7 +198,7 @@ export default function HomePage() {
                 <Link href="/shop/list/watches">
                   <Button
                     size="lg"
-                    className="bg-white text-gray-900 hover:bg-gray-100 dark:bg-gray-100 dark:hover:bg-gray-200 group-hover:scale-105 transition-transform duration-300"
+                    className="bg-white mt-4 text-gray-900 hover:bg-gray-100 dark:bg-gray-100 dark:hover:bg-gray-200 group-hover:scale-105 transition-transform duration-300"
                   >
                     Explore Collection
                   </Button>
@@ -228,7 +226,7 @@ export default function HomePage() {
                 <Link href="/shop/list/laptops">
                   <Button
                     size="lg"
-                    className="bg-white text-gray-900 hover:bg-gray-100 dark:bg-gray-100 dark:hover:bg-gray-200 group-hover:scale-105 transition-transform duration-300"
+                    className="bg-white mt-4 text-gray-900 hover:bg-gray-100 dark:bg-gray-100 dark:hover:bg-gray-200 group-hover:scale-105 transition-transform duration-300"
                   >
                     Shop Gaming
                   </Button>
