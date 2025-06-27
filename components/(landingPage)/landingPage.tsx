@@ -206,7 +206,7 @@ export default function HomePage() {
               </div>
               <div className="absolute right-0 top-0 h-full w-1/2 transition-opacity duration-500">
                 <Image
-                  src="/watch.webp"
+                  src="/(landingpage)/watch.webp"
                   alt="Premium Watch"
                   fill
                   className="object-cover object-center transform group-hover:scale-110 transition-transform duration-700"
@@ -234,7 +234,7 @@ export default function HomePage() {
               </div>
               <div className="absolute right-0 top-0 h-full w-1/2 transition-opacity duration-500">
                 <Image
-                  src="/laptop.jpg"
+                  src="/(landingpage)/laptop.jpg"
                   alt="Gaming Laptop"
                   fill
                   className="object-cover object-center transform group-hover:scale-110 transition-transform duration-700"
