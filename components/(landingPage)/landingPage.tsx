@@ -25,10 +25,10 @@ const heroImages = [
     subtitle: "Power Your Productivity",
   },
   {
-    src: "/robo.jpg",
-    alt: "DJI Drone",
-    title: "DJI Smart Drones",
-    subtitle: "Capture Life from Above",
+    src: "/watch.webp",
+    alt: "Smart Watch",
+    title: "Smart Watches",
+    subtitle: "Stay Connected in Style",
   },
 ]
 export default function HomePage() {
@@ -123,9 +123,9 @@ export default function HomePage() {
           <div className="relative group overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 to-gray-700 p-8 text-white">
             <div className="relative z-10 space-y-4">
               <h2 className="text-2xl font-bold">Watches</h2>
-              <p className="text-xl font-bold">Save Up to 99$</p>
+              <p className="text-xl mb-2 font-bold">Save Up to 99$</p>
               <Link href="/shop/list/watches">
-                <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
+                <Button variant="default" className="bg-white mt-2 text-gray-900 hover:bg-gray-100">
                   Show Deals
                 </Button>
               </Link>
@@ -146,7 +146,7 @@ export default function HomePage() {
               <h2 className="text-2xl font-bold">Laptops</h2>
               <p className="text-xl font-bold">Save Up to 99$</p>
               <Link href="/shop/list/laptops">
-                <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
+                <Button variant="default" className="bg-white text-gray-900 hover:bg-gray-100">
                   Show Deals
                 </Button>
               </Link>
@@ -167,7 +167,7 @@ export default function HomePage() {
               <h2 className="text-2xl font-bold">Accessories</h2>
               <p className="text-xl font-bold">Save Up to 99$</p>
               <Link href="/shop/list/accessories">
-                <Button variant="secondary" className="bg-white text-gray-900 hover:bg-gray-100">
+                <Button variant="default" className="bg-white text-gray-900 hover:bg-gray-100">
                   Show Deals
                 </Button>
               </Link>

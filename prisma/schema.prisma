@@ -24,16 +24,18 @@ model User {
 }
 
 model Product {
-  id          String      @id @default(uuid())
-  title       String
-  description String?
-  price       Decimal     @db.Decimal(10, 2)
-  imageUrl    String
-  category    String?
-  Wishlist    Wishlist[]
-  cartItems   CartItem[]
-  orderItems  OrderItem[]
-  createdAt   DateTime    @default(now())
+  id           String      @id @default(uuid())
+  title        String
+  description  String?
+  price        Decimal     @db.Decimal(10, 2)
+  imageUrl     String
+  category     String?
+  isTopProduct Boolean     @default(false)
+  Wishlist     Wishlist[]
+  cartItems    CartItem[]
+  orderItems   OrderItem[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @default(now()) @updatedAt
 }
 
 model Wishlist {

@@ -1,178 +1,191 @@
 "use client"
 
-import { useState, useEffect, type FormEvent } from "react"
-import axios from "axios"
-import { useRouter } from "next/navigation"
-import { Package, ShoppingCart, Users } from "lucide-react"
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarInset,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-} from "@/components/ui/sidebar"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { useEffect, useState } from "react"
+import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { useSession } from "next-auth/react"
-export default function AddProduct() {
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
-  const [price, setPrice] = useState<string>("")
-  const [imageUrl, setImageUrl] = useState("")
-  const [category, setCategory] = useState("")
-  const [error, setError] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
-  const { status } = useSession()
+import { Badge } from "@/components/ui/badge"
+import { Switch } from "@/components/ui/switch"
+import { toast } from "@/hooks/use-toast"
+import { Button } from "@/components/ui/button"
+
+interface Product {
+  id: string
+  title: string
+  imageUrl: string | null
+  description: string
+  price: number
+  category: string | null
+  isTopProduct: boolean
+}
+
+export default function AdminTopProducts() {
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+  const [updating, setUpdating] = useState<string | null>(null)
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/signin")
-    }
-  }, [status, router])
+    fetchProducts()
+  }, [])
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-    setError(null)
-
-    if (!title || !description || !price || !imageUrl) {
-      setError("Please fill out all fields.")
-      return
-    }
-
-    const numericPrice = Number.parseFloat(price)
-    if (isNaN(numericPrice) || numericPrice <= 0) {
-      setError("Please enter a valid price.")
-      return
-    }
-
-    setIsLoading(true)
+  const fetchProducts = async () => {
     try {
-      await axios.post("/api/product", {
-        title,
-        description,
-        price: numericPrice,
-        imageUrl,
-        category
+      setLoading(true)
+      const response = await fetch("/api/products")
+      if (!response.ok) {
+        throw new Error("Failed to fetch products")
+      }
+      const data = await response.json()
+      setProducts(data)
+    } catch (error) {
+      console.error("Error fetching products:", error)
+      toast({
+        title: "Error",
+        description: "Failed to fetch products",
+        variant: "destructive",
       })
-
-      router.push(`shop/(landingPage)/topSellingProduct`)
-    } catch (err) {
-      console.error(err)
-      setError("Failed to add the product.")
     } finally {
-      setIsLoading(false)
+      setLoading(false)
     }
   }
 
-  return (
-    <SidebarProvider>
-      <div className="flex min-h-screen bg-white text-black w-full">
-        <SidebarInset className="bg-white">
-          <div className="flex min-h-screen items-center justify-center p-6 bg-white">
-            <Card className="w-full max-w-md bg-white text-black border border-gray-200">
-              <CardHeader className="bg-white">
-                <CardTitle className="text-2xl font-bold text-center text-black">Add New Product</CardTitle>
-              </CardHeader>
+  const toggleTopProduct = async (productId: string, isTopProduct: boolean) => {
+    try {
+      setUpdating(productId)
+      const response = await fetch(`/api/products/${productId}/toggle-top`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isTopProduct }),
+      })
 
-              <CardContent className="bg-white">
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  {error && (
-                    <div className="rounded-md bg-red-50 border border-red-200 p-3">
-                      <p className="text-sm text-red-600">{error}</p>
-                    </div>
-                  )}
+      const data = await response.json()
 
-                  <div className="space-y-2">
-                    <Label htmlFor="title" className="text-black">Title</Label>
-                    <Input
-                      id="title"
-                      type="text"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      required
-                      placeholder="Enter product title"
-                      className="bg-white text-black border-gray-300 placeholder:text-gray-500"
-                    />
-                  </div>
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to update product")
+      }
 
-                  <div className="space-y-2">
-                    <Label htmlFor="description" className="text-black">Description</Label>
-                    <Textarea
-                      id="description"
-                      rows={4}
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      required
-                      placeholder="Enter product description"
-                      className="bg-white text-black border-gray-300 placeholder:text-gray-500"
-                    />
-                  </div>
+      // Update local state
+      setProducts(products.map((product) => (product.id === productId ? { ...product, isTopProduct } : product)))
 
-                  <div className="space-y-2">
-                    <Label htmlFor="price" className="text-black">Price ($)</Label>
-                    <Input
-                      id="price"
-                      type="number"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
-                      required
-                      step="0.01"
-                      min="0"
-                      placeholder="0.00"
-                      className="bg-white text-black border-gray-300 placeholder:text-gray-500"
-                    />
-                  </div>
+      toast({
+        title: "Success",
+        description: data.message,
+      })
+    } catch (error: any) {
+      console.error("Error updating product:", error)
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update product",
+        variant: "destructive",
+      })
+    } finally {
+      setUpdating(null)
+    }
+  }
 
-                  <div className="space-y-2">
-                    <Label htmlFor="imageUrl" className="text-black">Image URL</Label>
-                    <Input
-                      id="imageUrl"
-                      type="url"
-                      value={imageUrl}
-                      onChange={(e) => setImageUrl(e.target.value)}
-                      required
-                      placeholder="https://example.com/image.jpg"
-                      className="bg-white text-black border-gray-300 placeholder:text-gray-500"
-                    />
-                  </div>
+  const topProducts = products.filter((p) => p.isTopProduct)
 
-                  <div className="space-y-2">
-                    <Label htmlFor="category" className="text-black">Category</Label>
-                    <Input
-                      id="category"
-                      type="text"
-                      value={category}
-                      onChange={(e) => setCategory(e.target.value)}
-                      required
-                      placeholder="Enter product category"
-                      className="bg-white text-black border-gray-300 placeholder:text-gray-500"
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    className="w-full bg-black text-white hover:bg-gray-800"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? "Adding Product..." : "Add Product"}
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
-        </SidebarInset>
+  if (loading) {
+    return (
+      <div className="container mx-auto p-6">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg">Loading products...</div>
+        </div>
       </div>
-    </SidebarProvider>
+    )
+  }
+
+  return (
+    <div className="container mx-auto p-6 space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold">Manage Top Products</h1>
+        <div className="flex items-center gap-4">
+          <Badge variant="secondary">{topProducts.length}/4 Top Products Selected</Badge>
+          <Button onClick={fetchProducts} variant="outline">
+            Refresh
+          </Button>
+        </div>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Current Top Products ({topProducts.length}/4)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {topProducts.length === 0 ? (
+              <p className="text-muted-foreground">No top products selected</p>
+            ) : (
+              <div className="space-y-4">
+                {topProducts.map((product) => (
+                  <div key={product.id} className="flex items-center space-x-4 p-3 border rounded-lg">
+                    <Image
+                      src={product.imageUrl || "/placeholder.svg?height=60&width=60"}
+                      alt={product.title}
+                      width={60}
+                      height={60}
+                      className="object-contain rounded"
+                    />
+                    <div className="flex-1">
+                      <h3 className="font-semibold">{product.title}</h3>
+                      <p className="text-sm text-muted-foreground">${product.price.toFixed(2)}</p>
+                      {product.category && (
+                        <Badge variant="outline" className="text-xs mt-1">
+                          {product.category}
+                        </Badge>
+                      )}
+                    </div>
+                    <Switch
+                      checked={true}
+                      onCheckedChange={() => toggleTopProduct(product.id, false)}
+                      disabled={updating === product.id}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>All Products</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4 max-h-96 overflow-y-auto">
+              {products.map((product) => (
+                <div key={product.id} className="flex items-center space-x-4 p-3 border rounded-lg">
+                  <Image
+                    src={product.imageUrl || "/placeholder.svg?height=60&width=60"}
+                    alt={product.title}
+                    width={60}
+                    height={60}
+                    className="object-contain rounded"
+                  />
+                  <div className="flex-1">
+                    <h3 className="font-semibold">{product.title}</h3>
+                    <p className="text-sm text-muted-foreground">${product.price.toFixed(2)}</p>
+                    {product.category && (
+                      <Badge variant="outline" className="text-xs mt-1">
+                        {product.category}
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm">Top Product</span>
+                    <Switch
+                      checked={product.isTopProduct}
+                      onCheckedChange={(checked) => toggleTopProduct(product.id, checked)}
+                      disabled={updating === product.id}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   )
 }
