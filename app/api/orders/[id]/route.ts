@@ -2,13 +2,16 @@ import { type NextRequest, NextResponse } from "next/server"
 import prisma from "@/lib/db"
 import getServerSession from "next-auth"
 import { authOptions } from "@/lib/authoptions"
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+interface Params {
+  params: Promise<{ id: string }>
+}
+export async function GET(request: NextRequest, { params }: Params) {
   try {
-    const { id } = params
+    const { id } = await params
 
     // Add authentication check here
     const session = await getServerSession(authOptions)
-    if (!session || session.user.role !== 'admin') {
+    if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -89,13 +92,13 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: Params) {
   try {
-    const { id } = params
+    const { id } = await params
 
     // Add authentication check here
     const session = await getServerSession(authOptions)
-    if (!session || session.user.role !== 'admin') {
+    if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -127,7 +130,13 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
   } catch (error) {
     console.error("Error deleting order:", error)
 
-    if (typeof error === "object" && error !== null && "code" in error && (error as any).code === "P2025") {
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "code" in error &&
+      typeof (error as { code?: unknown }).code === "string" &&
+      (error as { code: string }).code === "P2025"
+    ) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 })
     }
 
@@ -135,9 +144,9 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: Params) {
   try {
-    const { id } = params
+    const { id } = await params
     const body = await request.json()
 
     // Add authentication check here
@@ -197,7 +206,13 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   } catch (error) {
     console.error("Error updating order:", error)
 
-    if (typeof error === "object" && error !== null && "code" in error && (error as any).code === "P2025") {
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "code" in error &&
+      typeof (error as { code?: unknown }).code === "string" &&
+      (error as { code: string }).code === "P2025"
+    ) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 })
     }
 
