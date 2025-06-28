@@ -12,6 +12,8 @@ import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import axios from "axios"
 import Loader from "@/components/(landingPage)/loading"
+import type { Decimal } from "@prisma/client/runtime/library"
+
 interface Product {
   id: string
   title: string
@@ -35,6 +37,14 @@ interface WishlistItem {
 interface WishlistResponse {
   items: WishlistItem[]
   count: number
+}
+const decimalToNumber = (decimal: Decimal | number): number => {
+  if (typeof decimal === "number") return decimal
+  return Number.parseFloat(decimal.toString())
+}
+
+const formatPrice = (price: Decimal | number): string => {
+  return decimalToNumber(price).toFixed(2)
 }
 
 const EnhancedProductCard = ({
@@ -119,7 +129,7 @@ const EnhancedProductCard = ({
 
           <div className="flex items-center gap-2">
             <span className="text-2xl font-bold text-gray-800 group-hover:text-gray-900 transition-colors duration-300">
-              ${product.price.toFixed(2)}
+              ${formatPrice(product.price)}
             </span>
           </div>
 

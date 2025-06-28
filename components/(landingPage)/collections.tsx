@@ -47,11 +47,12 @@ export default function CollectionsPage() {
                 <div className="flex-1">
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">Laptops</h3>
                   <div className="space-y-2">
-                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Asus</p>
-                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Lenovo</p>
-                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Macbook</p>
-                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Dell</p>
-                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Acer</p>
+                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Asus Laptops</p>
+                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Lenovo Laptops</p>
+                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Macbooks</p>
+                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Dell Laptops</p>
+                    {/* <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Acer Laptops</p> */}
+                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Hp Laptops</p>
                   </div>
                 </div>
                 <div className="w-40 h-40 ml-4 flex-shrink-0">
@@ -84,7 +85,6 @@ export default function CollectionsPage() {
                     <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Samsung Galaxy</p>
                     <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Android Smartwatches</p>
                     <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Fitness Smartwatches</p>
-                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Smartwatches Accessories</p>
                   </div>
                 </div>
                 <div className="w-40 h-40 relative ml-4 flex-shrink-0">
@@ -113,11 +113,11 @@ export default function CollectionsPage() {
                 <div className="flex-1">
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">Accessories</h3>
                   <div className="space-y-2">
-                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Chargers</p>
                     <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Power Banks</p>
                     <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Cables</p>
                     <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">PC Fans</p>
-                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Mobile Covers</p>
+                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Camera</p>
+                    <p className="text-gray-700 hover:text-gray-900 cursor-pointer text-sm">Headphones</p>
                   </div>
                 </div>
                 <div className="w-40 h-40 relative ml-4 flex-shrink-0">

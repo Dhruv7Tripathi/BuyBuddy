@@ -51,13 +51,6 @@ export default function CartPage() {
   const [removingItems, setRemovingItems] = useState<Set<string>>(new Set())
   const { toast } = useToast()
 
-  // useEffect(() => {
-  //   const delivery = axios.get("/api/shipping");
-  //   if (!delivery) {
-  //     router.push("/shipping")
-  //   }
-  // }, [router]);
-
   const fetchCart = useCallback(async () => {
     try {
       setIsLoading(true)
@@ -132,37 +125,68 @@ export default function CartPage() {
     [cartItems, toast],
   )
 
-  const removeItem = useCallback(
-    async (cartItemId: string) => {
-      const originalItems = [...cartItems]
-      const updatedItems = cartItems.filter((item) => item.id !== cartItemId)
-      setCartItems(updatedItems)
-      setRemovingItems((prev) => new Set(prev).add(cartItemId))
+  // const removeItem = useCallback(
+  //   async (cartItemId: string) => {
+  //     const originalItems = [...cartItems]
+  //     const updatedItems = cartItems.filter((item) => item.id !== cartItemId)
+  //     setCartItems(updatedItems)
+  //     setRemovingItems((prev) => new Set(prev).add(cartItemId))
 
-      try {
-        await axios.delete(`/api/cart/${cartItemId}`)
-        toast({
-          title: "Item Removed",
-          description: "Item removed from your cart.",
-        })
-      } catch (error) {
-        setCartItems(originalItems)
-        console.error("Error removing item:", error)
-        toast({
-          title: "Remove Failed",
-          description: "Failed to remove item. Please try again.",
-          variant: "destructive",
-        })
-      } finally {
-        setRemovingItems((prev) => {
-          const newSet = new Set(prev)
-          newSet.delete(cartItemId)
-          return newSet
-        })
-      }
-    },
-    [cartItems, toast],
-  )
+  //     try {
+  //       await axios.delete(`/api/cart/${cartItemId}`)
+  //       toast({
+  //         title: "Item Removed",
+  //         description: "Item removed from your cart.",
+  //       })
+  //     } catch (error) {
+  //       setCartItems(originalItems)
+  //       console.error("Error removing item:", error)
+  //       toast({
+  //         title: "Remove Failed",
+  //         description: "Failed to remove item. Please try again.",
+  //         variant: "destructive",
+  //       })
+  //     } finally {
+  //       setRemovingItems((prev) => {
+  //         const newSet = new Set(prev)
+  //         newSet.delete(cartItemId)
+  //         return newSet
+  //       })
+  //     }
+  //   },
+  //   [cartItems, toast],
+  // )
+  const removeItem = async (cartItemId: string) => {
+    const originalItems = [...cartItems]
+    const updatedItems = cartItems.filter((item) => item.id !== cartItemId)
+
+    setCartItems(updatedItems)
+    setRemovingItems((prev) => new Set(prev).add(cartItemId))
+
+    try {
+      await axios.delete(`/api/cart/${cartItemId}`)
+
+      toast({
+        title: "Item Removed",
+        description: "Item removed from your cart.",
+      })
+    } catch (error) {
+      setCartItems(originalItems)
+      console.error("Error removing item:", error)
+
+      toast({
+        title: "Remove Failed",
+        description: "Failed to remove item. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setRemovingItems((prev) => {
+        const newSet = new Set(prev)
+        newSet.delete(cartItemId)
+        return newSet
+      })
+    }
+  }
 
   const clearCart = useCallback(async () => {
     const originalItems = [...cartItems]
@@ -214,7 +238,7 @@ export default function CartPage() {
               <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">Your cart is empty</h2>
               <p className="text-gray-600 mb-6 sm:mb-8">Add some products to get started!</p>
               <Link href="/">
-                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 transition-colors px-8">
+                <Button size="lg" className="bg-gradient-to-r from-blue-50 to-indigo-50 text-black transition-colors px-8">
                   Start Shopping
                 </Button>
               </Link>
@@ -223,7 +247,6 @@ export default function CartPage() {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             <div className="lg:col-span-2 space-y-4">
-              {/* Mobile View */}
               <div className="block lg:hidden space-y-3">
                 {cartItems.map((item) => {
                   const isUpdating = updatingItems.has(item.id)
