@@ -13,12 +13,12 @@ export default function Navbar() {
   const [query, setQuery] = useState("")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const router = useRouter();
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (query.trim()) {
-      router.push(`/search?q=${encodeURIComponent(query.trim())}`)
-    }
-  }
+  // const handleSearch = (e: React.FormEvent) => {
+  //   e.preventDefault()
+  //   if (query.trim()) {
+  //     router.push(`/search?q=${encodeURIComponent(query.trim())}`)
+  //   }
+  // }
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }

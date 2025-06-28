@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useMemo, useCallback } from "react"
+import { useState, useEffect, useMemo } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Minus, Plus, Trash2, ShoppingBag, Loader2, X } from "lucide-react"
@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge"
 import axios from "axios"
 import type { Decimal } from "@prisma/client/runtime/library"
 import Loader from "@/components/(landingPage)/loading"
+
 interface Product {
   id: string
   title: string
@@ -51,11 +52,10 @@ export default function CartPage() {
   const [removingItems, setRemovingItems] = useState<Set<string>>(new Set())
   const { toast } = useToast()
 
-  const fetchCart = useCallback(async () => {
+  const fetchCart = async () => {
     try {
       setIsLoading(true)
       const response = await axios.get<CartResponse>("/api/cart/get")
-
       const items = response.data.items || []
       setCartItems(items)
     } catch (error: unknown) {
@@ -78,94 +78,57 @@ export default function CartPage() {
     } finally {
       setIsLoading(false)
     }
-  }, [toast])
+  }
 
   useEffect(() => {
     fetchCart()
-  }, [fetchCart])
+  }, [])
 
-  const updateQuantity = useCallback(
-    async (cartItemId: string, newQuantity: number) => {
-      if (newQuantity === 0) {
-        removeItem(cartItemId)
-        return
-      }
+  const updateQuantity = async (cartItemId: string, newQuantity: number) => {
+    if (newQuantity === 0) {
+      removeItem(cartItemId)
+      return
+    }
 
-      const originalItems = [...cartItems]
-      const updatedItems = cartItems.map((item) => (item.id === cartItemId ? { ...item, quantity: newQuantity } : item))
-      setCartItems(updatedItems)
-      setUpdatingItems((prev) => new Set(prev).add(cartItemId))
+    const originalItems = [...cartItems]
+    const updatedItems = cartItems.map((item) => (item.id === cartItemId ? { ...item, quantity: newQuantity } : item))
+    setCartItems(updatedItems)
+    setUpdatingItems((prev) => new Set(prev).add(cartItemId))
 
-      try {
-        await axios.put("/api/cart/update", {
-          cartItemId,
-          quantity: newQuantity,
-        })
+    try {
+      await axios.put("/api/cart/update", {
+        cartItemId,
+        quantity: newQuantity,
+      })
+      toast({
+        title: "Updated",
+        description: "Quantity updated successfully.",
+      })
+    } catch (error) {
+      setCartItems(originalItems)
+      console.error("Error updating quantity:", error)
+      toast({
+        title: "Update Failed",
+        description: "Failed to update quantity. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setUpdatingItems((prev) => {
+        const newSet = new Set(prev)
+        newSet.delete(cartItemId)
+        return newSet
+      })
+    }
+  }
 
-        toast({
-          title: "Updated",
-          description: "Quantity updated successfully.",
-        })
-      } catch (error) {
-        setCartItems(originalItems)
-        console.error("Error updating quantity:", error)
-        toast({
-          title: "Update Failed",
-          description: "Failed to update quantity. Please try again.",
-          variant: "destructive",
-        })
-      } finally {
-        setUpdatingItems((prev) => {
-          const newSet = new Set(prev)
-          newSet.delete(cartItemId)
-          return newSet
-        })
-      }
-    },
-    [cartItems, toast],
-  )
-
-  // const removeItem = useCallback(
-  //   async (cartItemId: string) => {
-  //     const originalItems = [...cartItems]
-  //     const updatedItems = cartItems.filter((item) => item.id !== cartItemId)
-  //     setCartItems(updatedItems)
-  //     setRemovingItems((prev) => new Set(prev).add(cartItemId))
-
-  //     try {
-  //       await axios.delete(`/api/cart/${cartItemId}`)
-  //       toast({
-  //         title: "Item Removed",
-  //         description: "Item removed from your cart.",
-  //       })
-  //     } catch (error) {
-  //       setCartItems(originalItems)
-  //       console.error("Error removing item:", error)
-  //       toast({
-  //         title: "Remove Failed",
-  //         description: "Failed to remove item. Please try again.",
-  //         variant: "destructive",
-  //       })
-  //     } finally {
-  //       setRemovingItems((prev) => {
-  //         const newSet = new Set(prev)
-  //         newSet.delete(cartItemId)
-  //         return newSet
-  //       })
-  //     }
-  //   },
-  //   [cartItems, toast],
-  // )
   const removeItem = async (cartItemId: string) => {
     const originalItems = [...cartItems]
     const updatedItems = cartItems.filter((item) => item.id !== cartItemId)
-
     setCartItems(updatedItems)
     setRemovingItems((prev) => new Set(prev).add(cartItemId))
 
     try {
       await axios.delete(`/api/cart/${cartItemId}`)
-
       toast({
         title: "Item Removed",
         description: "Item removed from your cart.",
@@ -173,7 +136,6 @@ export default function CartPage() {
     } catch (error) {
       setCartItems(originalItems)
       console.error("Error removing item:", error)
-
       toast({
         title: "Remove Failed",
         description: "Failed to remove item. Please try again.",
@@ -188,7 +150,7 @@ export default function CartPage() {
     }
   }
 
-  const clearCart = useCallback(async () => {
+  const clearCart = async () => {
     const originalItems = [...cartItems]
     setCartItems([])
 
@@ -207,25 +169,23 @@ export default function CartPage() {
         variant: "destructive",
       })
     }
-  }, [cartItems, toast])
+  }
 
   const { subtotal, shipping, total, itemCount } = useMemo(() => {
     const subtotal = cartItems.reduce((total, item) => {
       const price = decimalToNumber(item.product.price)
       return total + price * item.quantity
     }, 0)
+
     const itemCount = cartItems.reduce((count, item) => count + item.quantity, 0)
     const shipping = subtotal > 100 ? 0 : subtotal > 0 ? 9.99 : 0
     const total = subtotal + shipping
+
     return { subtotal, shipping, total, itemCount }
   }, [cartItems])
 
   if (isLoading) {
-    return (
-
-      <Loader />
-
-    )
+    return <Loader />
   }
 
   return (
@@ -238,7 +198,10 @@ export default function CartPage() {
               <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">Your cart is empty</h2>
               <p className="text-gray-600 mb-6 sm:mb-8">Add some products to get started!</p>
               <Link href="/">
-                <Button size="lg" className="bg-gradient-to-r from-blue-50 to-indigo-50 text-black transition-colors px-8">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-blue-50 to-indigo-50 text-black transition-colors px-8"
+                >
                   Start Shopping
                 </Button>
               </Link>
@@ -246,103 +209,9 @@ export default function CartPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+            {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
-              <div className="block lg:hidden space-y-3">
-                {cartItems.map((item) => {
-                  const isUpdating = updatingItems.has(item.id)
-                  const isRemoving = removingItems.has(item.id)
-                  const isDisabled = isUpdating || isRemoving
-                  const itemPrice = decimalToNumber(item.product.price)
-
-                  return (
-                    <Card
-                      key={item.id}
-                      className={`bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 ${isDisabled ? "opacity-50" : ""
-                        } ${isRemoving ? "animate-pulse" : ""}`}
-                    >
-                      <CardContent className="p-4">
-                        <div className="flex space-x-3">
-                          <div className="relative flex-shrink-0">
-                            <Image
-                              src={item.product.imageUrl || "/placeholder.svg?height=80&width=80"}
-                              alt={item.product.title}
-                              width={80}
-                              height={80}
-                              className="rounded-xl object-cover shadow-md"
-                            />
-                            {item.product.inStock === false && (
-                              <Badge variant="destructive" className="absolute -top-2 -right-2 text-xs">
-                                Out of Stock
-                              </Badge>
-                            )}
-                          </div>
-
-                          <div className="flex-1 min-w-0">
-                            <div className="flex justify-between items-start mb-2">
-                              <h3 className="font-semibold text-gray-900 text-sm leading-tight pr-2">
-                                {item.product.title}
-                              </h3>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => removeItem(item.id)}
-                                className="text-red-600 hover:text-red-700 hover:bg-red-50 p-1 h-auto rounded-lg transition-colors"
-                                disabled={isDisabled}
-                              >
-                                {isRemoving ? (
-                                  <Loader2 className="w-4 h-4 animate-spin" />
-                                ) : (
-                                  <Trash2 className="w-4 h-4" />
-                                )}
-                              </Button>
-                            </div>
-
-                            <p className="text-lg font-bold text-gray-600 mb-3">${formatPrice(item.product.price)}</p>
-
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center space-x-2 bg-gray-50 rounded-lg p-1">
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                  className="h-8 w-8 p-0 hover:bg-white rounded-md"
-                                  disabled={isDisabled}
-                                >
-                                  <Minus className="w-3 h-3" />
-                                </Button>
-
-                                <span className="w-8 text-center font-semibold text-sm text-gray-900">
-                                  {item.quantity}
-                                </span>
-
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                  className="h-8 w-8 p-0 hover:bg-white rounded-md"
-                                  disabled={isDisabled || item.product.inStock === false}
-                                >
-                                  <Plus className="w-3 h-3" />
-                                </Button>
-                              </div>
-
-                              <div className="text-right">
-                                <p className="font-bold text-gray-900 text-lg">
-                                  ${(itemPrice * item.quantity).toFixed(2)}
-                                </p>
-                                {isUpdating && <Loader2 className="w-3 h-3 animate-spin mx-auto mt-1" />}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  )
-                })}
-              </div>
-
-              {/* Desktop View */}
-              <Card className="hidden lg:block bg-white border-0 shadow-lg">
+              <Card className="bg-white border-0 shadow-lg">
                 <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-t-lg">
                   <CardTitle className="flex items-center justify-between text-gray-900">
                     <span className="text-xl font-bold">Cart Items ({itemCount})</span>
@@ -404,11 +273,9 @@ export default function CartPage() {
                             >
                               <Minus className="w-4 h-4" />
                             </Button>
-
                             <span className="w-12 text-center font-semibold text-gray-900 text-lg">
                               {item.quantity}
                             </span>
-
                             <Button
                               variant="default"
                               size="icon"
@@ -439,7 +306,6 @@ export default function CartPage() {
                             </Button>
                           </div>
                         </div>
-
                         {index < cartItems.length - 1 && <Separator className="mt-4" />}
                       </div>
                     )
@@ -460,7 +326,6 @@ export default function CartPage() {
                       <span className="text-gray-700 font-medium">Subtotal ({itemCount} items)</span>
                       <span className="font-bold text-gray-900 text-lg">${subtotal.toFixed(2)}</span>
                     </div>
-
                     <div className="flex justify-between text-base">
                       <span className="text-gray-700 font-medium">Shipping</span>
                       <span className="font-bold text-gray-900">
@@ -471,7 +336,6 @@ export default function CartPage() {
                         )}
                       </span>
                     </div>
-
                     {subtotal < 100 && subtotal > 0 && (
                       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-xl border border-blue-200">
                         <p className="text-sm text-blue-800 font-medium">
@@ -499,7 +363,6 @@ export default function CartPage() {
                         Proceed to Checkout
                       </Button>
                     </Link>
-
                     <Link href="/">
                       <Button
                         variant="outline"
@@ -515,7 +378,6 @@ export default function CartPage() {
           </div>
         )}
       </main>
-
       <div className="h-20 lg:h-0"></div>
     </div>
   )
