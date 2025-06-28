@@ -7,12 +7,9 @@ import { useState } from 'react'
 import UserAccountNav from '../auth/UserAccountNav'
 import SignInButton from '../auth/SignInButton'
 import { Button } from '../ui/button'
-import { useRouter } from 'next/navigation'
 export default function Navbar() {
   const { data: session } = useSession()
-  const [query, setQuery] = useState("")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const router = useRouter();
   // const handleSearch = (e: React.FormEvent) => {
   //   e.preventDefault()
   //   if (query.trim()) {
@@ -41,7 +38,7 @@ export default function Navbar() {
                 <input
                   type="text"
                   placeholder="Search"
-                  onChange={(e) => setQuery(e.target.value)}
+                  // onChange={(e) => setQuery(e.target.value)}
                   className="pl-10 w-full bg-white border-none rounded-md py-2 text-sm focus:outline-none"
                 />
               </div>

@@ -24,8 +24,6 @@ interface Product {
   category?: string
   inStock?: boolean
   images?: string[]
-  rating?: number
-  reviewCount?: number
 }
 
 interface ProductPageProps {
@@ -52,8 +50,8 @@ export default function ProductPage(props: ProductPageProps) {
         const productData = {
           ...response.data,
           inStock: response.data.inStock ?? true,
-          rating: response.data.rating ?? 4.5,
-          reviewCount: response.data.reviewCount ?? 128,
+          // rating: response.data.rating ?? 4.5,
+          // reviewCount: response.data.reviewCount ?? 128,
           images: response.data.images ?? [response.data.imageUrl],
         }
 
@@ -203,27 +201,25 @@ export default function ProductPage(props: ProductPageProps) {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-12 lg:px-6">
           <div className="space-y-3 sm:space-y-4">
-            <div
-              className="relative aspect-square overflow-hidden bg-gray-100 lg:rounded-lg"
-
-            >
+            <div className="relative">
               {imageLoading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
                   <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 border-t-black"></div>
                 </div>
               )}
               <Image
-                src={productImages[selectedImageIndex] || "/placeholder.svg?height=600&width=600"}
+                src={productImages[selectedImageIndex] || "/placeholder.svg?height=300&width=300"}
                 alt={product.title}
                 width={600}
                 height={600}
-                className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                className="object-cover w-[600px] h-[600px] hover:scale-105 transition-transform duration-300 rounded-md"
                 priority
                 onLoad={() => setImageLoading(false)}
                 onError={() => setImageLoading(false)}
               />
+
               {productImages.length > 1 && (
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 lg:hidden">
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 lg:hidden z-20">
                   <div className="flex space-x-2">
                     {productImages.map((_, index) => (
                       <button
@@ -238,13 +234,14 @@ export default function ProductPage(props: ProductPageProps) {
               )}
 
               {productImages.length > 1 && (
-                <div className="absolute top-4 right-4 lg:hidden">
+                <div className="absolute top-4 right-4 lg:hidden z-20">
                   <div className="bg-black/50 text-white text-xs px-2 py-1 rounded-full">
                     {selectedImageIndex + 1}/{productImages.length}
                   </div>
                 </div>
               )}
             </div>
+
 
             {productImages.length > 1 && (
               <div className="hidden lg:flex space-x-2 overflow-x-auto pb-2">
