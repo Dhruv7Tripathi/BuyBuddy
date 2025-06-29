@@ -302,12 +302,12 @@ export default function ProductPage(props: ProductPageProps) {
                     )}
                   </div>
                 </div>
-                <div className="flex items-center dark:bg-white gap-2 ml-4">
+                <div className="flex items-center bg-white dark:bg-white gap-2 ml-4">
                   <Button
                     variant="default"
                     size="sm"
                     onClick={handleShare}
-                    className="min-h-[44px] min-w-[44px]"
+                    className="min-h-[44px] bg-white hover:bg-white min-w-[44px]"
                   >
                     <Share2 className="w-4 h-4" />
                   </Button>
@@ -315,7 +315,7 @@ export default function ProductPage(props: ProductPageProps) {
                     variant="default"
                     onClick={handleAddToWishlist}
                     disabled={addingToWishlist}
-                    className="min-h-[44px] min-w-[44px]"
+                    className="min-h-[44px] bg-white hover:bg-white min-w-[44px]"
                     aria-pressed={isWishlisted}
                   >
                     <Heart className={`w-5 h-5 ${isWishlisted ? "fill-red-500 text-red-500" : ""}`} />

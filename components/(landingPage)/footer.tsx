@@ -26,17 +26,22 @@ export default function Footer() {
             <ul className="space-y-1 md:space-y-2 text-sm">
 
               <li>
-                <Link href="/laptops" className="hover:text-gray-300 transition-colors">
+                <Link href="/shop/list/laptops" className="hover:text-gray-300 transition-colors">
                   Laptops
                 </Link>
               </li>
               <li>
-                <Link href="/watches" className="hover:text-gray-300 transition-colors">
+                <Link href="/shop/list/watches" className="hover:text-gray-300 transition-colors">
                   Watches
                 </Link>
               </li>
               <li>
-                <Link href="/accessories" className="hover:text-gray-300 transition-colors">
+                <Link href="/shop/list/watches" className="hover:text-gray-300 transition-colors">
+                  tablets
+                </Link>
+              </li>
+              <li>
+                <Link href="/shop/list/accessories" className="hover:text-gray-300 transition-colors">
                   Accessories
                 </Link>
               </li>

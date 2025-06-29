@@ -133,7 +133,7 @@ export default function Navbar() {
                   <div className="flex flex-col space-y-2 ml-6">
                     {[
                       { name: 'Laptop', href: '/category/list/laptops' },
-                      { name: 'Gaming', href: '/category/list/gaming' },
+                      // { name: 'Gaming', href: '/category/list/gaming' },
                       { name: 'Tablet', href: '/category/list/tablets' },
                       { name: 'Watch', href: '/category/list/watches' },
                       { name: 'Accessories', href: '/category/list/accessories' },
@@ -167,7 +167,7 @@ export default function Navbar() {
               <div className="flex items-center space-x-6 text-sm">
                 {[
                   { name: 'Laptop', href: '/shop/list/laptops' },
-                  { name: 'Gaming', href: '/shop/list/gaming' },
+                  // { name: 'Gaming', href: '/shop/list/gaming' },
                   { name: 'Tablet', href: '/shop/list/tablets' },
                   { name: 'Watch', href: '/shop/list/watches' },
                   { name: 'Accessories', href: '/shop/list/accessories' },

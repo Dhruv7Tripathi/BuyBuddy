@@ -51,19 +51,19 @@ const EnhancedProductCard = ({
   wishlistItem,
   onRemove,
   onAddToCart,
-  onMoveToCart,
+  // onMoveToCart,
   isRemoving,
-  isMoving,
+  // isMoving,
 }: {
   wishlistItem: WishlistItem
   onRemove: (id: string) => void
   onAddToCart: (product: Product) => void
-  onMoveToCart: (item: WishlistItem) => void
+  // onMoveToCart: (item: WishlistItem) => void
   isRemoving: boolean
-  isMoving: boolean
+  // isMoving: boolean
 }) => {
   const { product } = wishlistItem
-  const isDisabled = isRemoving || isMoving
+  const isDisabled = isRemoving
 
   return (
     <Card
@@ -144,7 +144,7 @@ const EnhancedProductCard = ({
               Add to Cart
             </Button>
 
-            <Button
+            {/* <Button
               variant="outline"
               onClick={() => onMoveToCart(wishlistItem)}
               disabled={product.inStock === false || isDisabled}
@@ -153,7 +153,7 @@ const EnhancedProductCard = ({
             >
               {isMoving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Heart className="h-4 w-4 mr-2" />}
               Move to Cart
-            </Button>
+            </Button> */}
           </div>
         </div>
       </CardContent>
@@ -169,7 +169,7 @@ export default function EnhancedWishlistPage() {
   const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([])
   const [loading, setLoading] = useState(true)
   const [removingItems, setRemovingItems] = useState<Set<string>>(new Set())
-  const [movingItems, setMovingItems] = useState<Set<string>>(new Set())
+  // const [movingItems, setMovingItems] = useState<Set<string>>(new Set())
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -264,47 +264,47 @@ export default function EnhancedWishlistPage() {
     }
   }
 
-  const moveToCart = async (wishlistItem: WishlistItem) => {
-    if (wishlistItem.product.inStock === false) {
-      toast({
-        title: "Out of Stock",
-        description: "This item is currently out of stock.",
-        variant: "destructive",
-      })
-      return
-    }
+  // const moveToCart = async (wishlistItem: WishlistItem) => {
+  //   if (wishlistItem.product.inStock === false) {
+  //     toast({
+  //       title: "Out of Stock",
+  //       description: "This item is currently out of stock.",
+  //       variant: "destructive",
+  //     })
+  //     return
+  //   }
 
-    const originalItems = [...wishlistItems]
-    const updatedItems = wishlistItems.filter((item) => item.id !== wishlistItem.id)
-    setWishlistItems(updatedItems)
-    setMovingItems((prev) => new Set(prev).add(wishlistItem.id))
+  //   const originalItems = [...wishlistItems]
+  //   const updatedItems = wishlistItems.filter((item) => item.id !== wishlistItem.id)
+  //   setWishlistItems(updatedItems)
+  //   setMovingItems((prev) => new Set(prev).add(wishlistItem.id))
 
-    try {
-      await axios.post("/api/wishlist/move-to-cart", {
-        wishlistItemId: wishlistItem.id,
-        quantity: 1,
-      })
+  //   try {
+  //     await axios.post("/api/wishlist/move-to-cart", {
+  //       wishlistItemId: wishlistItem.id,
+  //       quantity: 1,
+  //     })
 
-      toast({
-        title: "Moved to Cart",
-        description: `${wishlistItem.product.title} has been moved to your cart.`,
-      })
-    } catch (error) {
-      setWishlistItems(originalItems)
-      console.error("Error moving to cart:", error)
-      toast({
-        title: "Move Failed",
-        description: "Failed to move item to cart. Please try again.",
-        variant: "destructive",
-      })
-    } finally {
-      setMovingItems((prev) => {
-        const newSet = new Set(prev)
-        newSet.delete(wishlistItem.id)
-        return newSet
-      })
-    }
-  }
+  //     toast({
+  //       title: "Moved to Cart",
+  //       description: `${wishlistItem.product.title} has been moved to your cart.`,
+  //     })
+  //   } catch (error) {
+  //     setWishlistItems(originalItems)
+  //     console.error("Error moving to cart:", error)
+  //     toast({
+  //       title: "Move Failed",
+  //       description: "Failed to move item to cart. Please try again.",
+  //       variant: "destructive",
+  //     })
+  //   } finally {
+  //     setMovingItems((prev) => {
+  //       const newSet = new Set(prev)
+  //       newSet.delete(wishlistItem.id)
+  //       return newSet
+  //     })
+  //   }
+  // }
 
   if (loading) {
     return (
@@ -432,9 +432,9 @@ export default function EnhancedWishlistPage() {
                 wishlistItem={wishlistItem}
                 onRemove={removeFromWishlist}
                 onAddToCart={addToCart}
-                onMoveToCart={moveToCart}
+                // onMoveToCart={moveToCart}
                 isRemoving={removingItems.has(wishlistItem.id)}
-                isMoving={movingItems.has(wishlistItem.id)}
+              // isMoving={movingItems.has(wishlistItem.id)}
               />
             </div>
           ))}
