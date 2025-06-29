@@ -187,62 +187,65 @@ export default function HomePage() {
           <TopSellingProducts />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="group relative overflow-hidden rounded-2xl border-0 shadow-xl hover:shadow-2xl transition-all duration-500 bg-white dark:bg-[#1f1f1f]">
-            <div className="relative p-10 text-gray-900 dark:text-white h-64">
-              <div className="relative z-10 space-y-6">
+          {/* Watch Card */}
+          <Card className="group relative overflow-hidden rounded-2xl border-0 shadow-lg hover:shadow-2xl transition-all duration-500 bg-white dark:bg-[#1f1f1f]">
+            <div className="relative p-8 sm:p-10 text-gray-900 dark:text-white h-64">
+              <div className="relative z-10 space-y-5">
                 <div>
-                  <h2 className="text-4xl font-bold">Premium Watches</h2>
-                  <p className="text-xl text-gray-700 dark:text-white/90 mt-2">Luxury Timepieces</p>
+                  <h2 className="text-3xl sm:text-4xl font-bold">Premium Watches</h2>
+                  <p className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 mt-2">Luxury Timepieces</p>
                 </div>
-                <p className="text-3xl font-bold">Save Up to $199</p>
+                <p className="text-2xl sm:text-3xl font-bold">Save Up to $199</p>
                 <Link href="/shop/list/watches">
                   <Button
                     size="lg"
-                    className="bg-white mt-4 text-gray-900 hover:bg-gray-100 dark:bg-gray-100 dark:hover:bg-gray-200 group-hover:scale-105 transition-transform duration-300"
+                    className="bg-gray-200 mt-3 text-gray-900 hover:scale-105 transition-transform duration-300 dark:bg-gray-100 dark:text-black"
                   >
                     Explore Collection
                   </Button>
                 </Link>
               </div>
-              <div className="absolute right-0 top-0 h-full w-1/2 transition-opacity duration-500">
+              <div className="absolute right-0 top-0 h-full w-1/2 pointer-events-none">
                 <Image
                   src="/(landingpage)/watch.webp"
                   alt="Premium Watch"
                   fill
-                  className="object-cover object-center transform group-hover:scale-110 transition-transform duration-700"
+                  className="object-cover object-center group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
             </div>
           </Card>
 
-          <Card className="group relative overflow-hidden rounded-2xl border-0 shadow-xl hover:shadow-2xl transition-all duration-500 bg-white dark:bg-[#1f1f1f]">
-            <div className="relative p-10 text-gray-900 dark:text-white h-64">
-              <div className="relative z-10 space-y-6">
+          {/* Laptop Card */}
+          <Card className="group relative overflow-hidden rounded-2xl border-0 shadow-lg hover:shadow-2xl transition-all duration-500 bg-white dark:bg-[#1f1f1f]">
+            <div className="relative p-8 sm:p-10 text-gray-900 dark:text-white h-64">
+              <div className="relative z-10 space-y-5">
                 <div>
-                  <h2 className="text-4xl font-bold">Gaming Laptops</h2>
-                  <p className="text-xl text-gray-700 dark:text-white/90 mt-2">Ultimate Performance</p>
+                  <h2 className="text-3xl sm:text-4xl font-bold">Gaming Laptops</h2>
+                  <p className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 mt-2">Ultimate Performance</p>
                 </div>
-                <p className="text-3xl font-bold">Save Up to $399</p>
+                <p className="text-2xl sm:text-3xl font-bold">Save Up to $399</p>
                 <Link href="/shop/list/laptops">
                   <Button
                     size="lg"
-                    className="bg-white mt-4 text-gray-900 hover:bg-gray-100 dark:bg-gray-100 dark:hover:bg-gray-200 group-hover:scale-105 transition-transform duration-300"
+                    className="bg-gray-200 mt-3 text-gray-900 hover:scale-105 transition-transform duration-300 dark:bg-gray-100 dark:text-black"
                   >
                     Shop Gaming
                   </Button>
                 </Link>
               </div>
-              <div className="absolute right-0 top-0 h-full w-1/2 transition-opacity duration-500">
+              <div className="absolute right-0 top-0 h-full w-1/2 pointer-events-none">
                 <Image
                   src="/(landingpage)/laptop.jpg"
                   alt="Gaming Laptop"
                   fill
-                  className="object-cover object-center transform group-hover:scale-110 transition-transform duration-700"
+                  className="object-cover object-center group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
             </div>
           </Card>
         </div>
+
 
       </div>
       <Collections />

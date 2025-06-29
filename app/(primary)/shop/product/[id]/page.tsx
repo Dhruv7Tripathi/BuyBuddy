@@ -404,7 +404,7 @@ export default function ProductPage(props: ProductPageProps) {
               size="sm"
               onClick={() => updateQuantity(-1)}
               disabled={quantity <= 1}
-              className="h-12 w-12 p-0 touch-manipulation"
+              className="h-12 w-12 p-0 bg-gray-50 text-black hover:bg-gray-50 touch-manipulation"
             >
               <Minus className="w-5 h-5" />
             </Button>
@@ -413,7 +413,7 @@ export default function ProductPage(props: ProductPageProps) {
               variant="default"
               size="sm"
               onClick={() => updateQuantity(1)}
-              className="h-12 w-12 p-0 touch-manipulation"
+              className="h-12 w-12 p-0 bg-gray-50 text-black hover:bg-gray-50 touch-manipulation"
             >
               <Plus className="w-5 h-5" />
             </Button>

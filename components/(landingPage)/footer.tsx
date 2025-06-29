@@ -1,4 +1,4 @@
-import { FaInstagram, FaTwitter, FaGithub } from "react-icons/fa";
+import { FaTwitter, FaGithub, FaLinkedin } from "react-icons/fa";
 import Link from "next/link";
 import { Heart } from "lucide-react";
 import Image from "next/image";
@@ -93,13 +93,13 @@ export default function Footer() {
 
             <div className="flex justify-center sm:justify-start space-x-4 text-xl">
               <a
-                href="https://instagram.com"
+                href="https://www.linkedin.com/in/dhruv-tripathi-9848792aa/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
                 className="hover:text-pink-400 transition-colors transform hover:scale-110"
               >
-                <FaInstagram />
+                <FaLinkedin />
               </a>
               <a
                 href="https://twitter.com/dhruvtripathi77"
