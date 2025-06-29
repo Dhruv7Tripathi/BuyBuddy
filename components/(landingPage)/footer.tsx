@@ -24,11 +24,7 @@ export default function Footer() {
           <div className="text-center sm:text-left">
             <h3 className="text-lg font-semibold mb-3 md:mb-4">Quick Links</h3>
             <ul className="space-y-1 md:space-y-2 text-sm">
-              <li>
-                <Link href="/tech" className="hover:text-gray-300 transition-colors">
-                  Tech
-                </Link>
-              </li>
+
               <li>
                 <Link href="/laptops" className="hover:text-gray-300 transition-colors">
                   Laptops
@@ -37,11 +33,6 @@ export default function Footer() {
               <li>
                 <Link href="/watches" className="hover:text-gray-300 transition-colors">
                   Watches
-                </Link>
-              </li>
-              <li>
-                <Link href="/mobiles" className="hover:text-gray-300 transition-colors">
-                  Mobiles
                 </Link>
               </li>
               <li>
@@ -90,7 +81,7 @@ export default function Footer() {
                   href="mailto:contact@buybuddy.com"
                   className="hover:text-gray-300 transition-colors"
                 >
-                  Email: contact@buybuddy.com
+                  Email:@buybuddy.com
                 </a>
               </p>
             </div>

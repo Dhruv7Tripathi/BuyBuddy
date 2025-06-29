@@ -50,8 +50,6 @@ export default function ProductPage(props: ProductPageProps) {
         const productData = {
           ...response.data,
           inStock: response.data.inStock ?? true,
-          // rating: response.data.rating ?? 4.5,
-          // reviewCount: response.data.reviewCount ?? 128,
           images: response.data.images ?? [response.data.imageUrl],
         }
 
@@ -138,7 +136,7 @@ export default function ProductPage(props: ProductPageProps) {
       })
       return
     }
-    if (status == "unauthenticated" || status == "loading") {
+    if (status == "unauthenticated") {
       toast({
         title: "Please Sign In",
         description: "You need to sign in to add items to your cart.",

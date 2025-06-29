@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 import Image from "next/image"
 import Link from "next/link"
-import { Heart, ShoppingCart, Trash2, ArrowLeft, Loader2, Package, Sparkles } from "lucide-react"
+import { Heart, ShoppingCart, Trash2, ArrowLeft, Loader2, Package } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -347,9 +347,6 @@ export default function EnhancedWishlistPage() {
               <div className="w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-red-100 via-pink-100 to-purple-100 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
                 <Heart className="h-12 w-12 sm:h-16 sm:w-16 text-red-500 group-hover:text-red-600 transition-colors duration-300" />
               </div>
-              <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full flex items-center justify-center shadow-lg animate-bounce">
-                <Sparkles className="w-4 h-4 text-white" />
-              </div>
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
@@ -363,21 +360,13 @@ export default function EnhancedWishlistPage() {
             <div className="space-y-4 w-full">
               <Button
                 asChild
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                className="w-full text-gray-800 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-50 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 size="lg"
               >
                 <Link href="/">
                   <Package className="w-4 h-4 mr-2" />
                   Start Shopping
                 </Link>
-              </Button>
-              <Button
-                variant="outline"
-                asChild
-                className="w-full hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:border-blue-300 transition-all duration-300 transform hover:scale-105"
-                size="lg"
-              >
-                <Link href="/categories">Browse Categories</Link>
               </Button>
             </div>
           </div>

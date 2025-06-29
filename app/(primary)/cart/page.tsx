@@ -268,7 +268,7 @@ export default function CartPage() {
                               variant="default"
                               size="icon"
                               onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                              className="h-9 w-9 hover:bg-white rounded-md"
+                              className="h-9 w-9  rounded-md"
                               disabled={isDisabled}
                             >
                               <Minus className="w-4 h-4" />
@@ -280,7 +280,7 @@ export default function CartPage() {
                               variant="default"
                               size="icon"
                               onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              className="h-9 w-9 hover:bg-white rounded-md"
+                              className="h-9 w-9  rounded-md"
                               disabled={isDisabled || item.product.inStock === false}
                             >
                               <Plus className="w-4 h-4" />
@@ -295,7 +295,7 @@ export default function CartPage() {
                               variant="default"
                               size="sm"
                               onClick={() => removeItem(item.id)}
-                              className="text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors rounded-lg"
+                              className="text-red-600 hover:text-red-700 rounded-lg"
                               disabled={isDisabled}
                             >
                               {isRemoving ? (
@@ -366,7 +366,7 @@ export default function CartPage() {
                     <Link href="/">
                       <Button
                         variant="outline"
-                        className="w-full border-2 mt-1 border-gray-300 bg-gray-800 hover:bg-gray-900 font-medium py-3 rounded-xl transition-colors"
+                        className="w-full border-2 mt-1 border-gray-300 bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-700 text-white font-medium py-3 rounded-xl transition-colors"
                       >
                         Continue Shopping
                       </Button>
