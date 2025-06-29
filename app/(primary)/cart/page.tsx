@@ -220,7 +220,7 @@ export default function CartPage() {
                         variant="ghost"
                         size="sm"
                         onClick={clearCart}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors"
+                        className="text-red-600 hover:text-red-700 hover:bg-pink-50 transition-colors"
                       >
                         <X className="w-4 h-4 sm:mr-2" />
                         <span className="hidden sm:inline">Clear All</span>
@@ -268,7 +268,7 @@ export default function CartPage() {
                               variant="default"
                               size="icon"
                               onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                              className="h-9 w-9 bg-gray-50 hover:bg-gray-50 rounded-md"
+                              className="h-9 w-9 text-black bg-gray-50 hover:bg-gray-50 rounded-md"
                               disabled={isDisabled}
                             >
                               <Minus className="w-4 h-4" />
@@ -280,7 +280,7 @@ export default function CartPage() {
                               variant="default"
                               size="icon"
                               onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              className="h-9 w-9 bg-gray-50  hover:bg-bg-gray-50 rounded-md"
+                              className="h-9 w-9 text-black bg-gray-50  hover:bg-bg-gray-50 rounded-md"
                               disabled={isDisabled || item.product.inStock === false}
                             >
                               <Plus className="w-4 h-4" />
@@ -356,7 +356,7 @@ export default function CartPage() {
                   <div className="space-y-4 pt-2">
                     <Link href={`/shipping?amount=${total.toFixed(2)}`}>
                       <Button
-                        className="w-full bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-700 text-white font-semibold py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
+                        className="w-full  bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-700 text-white font-semibold py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
                         size="lg"
                         disabled={cartItems.length === 0}
                       >

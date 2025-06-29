@@ -302,12 +302,12 @@ export default function ProductPage(props: ProductPageProps) {
                     )}
                   </div>
                 </div>
-                <div className="flex items-center bg-white dark:bg-white gap-2 ml-4">
+                <div className="flex items-center text-black bg-white dark:bg-white gap-2 ml-4">
                   <Button
                     variant="default"
                     size="sm"
                     onClick={handleShare}
-                    className="min-h-[44px] bg-white hover:bg-white min-w-[44px]"
+                    className="min-h-[44px] text-black bg-white hover:bg-white min-w-[44px]"
                   >
                     <Share2 className="w-4 h-4" />
                   </Button>
@@ -315,7 +315,7 @@ export default function ProductPage(props: ProductPageProps) {
                     variant="default"
                     onClick={handleAddToWishlist}
                     disabled={addingToWishlist}
-                    className="min-h-[44px] bg-white hover:bg-white min-w-[44px]"
+                    className="min-h-[44px] text-black bg-white hover:bg-white min-w-[44px]"
                     aria-pressed={isWishlisted}
                   >
                     <Heart className={`w-5 h-5 ${isWishlisted ? "fill-red-500 text-red-500" : ""}`} />
@@ -341,9 +341,6 @@ export default function ProductPage(props: ProductPageProps) {
                 )}
               </div>
             </div>
-
-
-
             <Separator className="my-4" />
 
             <div className="text-3xl sm:text-4xl font-bold text-black py-2">
@@ -364,7 +361,7 @@ export default function ProductPage(props: ProductPageProps) {
                 <span className="font-medium text-base">Quantity:</span>
                 <div className="flex items-center border rounded-lg">
                   <Button
-                    variant="ghost"
+                    variant="default"
                     size="sm"
                     onClick={() => updateQuantity(-1)}
                     disabled={quantity <= 1}
@@ -374,7 +371,7 @@ export default function ProductPage(props: ProductPageProps) {
                   </Button>
                   <span className="px-4 py-2 min-w-[3rem] text-center font-medium text-lg">{quantity}</span>
                   <Button
-                    variant="ghost"
+                    variant="default"
                     size="sm"
                     onClick={() => updateQuantity(1)}
                     className="h-12 w-12 p-0 touch-manipulation"
@@ -387,7 +384,7 @@ export default function ProductPage(props: ProductPageProps) {
               <Button
                 onClick={addToCart}
                 disabled={!product.inStock || addingToCart}
-                className="w-full bg-black text-white hover:bg-gray-800 h-14 text-lg touch-manipulation font-medium"
+                className="w-full bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-700 text-white font-semibold h-14 text-lg touch-manipulation"
                 size="lg"
               >
                 <ShoppingCart className="w-5 h-5 mr-2" />
@@ -403,7 +400,7 @@ export default function ProductPage(props: ProductPageProps) {
           <span className="font-medium text-lg">Quantity:</span>
           <div className="flex items-center border rounded-lg bg-white shadow-sm">
             <Button
-              variant="ghost"
+              variant="default"
               size="sm"
               onClick={() => updateQuantity(-1)}
               disabled={quantity <= 1}
@@ -413,7 +410,7 @@ export default function ProductPage(props: ProductPageProps) {
             </Button>
             <span className="px-6 py-2 min-w-[4rem] text-center font-medium text-lg">{quantity}</span>
             <Button
-              variant="ghost"
+              variant="default"
               size="sm"
               onClick={() => updateQuantity(1)}
               className="h-12 w-12 p-0 touch-manipulation"
@@ -430,16 +427,12 @@ export default function ProductPage(props: ProductPageProps) {
             <Button
               onClick={addToCart}
               disabled={!product.inStock || addingToCart}
-              className="w-full bg-gray-600 text-white hover:bg-gray-700 h-14 text-lg font-medium rounded-lg"
+              className="w-full bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-700 text-white font-semibold h-14 text-lg  rounded-lg"
               size="lg"
             >
               <ShoppingCart className="w-5 h-5 mr-2" />
               {addingToCart ? "Adding..." : "Add to Cart"}
             </Button>
-
-
-
-
           </div>
           <div className="text-right min-w-[120px]">
             <div className="text-xl font-bold">
