@@ -1,7 +1,6 @@
 "use client"
 import { notFound } from "next/navigation"
 import type React from "react"
-
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -137,12 +136,9 @@ export default function ProductPage(props: ProductPageProps) {
       return
     }
     if (status == "unauthenticated") {
-      toast({
-        title: "Please Sign In",
-        description: "You need to sign in to add items to your cart.",
-        variant: "destructive",
-      })
-      return
+      return (
+        alert("Please Sign In to add items to your cart.")
+      )
     }
 
     setAddingToCart(true)
@@ -365,7 +361,7 @@ export default function ProductPage(props: ProductPageProps) {
                     size="sm"
                     onClick={() => updateQuantity(-1)}
                     disabled={quantity <= 1}
-                    className="h-12 w-12 p-0 touch-manipulation"
+                    className="h-12 w-12 p-0 bg-gray-50 hover:bg-gray100 dark:bg-gray-50 text-black touch-manipulation"
                   >
                     <Minus className="w-4 h-4" />
                   </Button>
@@ -374,7 +370,7 @@ export default function ProductPage(props: ProductPageProps) {
                     variant="default"
                     size="sm"
                     onClick={() => updateQuantity(1)}
-                    className="h-12 w-12 p-0 touch-manipulation"
+                    className="h-12 w-12 p-0 bg-gray-50 text-black hover:bg-gray-100 dark:bg-white  touch-manipulation"
                   >
                     <Plus className="w-4 h-4" />
                   </Button>

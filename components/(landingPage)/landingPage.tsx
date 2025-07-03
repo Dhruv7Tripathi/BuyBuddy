@@ -18,18 +18,21 @@ const heroImages = [
     alt: "PlayStation 5 Console and Controller",
     title: "PLAY STATION 5",
     subtitle: "Next-Gen Gaming Experience",
+    href: "/shop/list/accessories",
   },
   {
     src: "/(landingpage)/laptop.jpg",
     alt: "Laptop",
     title: "High Performance Laptops",
     subtitle: "Power Your Productivity",
+    href: "/shop/list/laptops",
   },
   {
     src: "/(landingpage)/watch.webp",
     alt: "Smart Watch",
     title: "Smart Watches",
     subtitle: "Stay Connected in Style",
+    href: "/shop/list/watches",
   },
 ]
 
@@ -65,14 +68,12 @@ export default function HomePage() {
     <div className="bg-gray-50 min-h-screen">
       <Navbar />
 
-      {/* Hero Section */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-6 sm:mt-8 lg:mt-12">
         <div
           className="relative bg-gradient-to-r from-gray-600 to-gray-800 rounded-xl sm:rounded-2xl overflow-hidden h-[400px] sm:h-[450px] lg:h-[500px] shadow-xl lg:shadow-2xl group"
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
         >
-          {/* Navigation Buttons */}
           <button
             onClick={prevSlide}
             className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-2 sm:p-3 transition-all duration-300 opacity-0 group-hover:opacity-100"
@@ -86,7 +87,6 @@ export default function HomePage() {
             <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
           </button>
 
-          {/* Content */}
           <div className="absolute inset-0 flex items-center justify-between px-4 sm:px-6 lg:px-8 py-8 sm:py-12 z-10">
             <div className="text-white max-w-full md:max-w-lg z-20 relative">
               <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-2 sm:mb-4 leading-tight drop-shadow-lg">
@@ -95,12 +95,14 @@ export default function HomePage() {
               <p className="text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 lg:mb-8 text-white/90 drop-shadow-md">
                 {currentImage.subtitle}
               </p>
-              <Button
-                size="lg"
-                className="bg-white text-gray-900 hover:bg-gray-100 px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg font-semibold shadow-lg"
-              >
-                Shop Now
-              </Button>
+              <Link href={currentImage.href}>
+                <Button
+                  size="lg"
+                  className="bg-white text-gray-900 hover:bg-gray-100 px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg font-semibold shadow-lg"
+                >
+                  Shop Now
+                </Button>
+              </Link>
             </div>
           </div>
 
