@@ -13,7 +13,7 @@ import TopSellingProducts from "@/components/(landingPage)/topSellingProduct"
 import { useToast } from "@/hooks/use-toast"
 import Loader from "@/components/(landingPage)/loading"
 import { useSession } from "next-auth/react"
-
+import { Lens } from "@/components/magicui/lens"
 interface Product {
   id: string
   title: string
@@ -198,19 +198,21 @@ export default function ProductPage(props: ProductPageProps) {
             <div className="relative">
               {imageLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
-                  <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 border-t-black"></div>
+                  <div className="animate-spin rounded-full  border-2 border-gray-300 border-t-black"></div>
                 </div>
               )}
-              <Image
-                src={productImages[selectedImageIndex] || "/placeholder.svg?height=300&width=300"}
-                alt={product.title}
-                width={600}
-                height={600}
-                className="object-cover w-[600px] h-[600px] hover:scale-105 transition-transform duration-300 rounded-md"
-                priority
-                onLoad={() => setImageLoading(false)}
-                onError={() => setImageLoading(false)}
-              />
+              <Lens>
+                <Image
+                  src={productImages[selectedImageIndex] || "/placeholder.svg?height=300&width=300"}
+                  alt={product.title}
+                  width={600}
+                  height={600}
+                  className=" w-[600px] h-[600px] hover:scale-105 transition-transform duration-300 rounded-md"
+                  priority
+                  onLoad={() => setImageLoading(false)}
+                  onError={() => setImageLoading(false)}
+                />
+              </Lens>
 
               {productImages.length > 1 && (
                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 lg:hidden z-20">
@@ -246,13 +248,15 @@ export default function ProductPage(props: ProductPageProps) {
                     className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-md overflow-hidden border-2 transition-colors touch-manipulation ${selectedImageIndex === index ? "border-black" : "border-gray-200"
                       }`}
                   >
-                    <Image
-                      src={image || "/placeholder.svg?height=80&width=80"}
-                      alt={`${product.title} ${index + 1}`}
-                      width={80}
-                      height={80}
-                      className="object-cover w-full h-full"
-                    />
+                    <Lens>
+                      <Image
+                        src={image || "/placeholder.svg?height=80&width=80"}
+                        alt={`${product.title} ${index + 1}`}
+                        width={80}
+                        height={80}
+                        className="object-cover w-full h-full"
+                      />
+                    </Lens>
                   </button>
                 ))}
               </div>
@@ -267,13 +271,15 @@ export default function ProductPage(props: ProductPageProps) {
                     className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors touch-manipulation ${selectedImageIndex === index ? "border-black" : "border-gray-200"
                       }`}
                   >
-                    <Image
-                      src={image || "/placeholder.svg?height=64&width=64"}
-                      alt={`${product.title} ${index + 1}`}
-                      width={64}
-                      height={64}
-                      className="object-cover w-full h-full"
-                    />
+                    <Lens>
+                      <Image
+                        src={image || "/placeholder.svg?height=64&width=64"}
+                        alt={`${product.title} ${index + 1}`}
+                        width={64}
+                        height={64}
+                        className="object-cover w-full h-full"
+                      />
+                    </Lens>
                   </button>
                 ))}
               </div>
