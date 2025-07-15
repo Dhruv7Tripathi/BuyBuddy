@@ -15,40 +15,11 @@ export default function Home() {
   };
   return (
     <>
-      <Head>
-        <title>BuyBuddy- Everything you need</title>
-        <meta name="description" content="Create content like never before" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <div className="flex h-screen w-full">
-        <div className="relative flex-1 hidden lg:block">
-          <div className="absolute top-8 left-8 z-10">
-            <span className="text-white text-2xl font-bold">buybuddy</span>
-          </div>
-          <div className="absolute inset-0 flex items-center z-10 px-16">
-            <div>
-              <h1 className="text-white text-5xl font-bold leading-tight mb-6">
-                Everything you need,<br />
-                to make anything you want.
-              </h1>
-              <p className="text-white text-xl opacity-90">
-                Dozens of creative tools to ideate, generate and edit<br />
-                content like never before.
-              </p>
-            </div>
-          </div>
-          <div className="absolute inset-0 bg-black bg-opacity-60 z-[1]"></div>
-          <Image
-            src="/auth/city-background.jpg"
-            alt="City skyline"
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
-        <div className="flex-1 flex items-center justify-center p-8 bg-gray-500">
+
+        <div className="flex-1 flex items-center justify-center p-8 bg-white">
           <div className="w-full max-w-md">
+            <Image src="/BuyBuddy.png" alt="BuyBuddy Logo" width={150} height={150} className="mx-auto mb-6" />
             <h2 className="text-3xl font-bold text-center mb-6 text-black">Welcome to BuyBuddy</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <Button

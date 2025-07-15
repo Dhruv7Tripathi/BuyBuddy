@@ -96,7 +96,7 @@ export default function Navbar() {
 
               <div className="flex flex-col space-y-3 pt-2 pb-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-700 font-medium">Account</span>
+                  <span className="text-gray-700 font-medium">Login</span>
                   <div>
                     {session?.user ? (
                       <UserAccountNav user={session.user} />
