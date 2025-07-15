@@ -7,6 +7,7 @@ import { useState } from 'react'
 import UserAccountNav from '../auth/UserAccountNav'
 import SignInButton from '../auth/SignInButton'
 import { Button } from '../ui/button'
+import NavSearch from './search'
 export default function Navbar() {
   const { data: session } = useSession()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -34,13 +35,8 @@ export default function Navbar() {
 
             <div className="hidden md:flex flex-1 bg-white max-w-2xl mx-8">
               <div className="relative border border-gray-400 rounded-md shadow-sm w-full">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black h-4 w-4" />
-                <input
-                  type="text"
-                  placeholder="Search"
-                  // onChange={(e) => setQuery(e.target.value)}
-                  className="pl-10 w-full bg-white border-none rounded-md py-2 text-sm focus:outline-none"
-                />
+                <NavSearch />
+
               </div>
             </div>
 
@@ -86,12 +82,8 @@ export default function Navbar() {
           <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
             <div className="px-4 py-2 space-y-4">
               <div className="relative border border-gray-400 rounded-md shadow-sm">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black h-4 w-4" />
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="pl-10 w-full bg-white border-none rounded-md py-2 text-sm focus:outline-none"
-                />
+                <NavSearch />
+
               </div>
 
               <div className="flex flex-col space-y-3 pt-2 pb-4">

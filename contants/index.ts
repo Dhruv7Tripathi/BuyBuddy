@@ -45,3 +45,13 @@ export const products = [
     thumbnail: "/c2.webp",
   }
 ];
+
+export const primaryItems = [
+  { name: 'Lenovo', href: '/shop/list/laptops' },
+  { name: 'Macbook', href: '/shop/list/laptops' },
+  { name: 'Samsung Tab', href: '/shop/list/tablets' },
+  { name: 'Realme SmartWatch', href: '/shop/list/watches' },
+  { name: 'Casio Digital watch', href: '/shop/list/watches' },
+  { name: 'Nothing buds', href: '/shop/list/accessories' },
+  { name: 'Apple ipad Air', href: '/shop/list/tablets' },
+];
