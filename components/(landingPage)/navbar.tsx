@@ -1,6 +1,6 @@
 'use client'
 
-import { Menu, Search, ShoppingCart, Heart, X } from 'lucide-react'
+import { Menu, ShoppingCart, Heart, X } from 'lucide-react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
