@@ -5,11 +5,9 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <footer className="bg-[#2f3132] text-white px-4 py-8 md:py-10">
-      <div className="max-w-7xl mx-auto">
-        {/* Grid layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8 text-center lg:text-left">
+      <div className="max-w-9xl mx-auto">
+        <div className="grid ml-12 grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 text-center lg:text-left">
 
-          {/* Brand / About */}
           <div className="lg:col-span-2 flex flex-col items-center lg:items-start">
             <div className="mb-6">
               <Link href="/" className="flex items-center space-x-3 group">
@@ -75,7 +73,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h3 className="text-lg font-semibold mb-3 md:mb-4">Quick Links</h3>
             <ul className="space-y-1 md:space-y-2 text-sm">
@@ -102,7 +99,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Legal */}
           <div>
             <h3 className="text-lg font-semibold mb-3 md:mb-4">Legal</h3>
             <ul className="space-y-1 md:space-y-2 text-sm">
@@ -119,7 +115,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
             <h3 className="text-lg font-semibold mb-3 md:mb-4">Contact Us</h3>
             <div className="space-y-1 md:space-y-2 text-sm mb-4">
@@ -137,7 +132,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Line */}
         <hr className="my-6 md:my-8 border-gray-600" />
         <div className="flex items-center justify-center text-gray-300 space-x-1">
           <span className="text-sm">Made with</span>
