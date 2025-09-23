@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ExternalLink, Github, Heart, Linkedin, Twitter } from "lucide-react";
+import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
 import Image from "next/image";
 
 export default function Footer() {
@@ -28,8 +29,11 @@ export default function Footer() {
               </Link>
             </div>
 
-            <p className="text-neutral-200 mb-6 text-sm leading-relaxed max-w-md">
+            {/* <p className="text-neutral-200 mb-6 text-sm leading-relaxed max-w-md">
               The mindful scroll for modern storytellers. Create, share, and discover inspiring content that matters.
+            </p> */}
+            <p className="text-neutral-100 mb-6 text-sm leading-relaxed max-w-sm">
+              This website is created for project purposes only and is not intended for sale or commercial use.
             </p>
 
             <div className="flex items-center gap-2 text-sm text-neutral-200 mb-6">
@@ -45,99 +49,102 @@ export default function Footer() {
               </Link>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex ">
               <Link
                 href="https://twitter.com/dhruvtripathi77"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-background/50 border border-border/50 hover:bg-background hover:border-border hover:scale-110 transition-all duration-300 group"
+                className="p-2 rounded-lg"
               >
-                <Twitter className="size-5 text-muted-foreground group-hover:text-white transition-colors duration-200" />
+                <SiX className="size-5 text-muted-foreground " />
               </Link>
               <Link
                 href="https://www.linkedin.com/in/dhruv-tripathi"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-background/50 border border-border/50 hover:bg-background hover:border-border hover:scale-110 transition-all duration-300 group"
+                className="p-2 rounded-lg"
               >
-                <Linkedin className="size-5 text-muted-foreground group-hover:text-white transition-colors duration-200" />
+                <SiLinkedin className="size-5 text-muted-foreground  duration-200" />
               </Link>
               <Link
                 href="https://github.com/dhruv7tripathi"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-background/50 border border-border/50 hover:bg-background hover:border-border hover:scale-110 transition-all duration-300 group"
+                className="p-2 rounded-lg"
               >
-                <Github className="size-5 text-muted-foreground group-hover:text-white transition-colors duration-200" />
+                <SiGithub className="size-5 text-muted-foreground group-hover:text-white transition-colors duration-200" />
               </Link>
             </div>
           </div>
 
-          <div>
-            <h3 className="text-lg font-semibold mb-3 md:mb-4">Quick Links</h3>
-            <ul className="space-y-1 md:space-y-2 text-sm">
-              <li>
-                <Link href="/shop/list/laptops" className="hover:text-gray-300 transition-colors">
-                  Laptops
-                </Link>
-              </li>
-              <li>
-                <Link href="/shop/list/watches" className="hover:text-gray-300 transition-colors">
-                  Watches
-                </Link>
-              </li>
-              <li>
-                <Link href="/shop/list/tablets" className="hover:text-gray-300 transition-colors">
-                  Tablets
-                </Link>
-              </li>
-              <li>
-                <Link href="/shop/list/accessories" className="hover:text-gray-300 transition-colors">
-                  Accessories
-                </Link>
-              </li>
-            </ul>
-          </div>
+          <div className="lg:col-span-3 ml-24 px-28 grid grid-cols-1 justify-end sm:grid-cols-2 md:grid-cols-3 gap-x-4">
 
-          <div>
-            <h3 className="text-lg font-semibold mb-3 md:mb-4">Legal</h3>
-            <ul className="space-y-1 md:space-y-2 text-sm">
-              <li>
-                <Link href="/terms&conditions" className="hover:text-gray-300 transition-colors hover:underline">
-                  Terms & Conditions
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacy&policy" className="hover:text-gray-300 transition-colors hover:underline">
-                  Privacy Policy
-                </Link>
-              </li>
-            </ul>
-          </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-3 md:mb-4">Quick Links</h3>
+              <ul className="space-y-1 md:space-y-2 text-sm">
+                <li>
+                  <Link href="/shop/list/laptops" className="hover:text-gray-300 transition-colors">
+                    Laptops
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/shop/list/watches" className="hover:text-neutral-300 transition-colors">
+                    Watches
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/shop/list/tablets" className="hover:text-neutral-300 transition-colors">
+                    Tablets
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/shop/list/accessories" className="hover:text-neutral-300 transition-colors">
+                    Accessories
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
-          <div>
-            <h3 className="text-lg font-semibold mb-3 md:mb-4">Contact Us</h3>
-            <div className="space-y-1 md:space-y-2 text-sm mb-4">
-              <p>
-                <a href="tel:0123456789" className="hover:text-gray-300 transition-colors">
-                  Phone: 0123456789
-                </a>
-              </p>
-              <p>
-                <a href="mailto:contact@buybuddy.com" className="hover:text-gray-300 transition-colors">
-                  Email: contact@buybuddy.com
-                </a>
-              </p>
+            <div>
+              <h3 className="text-lg font-semibold mb-3 md:mb-4">Legal</h3>
+              <ul className="space-y-1 md:space-y-2 text-sm">
+                <li>
+                  <Link href="/terms&conditions" className="hover:text-neutral-300 transition-colors ">
+                    Terms & Conditions
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/privacy&policy" className="hover:text-neutral-300 transition-colors ">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/#cookies" className="hover:text-neutral-300 transition-colors ">
+                    Cookies
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold mb-3 md:mb-4">Contact Us</h3>
+              <div className="space-y-1 md:space-y-2 text-sm mb-4">
+                <p>
+                  <a href="tel:0123456789" className="hover:text-neutral-300 transition-colors">
+                    Phone: 0123456789
+                  </a>
+                </p>
+                <p>
+                  <a href="mailto:contact@buybuddy.com" className="hover:text-neutral-300 transition-colors">
+                    contact@buybuddy.com
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
+
         </div>
 
-        <hr className="my-6 md:my-8 border-gray-600" />
-        <div className="flex items-center justify-center text-gray-300 space-x-1">
-          <span className="text-sm">Made with</span>
-          <Heart className="w-4 h-4 text-red-500 fill-current mx-1 animate-pulse" />
-          <span className="text-sm">by Dhruv Tripathi</span>
-        </div>
       </div>
     </footer>
   );
