@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ExternalLink, Github, Heart, Linkedin, Twitter } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
 import Image from "next/image";
 
@@ -49,7 +49,7 @@ export default function Footer() {
               </Link>
             </div>
 
-            <div className="flex ">
+            <div className="flex gap-2 ">
               <Link
                 href="https://twitter.com/dhruvtripathi77"
                 target="_blank"
@@ -136,7 +136,7 @@ export default function Footer() {
                 </p>
                 <p>
                   <a href="mailto:contact@buybuddy.com" className="hover:text-neutral-300 transition-colors">
-                    contact@buybuddy.com
+                    contact @buybuddy.com
                   </a>
                 </p>
               </div>
