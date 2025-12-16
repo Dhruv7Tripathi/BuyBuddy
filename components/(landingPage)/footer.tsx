@@ -83,22 +83,22 @@ export default function Footer() {
               <h3 className="text-lg font-semibold mb-3 md:mb-4">Quick Links</h3>
               <ul className="space-y-1 md:space-y-2 text-sm">
                 <li>
-                  <Link href="/shop/list/laptops" className="hover:text-gray-300 transition-colors">
+                  <Link href="/shop/list/laptops" className="hover:text-white transition-colors">
                     Laptops
                   </Link>
                 </li>
                 <li>
-                  <Link href="/shop/list/watches" className="hover:text-neutral-300 transition-colors">
+                  <Link href="/shop/list/watches" className="hover:text-white transition-colors">
                     Watches
                   </Link>
                 </li>
                 <li>
-                  <Link href="/shop/list/tablets" className="hover:text-neutral-300 transition-colors">
+                  <Link href="/shop/list/tablets" className="hover:text-white transition-colors">
                     Tablets
                   </Link>
                 </li>
                 <li>
-                  <Link href="/shop/list/accessories" className="hover:text-neutral-300 transition-colors">
+                  <Link href="/shop/list/accessories" className="hover:text-white transition-colors">
                     Accessories
                   </Link>
                 </li>
@@ -109,17 +109,17 @@ export default function Footer() {
               <h3 className="text-lg font-semibold mb-3 md:mb-4">Legal</h3>
               <ul className="space-y-1 md:space-y-2 text-sm">
                 <li>
-                  <Link href="/terms&conditions" className="hover:text-neutral-300 transition-colors ">
+                  <Link href="/terms&conditions" className="hover:text-white transition-colors ">
                     Terms & Conditions
                   </Link>
                 </li>
                 <li>
-                  <Link href="/privacy&policy" className="hover:text-neutral-300 transition-colors ">
+                  <Link href="/privacy&policy" className="hover:text-white transition-colors ">
                     Privacy Policy
                   </Link>
                 </li>
                 <li>
-                  <Link href="/#cookies" className="hover:text-neutral-300 transition-colors ">
+                  <Link href="/#cookies" className="hover:text-white transition-colors ">
                     Cookies
                   </Link>
                 </li>
@@ -130,12 +130,12 @@ export default function Footer() {
               <h3 className="text-lg font-semibold mb-3 md:mb-4">Contact Us</h3>
               <div className="space-y-1 md:space-y-2 text-sm mb-4">
                 <p>
-                  <a href="tel:0123456789" className="hover:text-neutral-300 transition-colors">
+                  <a href="tel:0123456789" className="hover:text-white transition-colors">
                     Phone: 0123456789
                   </a>
                 </p>
                 <p>
-                  <a href="mailto:contact@buybuddy.com" className="hover:text-neutral-300 transition-colors">
+                  <a href="mailto:contact@buybuddy.com" className="hover:text-white transition-colors">
                     contact @buybuddy.com
                   </a>
                 </p>
