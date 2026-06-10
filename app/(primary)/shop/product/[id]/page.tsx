@@ -1,5 +1,5 @@
 "use client"
-import { notFound } from "next/navigation"
+import { notFound, useRouter } from "next/navigation"
 import type React from "react"
 import Image from "next/image"
 import Link from "next/link"
@@ -39,6 +39,7 @@ export default function ProductPage(props: ProductPageProps) {
   const [addingToWishlist, setAddingToWishlist] = useState(false)
   const [imageLoading, setImageLoading] = useState(true)
   const { toast } = useToast()
+  const router = useRouter()
   const { id } = use(props.params)
   const { status } = useSession()
 
@@ -135,10 +136,14 @@ export default function ProductPage(props: ProductPageProps) {
       })
       return
     }
-    if (status == "unauthenticated") {
-      return (
-        alert("Please Sign In to add items to your cart.")
-      )
+    if (status === "unauthenticated") {
+      toast({
+        title: "Please login before add to product",
+        description: "You need to sign in to add items to your cart.",
+        variant: "destructive",
+      })
+      router.push("/signin")
+      return
     }
 
     setAddingToCart(true)
