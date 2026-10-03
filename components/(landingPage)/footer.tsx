@@ -12,7 +12,7 @@ export default function Footer() {
           <div className="lg:col-span-2 flex flex-col items-center lg:items-start">
             <div className="mb-6">
               <Link href="/" className="flex items-center space-x-3 group">
-                <div className="relative">
+                {/* <div className="relative">
                   <div className="absolute inset-0 bg-primary/20 rounded-xl blur-sm group-hover:blur-md transition-all duration-300" />
                   <Image
                     src="/BuyBuddy.png"
@@ -22,7 +22,7 @@ export default function Footer() {
                     unoptimized
                     className="relative rounded-xl ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all duration-300"
                   />
-                </div>
+                </div> */}
                 <span className="text-2xl font-semibold text-white">
                   Bloggify
                 </span>
