@@ -8,10 +8,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useSession } from "next-auth/react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { CheckCircle, Package, Truck, ArrowLeft } from "lucide-react"
+import { CheckCircle, Package, Truck } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import axios from "axios"
-import Link from "next/link"
 
 interface CartItem {
   id: string
@@ -175,7 +174,7 @@ function ShippingPageContent() {
     )
   }
 
-  const total = cartData?.total || Number.parseFloat(urlAmount || "0")
+  // const total = cartData?.total || Number.parseFloat(urlAmount || "0")
   const itemCount = cartData?.itemCount || 0
 
   return (

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
-import Image from "next/image";
+// import Image from "next/image";
 
 export default function Footer() {
   return (
