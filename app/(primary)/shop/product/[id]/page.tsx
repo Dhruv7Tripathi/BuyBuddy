@@ -154,8 +154,8 @@ export default function ProductPage(props: ProductPageProps) {
       })
 
       toast({
-        title: "Added to Cart",
-        description: `${quantity} ${product.title}${quantity > 1 ? "s" : ""} added to your cart.`,
+        title: "Product added to cart",
+        description: `${product.title} has been added into the cart.`,
       })
 
       setQuantity(1)

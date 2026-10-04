@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/(providers)/theme-provider";
 import Provider from "@/components/(providers)/provider";
 import SplashScreen from "@/components/splashscreen";
 import { Analytics } from "@vercel/analytics/next"
+import { Toaster } from "@/components/ui/toaster"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -40,6 +41,7 @@ export default function RootLayout({
           >
             <SplashScreen />
             <main>{children}</main>
+            <Toaster />
           </ThemeProvider>
         </Provider>
         <Analytics />
